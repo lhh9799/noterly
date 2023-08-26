@@ -1,6 +1,338 @@
 {
-    "test": "Test! :)",
-    "@test": {
-        "description": "Test key/value"
+    "main_action_new": "New note",
+    "main_action_create": "Create",
+    "main_action_save": "Save",
+    "main_action_reactivate": "Reactivate",
+    "page_activeNotifications_label": "Active",
+    "page_activeNotifications_header_immediate": "Shown immediately",
+    "page_activeNotifications_header_scheduled": "Scheduled",
+    "page_activeNotifications_header_repeating": "Repeating",
+    "page_activeNotifications_empty": "No active notifications.",
+    "page_activeNotifications_item_repeats": "Repeats {durationString}",
+    "@page_activeNotifications_item_repeats": {
+        "placeholders": {
+            "durationString": {
+                "type": "String",
+                "example": "every x hour(s)"
+            }
+        }
+    },
+    "page_activeNotifications_item_snoozed": "Snoozed {dateTimeString}",
+    "@page_activeNotifications_item_snoozed": {
+        "placeholders": {
+            "dateTime": {
+                "type": "String",
+                "example": "until 1st January 2023, 12:00"
+            }
+        }
+    },
+    "page_archivedNotifications_label": "Archive",
+    "page_archivedNotifications_empty": "Archived notifications will appear here.",
+    "page_archivedNotifications_button_deleteAll": "Delete all archived notifications",
+    "page_archivedNotifications_item_archived": "Archived {dateTimeString}",
+    "@page_archivedNotifications_item_archived": {
+        "placeholders": {
+            "dateTime": {
+                "type": "String",
+                "example": "on 1st January 2023, 12:00"
+            }
+        }
+    },
+    "snackbar_notificationDeleted": "Notification \"{title}\" deleted.",
+    "@snackbar_notificationDeleted": {
+        "placeholders": {
+            "title": {
+                "type": "String",
+                "example": "Example notification title"
+            }
+        }
+    },
+    "snackbar_notificationArchived": "Notification \"{title}\" archived.",
+    "@snackbar_notificationArchived": {
+        "placeholders": {
+            "title": {
+                "type": "String",
+                "example": "Example notification title"
+            }
+        }
+    },
+    "snackbar_allArchivedNotificationsDeleted": "All archived notifications deleted.",
+    "toast_notificationSnoozed": "Notification snoozed for {durationString}",
+    "@toast_notificationSnoozed": {
+        "placeholders": {
+            "durationString": {
+                "type": "String",
+                "example": "every x hour(s)"
+            }
+        }
+    },
+    "page_settings_title": "Settings",
+    "page_settings_header_notifications": "Notifications",
+    "page_settings_header_system": "System",
+    "page_settings_header_about": "About",
+    "page_settings_header_debug": "Debug options",
+    "page_settings_header_debug_disclaimer": "These options are not supported and may cause issues. Use at your own risk.",
+    "page_settings_notifications_snoozeDuration": "Snooze duration",
+    "page_settings_system_notificationSettings": "Notification settings",
+    "page_settings_about_version_title": "Version",
+    "page_settings_about_copyright_title": "Copyright & credits",
+    "page_settings_about_copyright_text": "2023 Tom Chapman, TDS Studios.",
+    "page_settings_about_tutorial_title": "Tutorial",
+    "page_settings_about_licenses_title": "Licenses",
+    "page_settings_about_licenses_page_legalese": "Copyright \u00a9 2023 Tom Chapman, TDS Studios.",
+    "page_settings_about_privacyPolicy_title": "Privacy policy",
+    "page_settings_about_feedback_title": "Send feedback",
+    "page_settings_about_translate_title": "Help translate Noterly",
+    "page_settings_about_donation_title": "Buy me a coffee",
+    "page_createNotification_title": "Create Notification",
+    "page_createNotification_header_details": "Notification details",
+    "page_createNotification_header_timing": "Timing",
+    "page_createNotification_timing_schedule_title": "Schedule",
+    "page_createNotification_timing_schedule_subtitle": "Send",
+    "page_createNotification_timing_repeat_title": "Repeating",
+    "page_createNotification_timing_repeat_subtitle": "Repeat",
+    "page_createNotification_timing_repeat_info": "Repeating notifications will only repeat once they are marked as done from the notification.",
+    "page_createNotification_details_field_title_label": "Title",
+    "page_createNotification_details_field_title_error": "Please enter a title",
+    "page_createNotification_details_field_body_label": "Body",
+    "page_createNotification_details_field_colour_label": "Colour",
+    "page_editNotification_title": "Edit Notification",
+    "page_editNotification_header_details": "Notification details",
+    "page_editNotification_header_timing": "Timing",
+    "page_editNotification_timing_schedule_title": "Schedule",
+    "page_editNotification_timing_schedule_subtitle": "Send",
+    "page_editNotification_timing_repeat_title": "Repeating",
+    "page_editNotification_timing_repeat_subtitle": "Repeat",
+    "page_editNotification_timing_repeat_info": "Repeating notifications will only repeat once they are marked as done from the notification.",
+    "page_editNotification_details_field_title_label": "Title",
+    "page_editNotification_details_field_title_error": "Please enter a title",
+    "page_editNotification_details_field_body_label": "Body",
+    "page_editNotification_details_field_colour_label": "Colour",
+    "item_title": "Title",
+    "item_body": "Body",
+    "item_colour": "Colour",
+    "notification_action_markAsDone": "Mark as done",
+    "notification_action_snooze": "Snooze",
+    "notification_action_snoozeFor": "Snooze for {durationString}",
+    "@notification_action_snoozeFor": {
+        "placeholders": {
+            "durationString": {
+                "type": "String",
+                "example": "x hour(s)"
+            }
+        }
+    },
+    "dialog_picker_dateTime_title": "Select date and time",
+    "dialog_picker_dateTime_header_date": "Date",
+    "dialog_picker_dateTime_header_time": "Time",
+    "dialog_picker_dateTime_button_selectDate": "Select date",
+    "dialog_picker_dateTime_button_selectTime": "Select time",
+    "dialog_picker_repetition_title": "Select repeat duration",
+    "dialog_picker_repetition_subtitle": "repeats {durationString}",
+    "@dialog_picker_repetition_subtitle": {
+        "placeholders": {
+            "durationString": {
+                "type": "String",
+                "example": "every x hour(s)"
+            }
+        }
+    },
+    "dialog_picker_repetition_field_number_label": "Number",
+    "dialog_picker_repetition_field_period_label": "Period",
+    "dialog_picker_duration_title": "Select duration",
+    "dialog_picker_duration_subtitle": "{durationString}",
+    "@dialog_picker_duration_subtitle": {
+        "placeholders": {
+            "durationString": {
+                "type": "String",
+                "example": "every x hour(s)"
+            }
+        }
+    },
+    "dialog_picker_duration_field_number_label": "Number",
+    "dialog_picker_duration_field_period_label": "Period",
+    "dialog_picker_colour_title": "Select colour",
+    "dialog_easterEgg_title": "Easter egg!",
+    "dialog_easterEgg_text": "Congratulations, you've found the easter egg! You can now enable debug options. Please note that these options are not supported and may cause issues.",
+    "dialogEasterEgg_action_showDebugOptions": "Show debug options",
+    "dialog_about_translations_title": "Translations",
+    "dialog_about_action_showLicenses": "Licenses",
+    "tutorial_page_0_title": "Welcome to Noterly",
+    "tutorial_page_0_subtitle": "Simple notification reminders",
+    "tutorial_page_0_content": "Here's some basic information to get you started.",
+    "tutorial_page_1_title": "Reminders",
+    "tutorial_page_1_content": "Noterly is designed for quick, simple reminders. You may find a to-do list or calendar app more suitable for more complex tasks.",
+    "tutorial_page_2_title": "Create a notification",
+    "tutorial_page_2_content": "Tap the floating button to create a new notification.",
+    "tutorial_page_2_confirmation_0": "That's right!",
+    "tutorial_page_2_confirmation_1": "Well done!",
+    "tutorial_page_2_confirmation_2": "You've got it!",
+    "tutorial_page_2_confirmation_3": "Great job!",
+    "tutorial_page_2_confirmation_4": "Great success!",
+    "tutorial_page_3_title": "Manage notifications",
+    "tutorial_page_3_content": "Completed your task? Swipe the notification away. To delete a notification, go to the archive page and swipe it away.",
+    "tutorial_page_3_example": "Swipe to archive or delete",
+    "tutorial_page_4_title": "Snoozing reminders",
+    "tutorial_page_4_content": "You can snooze a reminder by tapping the button in the notification. Customise the snooze duration in settings.",
+    "tutorial_page_5_title": "That's it!",
+    "tutorial_page_5_content": "You're ready to start using Noterly. You can always come back to this tutorial in settings.",
+    "tutorial_updatedExperienceText": "You're seeing this because this tutorial experience has been updated.",
+    "tutorial_action_back": "Back",
+    "tutorial_action_next": "Next",
+    "tutorial_action_done": "Done",
+    "tutorial_action_skip": "Skip",
+    "general_ok": "OK",
+    "general_cancel": "Cancel",
+    "general_undo": "Undo",
+    "general_close": "Close",
+    "time_second": "second",
+    "time_seconds": "seconds",
+    "time_seconds_value": "{value, plural, =0{0 seconds} =1{1 second} other{{value} seconds}}}",
+    "@time_seconds_value": {
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": 1
+            }
+        }
+    },
+    "time_minute": "minute",
+    "time_minutes": "minutes",
+    "time_minutes_value": "{value, plural, =0{0 minutes} =1{1 minute} other{{value} minutes}}",
+    "@time_minutes_value": {
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": 1
+            }
+        }
+    },
+    "time_hour": "hour",
+    "time_hours": "hours",
+    "time_hours_value": "{value, plural, =0{0 hours} =1{1 hour} other{{value} hours}}",
+    "@time_hours_value": {
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": 1
+            }
+        }
+    },
+    "time_day": "day",
+    "time_days": "days",
+    "time_days_value": "{value, plural, =0{0 days} =1{1 day} other{{value} days}}",
+    "@time_days_value": {
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": 1
+            }
+        }
+    },
+    "time_week": "week",
+    "time_weeks": "weeks",
+    "time_weeks_value": "{value, plural, =0{0 weeks} =1{1 week} other{{value} weeks}}",
+    "@time_weeks_value": {
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": 1
+            }
+        }
+    },
+    "time_month": "month",
+    "time_months": "months",
+    "time_months_value": "{value, plural, =0{0 months} =1{1 month} other{{value} months}}",
+    "@time_months_value": {
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": 1
+            }
+        }
+    },
+    "time_year": "year",
+    "time_years": "years",
+    "time_years_value": "{value, plural, =0{0 years} =1{1 year} other{{value} years}}",
+    "@time_years_value": {
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": 1
+            }
+        }
+    },
+    "time_hourly": "hourly",
+    "time_daily": "daily",
+    "time_weekly": "weekly",
+    "time_monthly": "monthly",
+    "time_yearly": "yearly",
+    "time_repetition_every_value": "every {number} {type}",
+    "@time_repetition_every_value": {
+        "placeholders": {
+            "number": {
+                "type": "num",
+                "format": "compact",
+                "example": 1
+            },
+            "type": {
+                "type": "String",
+                "example": "hour(s)"
+            }
+        }
+    },
+    "time_snooze_until": "until {dateTime}",
+    "@time_snooze_until": {
+        "placeholders": {
+            "dateTime": {
+                "type": "DateTime",
+                "format": "yMd",
+                "example": "1st January 2023, 12:00"
+            }
+        }
+    },
+    "time_todayAndTime": "Today, {timeString}",
+    "@time_todayAndTime": {
+        "placeholders": {
+            "timeString": {
+                "type": "String",
+                "example": "12:00"
+            }
+        }
+    },
+    "time_yesterdayAndTime": "Yesterday, {timeString}",
+    "@time_yesterdayAndTime": {
+        "placeholders": {
+            "timeString": {
+                "type": "String",
+                "example": "12:00"
+            }
+        }
+    },
+    "time_tomorrowAndTime": "Tomorrow, {timeString}",
+    "@time_tomorrowAndTime": {
+        "placeholders": {
+            "timeString": {
+                "type": "String",
+                "example": "12:00"
+            }
+        }
+    },
+    "time_dateAndTime": "{dateTime}",
+    "@time_dateAndTime": {
+        "placeholders": {
+            "dateTime": {
+                "type": "DateTime",
+                "format": "yMd Hm",
+                "example": "1st January 2023, 12:00"
+            }
+        }
     }
 }
