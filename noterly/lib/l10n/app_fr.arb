@@ -193,7 +193,7 @@
     "general_cancel": "Annuler",
     "general_undo": "Annuler",
     "general_close": "Fermer",
-    "time_seconds": "{value, plural, one {}=0{secondes} =1{seconde} other{secondes}}",
+    "time_seconds": "{value, plural, =0{secondes} =1{seconde} other{secondes}}",
     "@time_seconds": {
         "description": "Used to pluralise second.",
         "placeholders": {
@@ -215,7 +215,7 @@
             }
         }
     },
-    "time_minutes": "{value, plural, one {}=0{minute} =1{minute} other{minutes}}",
+    "time_minutes": "{value, plural, =0{minute} =1{minute} other{minutes}}",
     "@time_minutes": {
         "description": "Used to pluralise minute.",
         "placeholders": {
@@ -336,7 +336,7 @@
             }
         }
     },
-    "time_years_value": "{value} années",
+    "time_years_value": "{value, plural, =0{0 années} =1{1 année} other{{value} années}}",
     "@time_years_value": {
         "description": "Used to display a number of years.",
         "placeholders": {

@@ -193,7 +193,7 @@
     "general_cancel": "Cancel",
     "general_undo": "Undo",
     "general_close": "Close",
-    "time_seconds": "{value, plural, one {}=0{seconds} =1{second} other{seconds}}",
+    "time_seconds": "{value, plural, =0{seconds} =1{second} other{seconds}}",
     "@time_seconds": {
         "description": "Used to pluralise second.",
         "placeholders": {
@@ -215,7 +215,7 @@
             }
         }
     },
-    "time_minutes": "{value, plural, one {}=0{minutes} =1{minute} other{minutes}}",
+    "time_minutes": "{value, plural, =0{minutes} =1{minute} other{minutes}}",
     "@time_minutes": {
         "description": "Used to pluralise minute.",
         "placeholders": {
@@ -237,7 +237,7 @@
             }
         }
     },
-    "time_hours": "{value, plural, one {}=0{hours} =1{hour} other{hours}}",
+    "time_hours": "{value, plural, =0{hours} =1{hour} other{hours}}",
     "@time_hours": {
         "description": "Used to pluralise hour.",
         "placeholders": {
@@ -259,7 +259,7 @@
             }
         }
     },
-    "time_days": "{value, plural, one {}=0{days} =1{day} other{days}}",
+    "time_days": "{value, plural, =0{days} =1{day} other{days}}",
     "@time_days": {
         "description": "Used to pluralise day.",
         "placeholders": {
@@ -281,7 +281,7 @@
             }
         }
     },
-    "time_weeks": "{value, plural, one {}=0{weeks} =1{week} other{weeks}}",
+    "time_weeks": "{value, plural, =0{weeks} =1{week} other{weeks}}",
     "@time_weeks": {
         "description": "Used to pluralise week.",
         "placeholders": {
@@ -303,7 +303,7 @@
             }
         }
     },
-    "time_months": "{value, plural, one {}=0{months} =1{month} other{months}}",
+    "time_months": "{value, plural, =0{months} =1{month} other{months}}",
     "@time_months": {
         "description": "Used to pluralise month.",
         "placeholders": {
@@ -325,7 +325,7 @@
             }
         }
     },
-    "time_years": "{value, plural, one {}=0{years} =1{year} other{years}}",
+    "time_years": "{value, plural, =0{years} =1{year} other{years}}",
     "@time_years": {
         "description": "Used to pluralise year.",
         "placeholders": {
@@ -336,7 +336,7 @@
             }
         }
     },
-    "time_years_value": "{value, plural, one {}=0{0 years} =1{1 year} other{{value} years}}",
+    "time_years_value": "{value, plural, =0{0 years} =1{1 year} other{{value} years}}",
     "@time_years_value": {
         "description": "Used to display a number of years.",
         "placeholders": {
