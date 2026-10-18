@@ -17,6 +17,9 @@ class NotificationItem {
 
   DateTime? snoozeDateTime;
 
+  /// Whether the notification can be swiped away. Dismissing it does not mark the reminder as done.
+  bool dismissible;
+
   bool get isImmediate => dateTime == null;
 
   bool get isScheduled => dateTime != null;
@@ -43,11 +46,12 @@ class NotificationItem {
     this.archived = false,
     this.archivedDateTime,
     this.snoozeDateTime,
+    this.dismissible = false,
   });
 
   @override
   String toString() {
-    return 'NotificationItem(id: $id, title: $title, body: $body, dateTime: $dateTime, repetitionData: $repetitionData, colour: $colour, archived: $archived, archivedDateTime: $archivedDateTime, snoozeDateTime: $snoozeDateTime)';
+    return 'NotificationItem(id: $id, title: $title, body: $body, dateTime: $dateTime, repetitionData: $repetitionData, colour: $colour, archived: $archived, archivedDateTime: $archivedDateTime, snoozeDateTime: $snoozeDateTime, dismissible: $dismissible)';
   }
 
   DateTime get nextRepeatDateTime {
@@ -82,6 +86,7 @@ class NotificationItem {
         'archived': archived,
         'archivedDateTime': archivedDateTime?.toIso8601String(),
         'snoozeDateTime': snoozeDateTime?.toIso8601String(),
+        'dismissible': dismissible,
       };
 
   factory NotificationItem.fromJson(Map<String, dynamic> json) => NotificationItem(
@@ -94,5 +99,6 @@ class NotificationItem {
         archived: json['archived'] ?? false,
         archivedDateTime: json['archivedDateTime'] != null ? DateTime.parse(json['archivedDateTime']) : null,
         snoozeDateTime: json['snoozeDateTime'] != null ? DateTime.parse(json['snoozeDateTime']) : null,
+        dismissible: json['dismissible'] ?? false,
       );
 }
