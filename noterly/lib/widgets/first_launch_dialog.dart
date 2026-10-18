@@ -142,7 +142,7 @@ class FirstLaunchDialog extends Dialog {
               ),
               DotsIndicator(
                 dotsCount: pages.length,
-                position: currentPage,
+                position: currentPage.toDouble(),
                 mainAxisAlignment: MainAxisAlignment.center,
               ),
               ButtonBar(
