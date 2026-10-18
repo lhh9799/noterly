@@ -80,6 +80,8 @@
     "page_settings_header_debug": "Opciones de depuración",
     "page_settings_header_debug_disclaimer": "Estas opciones no tienen soporte y podrían causar problemas. Úsalas bajo tu propio riesgo.",
     "page_settings_notifications_snoozeDuration": "Duración de la pausa",
+    "page_settings_notifications_dismissible_title": "Dismissible notifications",
+    "page_settings_notifications_dismissible_subtitle": "Show the Dismissible option on reminders. When off, every notification is ongoing.",
     "page_settings_system_notificationSettings": "Ajustes de notificaciones",
     "page_settings_about_version_title": "Versión",
     "page_settings_about_copyright_title": "Derechos de autor & créditos",

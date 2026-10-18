@@ -75,6 +75,17 @@ class _SettingsPageState extends State<SettingsPage> {
                 });
               },
             ),
+            SwitchListTile(
+              value: AppManager.instance.data.dismissibleNotificationsEnabled,
+              title: Text(Strings.of(context).page_settings_notifications_dismissible_title),
+              subtitle: Text(Strings.of(context).page_settings_notifications_dismissible_subtitle),
+              secondary: const Icon(Icons.swipe),
+              onChanged: (value) async {
+                setState(() => AppManager.instance.data.dismissibleNotificationsEnabled = value);
+                await AppManager.instance.saveSettings();
+                await NotificationManager.instance.refreshAllNotifications();
+              },
+            ),
           ]),
           _getSpacer(),
           _getHeader(Strings.of(context).page_settings_header_system),

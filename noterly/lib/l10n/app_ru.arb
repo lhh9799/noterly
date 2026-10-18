@@ -80,6 +80,8 @@
     "page_settings_header_debug": "Параметры отладки",
     "page_settings_header_debug_disclaimer": "Эти параметры не поддерживаются и могут вызвать проблемы. Используйте на свой страх и риск.",
     "page_settings_notifications_snoozeDuration": "Интервал повтора",
+    "page_settings_notifications_dismissible_title": "Dismissible notifications",
+    "page_settings_notifications_dismissible_subtitle": "Show the Dismissible option on reminders. When off, every notification is ongoing.",
     "page_settings_system_notificationSettings": "Настройки уведомлений",
     "page_settings_about_version_title": "Версия",
     "page_settings_about_copyright_title": "Авторские права",
