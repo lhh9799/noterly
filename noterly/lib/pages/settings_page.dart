@@ -1,12 +1,10 @@
 import 'dart:math';
 
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
 import 'package:noterly/build_info.dart';
 import 'package:noterly/extensions/duration_extensions.dart';
+import 'package:noterly/l10n/localisations_util.dart';
 import 'package:noterly/managers/app_manager.dart';
 import 'package:noterly/managers/file_manager.dart';
 import 'package:noterly/managers/notification_manager.dart';
@@ -14,7 +12,7 @@ import 'package:noterly/models/notification_item.dart';
 import 'package:noterly/models/repetition_data.dart';
 import 'package:noterly/widgets/duration_picker.dart';
 import 'package:noterly/widgets/first_launch_dialog.dart';
-import 'package:system_settings/system_settings.dart';
+import 'package:system_settings_2/system_settings_2.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 
@@ -51,14 +49,14 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(translate('page.settings.title')),
+        title: Text(Strings.of(context).page_settings_title),
       ),
       body: ListView(
         children: [
-          _getHeader(translate('page.settings.header.notifications')),
+          _getHeader(Strings.of(context).page_settings_header_notifications),
           _getCard(context, [
             ListTile(
-              title: Text(translate('page.settings.notifications.snooze_duration')),
+              title: Text(Strings.of(context).page_settings_notifications_snoozeDuration),
               subtitle: Text(AppManager.instance.data.snoozeDuration.toRelativeDurationString()),
               leading: const Icon(Icons.snooze),
               trailing: const Icon(Icons.chevron_right),
@@ -71,7 +69,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   if (value == null) return;
                   setState(() {
                     AppManager.instance.data.snoozeDuration = value;
-                    AppManager.instance.data.snoozeToastText = translate('toast.notification_snoozed', args: {'duration': value.toRelativeDurationString()});
+                    AppManager.instance.data.snoozeToastText = Strings.of(context).toast_notificationSnoozed(value.toRelativeDurationString());
                   });
                   AppManager.instance.saveSettings();
                 });
@@ -79,10 +77,10 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ]),
           _getSpacer(),
-          _getHeader(translate('page.settings.header.system')),
+          _getHeader(Strings.of(context).page_settings_header_system),
           _getCard(context, [
             ListTile(
-              title: Text(translate('page.settings.system.notification_settings')),
+              title: Text(Strings.of(context).page_settings_system_notificationSettings),
               leading: const Icon(Icons.notifications),
               trailing: const Icon(Icons.open_in_new),
               minVerticalPadding: 12,
@@ -94,38 +92,29 @@ class _SettingsPageState extends State<SettingsPage> {
                     SystemSettings.app();
                   } catch (_) {
                     Log.logger.e('Failed to open system settings');
-                    await FirebaseCrashlytics.instance.recordError(e, StackTrace.current, reason: 'Failed to open system settings');
                   }
                 }
-
-                await FirebaseAnalytics.instance.logEvent(
-                  name: 'open_notification_settings',
-                );
               },
             )
           ]),
           _getSpacer(),
-          _getHeader(translate('page.settings.header.about')),
+          _getHeader(Strings.of(context).page_settings_header_about),
           _getCard(context, [
             ListTile(
-              title: Text(translate('page.settings.about.donation.title')),
+              title: Text(Strings.of(context).page_settings_about_donation_title),
               leading: const Icon(Icons.coffee),
               trailing: const Icon(Icons.open_in_new),
               minVerticalPadding: 12,
               onTap: () async {
                 var uri = Uri.parse('https://ko-fi.com/tomchapman128');
                 await _launchUrl(uri);
-
-                await FirebaseAnalytics.instance.logEvent(
-                  name: 'open_donation_link',
-                );
               },
-            )
+            ),
           ]),
           _getSpacer(),
           _getCard(context, [
             ListTile(
-              title: Text(translate('page.settings.about.version.title')),
+              title: Text(Strings.of(context).page_settings_about_version_title),
               subtitle: Builder(
                 builder: (BuildContext context) {
                   if (BuildInfo.releaseType == ReleaseType.stable) return const Text(BuildInfo.appVersion);
@@ -154,34 +143,30 @@ class _SettingsPageState extends State<SettingsPage> {
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                      title: Text(translate('dialog.easter_egg.title')),
-                      content: Text(translate('dialog.easter_egg.text')),
+                      title: Text(Strings.of(context).dialog_easterEgg_title),
+                      content: Text(Strings.of(context).dialog_easterEgg_text),
                       actions: [
                         TextButton(
                           onPressed: () {
                             setState(() => _debugOptions = true);
                             Navigator.of(context).pop();
                           },
-                          child: Text(translate('dialog_easter_egg.action.show_debug_options')),
+                          child: Text(Strings.of(context).dialog_easterEgg_action_showDebugOptions),
                         ),
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(),
-                          child: Text(translate('general.close')),
+                          child: Text(Strings.of(context).general_close),
                         ),
                       ],
                     ),
                     barrierDismissible: false,
                   );
-
-                  await FirebaseAnalytics.instance.logEvent(
-                    name: 'easter_egg',
-                  );
                 }
               },
             ),
             ListTile(
-              title: Text(translate('page.settings.about.copyright.title')),
-              subtitle: Text(translate('page.settings.about.copyright.text')),
+              title: Text(Strings.of(context).page_settings_about_copyright_title),
+              subtitle: Text(Strings.of(context).page_settings_about_copyright_text),
               leading: const Icon(Icons.copyright),
               trailing: const Icon(Icons.chevron_right),
               minVerticalPadding: 12,
@@ -209,9 +194,11 @@ class _SettingsPageState extends State<SettingsPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(translate('page.settings.about.licenses.page.legalese')),
+                            Text(Strings.of(context).page_settings_about_licenses_page_legalese),
+                            const SizedBox(height: 8),
+                            Text(Strings.of(context).page_settings_about_licenses_page_openSourceSoftware),
                             const SizedBox(height: 16),
-                            Text(translate('dialog.about.translations.title'), style: Theme.of(context).textTheme.titleMedium),
+                            Text(Strings.of(context).dialog_about_translations_title, style: Theme.of(context).textTheme.titleMedium),
                             const Text(_copyrightText),
                             const SizedBox(height: 16),
                             ButtonBar(
@@ -221,19 +208,15 @@ class _SettingsPageState extends State<SettingsPage> {
                                     Navigator.of(context).pop();
                                     showLicensePage(
                                       context: context,
-                                      applicationLegalese: translate('page.settings.about.licenses.page.legalese'),
+                                      applicationLegalese: Strings.of(context).page_settings_about_licenses_page_legalese,
                                       applicationVersion: BuildInfo.appVersion,
                                     );
-
-                                    FirebaseAnalytics.instance.logEvent(
-                                      name: 'open_licenses',
-                                    );
                                   },
-                                  child: Text(translate('dialog.about.action.show_licenses')),
+                                  child: Text(Strings.of(context).dialog_about_action_showLicenses),
                                 ),
                                 TextButton(
                                   onPressed: () => Navigator.of(context).pop(),
-                                  child: Text(translate('general.close')),
+                                  child: Text(Strings.of(context).general_close),
                                 ),
                               ],
                             ),
@@ -243,14 +226,10 @@ class _SettingsPageState extends State<SettingsPage> {
                     );
                   },
                 );
-
-                FirebaseAnalytics.instance.logEvent(
-                  name: 'open_about_dialog',
-                );
               },
             ),
             ListTile(
-              title: Text(translate('page.settings.about.tutorial.title')),
+              title: Text(Strings.of(context).page_settings_about_tutorial_title),
               leading: const Icon(Icons.school),
               trailing: const Icon(Icons.chevron_right),
               minVerticalPadding: 12,
@@ -266,53 +245,48 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ]),
           _getSpacer(),
-          _getCard(
-            context,
-            [
-              ListTile(
-                title: Text(translate('page.settings.about.privacy_policy.title')),
-                leading: const Icon(Icons.privacy_tip),
-                trailing: const Icon(Icons.open_in_new),
-                minVerticalPadding: 12,
-                onTap: () async {
-                  var uri = Uri.parse('https://tdsstudios.co.uk/privacy');
-                  await _launchUrl(uri);
-
-                  await FirebaseAnalytics.instance.logEvent(
-                    name: 'open_privacy_policy',
-                  );
-                },
-              ),
-              ListTile(
-                title: Text(translate('page.settings.about.feedback.title')),
-                leading: const Icon(Icons.comment),
-                trailing: const Icon(Icons.open_in_new),
-                minVerticalPadding: 12,
-                onTap: () async {
-                  var uri = Uri.parse('https://forms.gle/5HZNjmr5wF1t4r8q6');
-                  await _launchUrl(uri);
-
-                  await FirebaseAnalytics.instance.logEvent(
-                    name: 'open_feedback_form',
-                  );
-                },
-              ),
-              ListTile(
-                title: Text(translate('page.settings.about.translate.title')),
-                leading: const Icon(Icons.translate),
-                trailing: const Icon(Icons.open_in_new),
-                minVerticalPadding: 12,
-                onTap: () async {
-                  var uri = Uri.parse('https://forms.gle/qzaLRZk7JTbjqsq86');
-                  await _launchUrl(uri);
-
-                  await FirebaseAnalytics.instance.logEvent(
-                    name: 'open_translate_form',
-                  );
-                },
-              )
-            ],
-          ),
+          _getCard(context, [
+            ListTile(
+              title: Text(Strings.of(context).page_settings_about_github_title),
+              leading: const Icon(Icons.favorite),
+              trailing: const Icon(Icons.open_in_new),
+              minVerticalPadding: 12,
+              onTap: () async {
+                var uri = Uri.parse('https://github.com/tomc128/noterly');
+                await _launchUrl(uri);
+              },
+            ),
+            ListTile(
+              title: Text(Strings.of(context).page_settings_about_privacyPolicy_title),
+              leading: const Icon(Icons.privacy_tip),
+              trailing: const Icon(Icons.open_in_new),
+              minVerticalPadding: 12,
+              onTap: () async {
+                var uri = Uri.parse('https://tdsstudios.co.uk/privacy');
+                await _launchUrl(uri);
+              },
+            ),
+            ListTile(
+              title: Text(Strings.of(context).page_settings_about_feedback_title),
+              leading: const Icon(Icons.comment),
+              trailing: const Icon(Icons.open_in_new),
+              minVerticalPadding: 12,
+              onTap: () async {
+                var uri = Uri.parse('https://forms.gle/5HZNjmr5wF1t4r8q6');
+                await _launchUrl(uri);
+              },
+            ),
+            ListTile(
+              title: Text(Strings.of(context).page_settings_about_translate_title),
+              leading: const Icon(Icons.translate),
+              trailing: const Icon(Icons.open_in_new),
+              minVerticalPadding: 12,
+              onTap: () async {
+                var uri = Uri.parse('https://crowdin.com/project/noterly/invite?h=5831212784abb6a4b04739214cb7a1a91820487');
+                await _launchUrl(uri);
+              },
+            ),
+          ]),
           if (kDebugMode || _debugOptions) ..._getDebugOptions(context),
         ],
       ),
@@ -326,15 +300,14 @@ class _SettingsPageState extends State<SettingsPage> {
       }
     } on Exception catch (e) {
       Log.logger.e('Failed to launch URL: $uri [$e]');
-      await FirebaseCrashlytics.instance.recordError(e, StackTrace.current, reason: 'Failed to launch URL: $uri');
     }
   }
 
   List<Widget> _getDebugOptions(BuildContext context) => [
         _getSpacer(),
         _getHeader(
-          translate('page.settings.header.debug'),
-          subtitle: translate('page.settings.header.debug.disclaimer'),
+          Strings.of(context).page_settings_header_debug,
+          subtitle: Strings.of(context).page_settings_header_debug_disclaimer,
         ),
         _getCard(
           context,
@@ -402,15 +375,6 @@ class _SettingsPageState extends State<SettingsPage> {
               minVerticalPadding: 12,
               onTap: () {
                 AppManager.instance.printItems();
-              },
-            ),
-            ListTile(
-              title: const Text('Send test analytics event'),
-              trailing: const Icon(Icons.chevron_right),
-              leading: const Icon(Icons.analytics),
-              minVerticalPadding: 12,
-              onTap: () {
-                FirebaseAnalytics.instance.logEvent(name: 'test');
               },
             ),
             ListTile(

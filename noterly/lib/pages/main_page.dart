@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:noterly/l10n/localisations_util.dart';
 import 'package:noterly/managers/app_manager.dart';
 import 'package:noterly/managers/notification_manager.dart';
 import 'package:noterly/pages/main_page/active_notifications_page.dart';
@@ -128,7 +128,7 @@ class _MainPageState extends State<MainPage> {
 
               setState(() {});
             },
-            label: Text(translate('main.action.new')),
+            label: Text(Strings.of(context).main_action_new),
             icon: const Icon(Icons.add),
           ),
           bottomNavigationBar: NavigationBar(
@@ -139,11 +139,11 @@ class _MainPageState extends State<MainPage> {
                   count: activeNotifications.length,
                   child: Icon(activeNotifications.isNotEmpty ? Icons.notifications : Icons.notifications_none),
                 ),
-                label: translate('page.active_notifications.label'),
+                label: Strings.of(context).page_activeNotifications_label,
               ),
               NavigationDestination(
                 icon: const Icon(Icons.history),
-                label: translate('page.archived_notifications.label'),
+                label: Strings.of(context).page_archivedNotifications_label,
               ),
             ],
             onDestinationSelected: (value) {

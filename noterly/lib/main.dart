@@ -3,18 +3,13 @@ import 'dart:isolate';
 
 import 'package:background_fetch/background_fetch.dart';
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:noterly/l10n/app_localisations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
-import 'package:noterly/build_info.dart';
 import 'package:noterly/managers/app_manager.dart';
 import 'package:noterly/managers/isolate_manager.dart';
 import 'package:noterly/managers/log.dart';
@@ -53,26 +48,14 @@ Future<void> main(List<String> args) async {
 
   Log.logger.d("Starting app with args: $args");
 
-  // Initialise Firebase analytics
-  //* IF CHANGING THIS TO DART-ONLY, ALSO CHANGE THIS IN NOTIFICATION_MANAGER
-  // await Firebase.initializeApp(
-  //     options: DefaultFirebaseOptions
-  //         .currentPlatform); // Previous method of initialising Firebase
-  await Firebase.initializeApp(); // Remove options to use native manual installation of Firebase, as Dart-only isn't working yet for some reason
-  await FirebaseAnalytics.instance.setDefaultEventParameters({
-    'version': BuildInfo.appVersion,
-    'branch': BuildInfo.branch,
-    'release_type': BuildInfo.releaseType.toString(),
-  });
-
-  // Pass all uncaught "fatal" errors from the framework to Crashlytics
+  // Log all uncaught errors from the framework
   FlutterError.onError = (details) {
-    // INFO: change to recordFlutterFatalError if we only want to record fatal errors
-    FirebaseCrashlytics.instance.recordFlutterError(details);
+    FlutterError.presentError(details);
+    Log.logger.e('Uncaught Flutter error: ${details.exceptionAsString()}', error: details.exception, stackTrace: details.stack);
   };
-  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+  // Log all uncaught asynchronous errors that aren't handled by the Flutter framework
   PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    Log.logger.e('Uncaught platform error', error: error, stackTrace: stack);
     return true;
   };
 
@@ -88,7 +71,6 @@ Future<void> main(List<String> args) async {
     IsolateManager.init();
   } on IsolateSpawnException catch (e) {
     Log.logger.e('Failed to initialise isolate manager: $e');
-    await FirebaseCrashlytics.instance.recordError(e, StackTrace.current, reason: 'Failed to initialise isolate manager');
   }
 
   // Add the Google Fonts license to the license registry
@@ -97,30 +79,8 @@ Future<void> main(List<String> args) async {
     yield LicenseEntryWithLineBreaks(['assets/google_fonts'], license);
   });
 
-  // Initialise a localisation delegate containing all supported languages
-  var delegate = await LocalizationDelegate.create(
-    fallbackLocale: 'en_GB',
-    supportedLocales: [
-      'en_GB',
-      'en_US',
-      'fr',
-      'es',
-      'de',
-      'ru',
-      'ua',
-      'pl',
-      'it',
-      // TODO: decide which languages to support for next release
-    ],
-  );
-
   // Run the app
-  runApp(
-    LocalizedApp(
-      delegate,
-      MyApp(launchMessage: args.isNotEmpty ? args[0] : null),
-    ),
-  );
+  runApp(MyApp(launchMessage: args.isNotEmpty ? args[0] : null));
 
   // Register the background task
   await BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
@@ -173,29 +133,27 @@ class _MyAppState extends State<MyApp> {
     }
 
     // SHARING INTENT
-    handleSharedText(String? text) {
-      if (text == null) return;
+    handleSharedText(List media) {
+      if (media.isEmpty) return;
+
+      var text = media.first.toString();
 
       // Show create notification page with the shared text as the title
       MyApp.navigatorKey.currentState!.pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => CreateNotificationPage(initialTitle: text)),
         (route) => route.isFirst,
       );
-
-      // Analytics event
-      FirebaseAnalytics.instance.logEvent(name: 'share_to_app');
     }
 
     handleShareError(Object error) {
       Log.logger.e("getLinkStream error: $error");
-      FirebaseCrashlytics.instance.recordError(error, StackTrace.current, reason: 'getLinkStream error');
     }
 
     // Share sheet listener, while app is open
-    _shareIntentDataStreamSubscription = ReceiveSharingIntent.getTextStream().listen(handleSharedText, onError: handleShareError);
+    _shareIntentDataStreamSubscription = ReceiveSharingIntent.instance.getMediaStream().listen(handleSharedText, onError: handleShareError);
 
     // Share sheet listener, when app is closed
-    ReceiveSharingIntent.getInitialText().then(handleSharedText, onError: handleShareError);
+    ReceiveSharingIntent.instance.getInitialMedia().then(handleSharedText, onError: handleShareError);
 
     // GENERAL INTENT
     handleIntent(receive_intent.Intent? intent) {
@@ -208,15 +166,11 @@ class _MyAppState extends State<MyApp> {
           MaterialPageRoute(builder: (context) => const CreateNotificationPage()),
           (route) => route.isFirst,
         );
-
-        // Analytics event
-        FirebaseAnalytics.instance.logEvent(name: 'from_quick_tile');
       }
     }
 
     handleIntentError(Object error) {
       Log.logger.e("getLinkStream error: $error");
-      FirebaseCrashlytics.instance.recordError(error, StackTrace.current, reason: 'getLinkStream error');
     }
 
     // Intent listener, while app is open
@@ -272,61 +226,51 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    var localizationDelegate = LocalizedApp.of(context).delegate;
+    return DynamicColorBuilder(builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+      ColorScheme lightColorScheme, darkColorScheme;
 
-    return LocalizationProvider(
-      state: LocalizationProvider.of(context).state,
-      child: DynamicColorBuilder(builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-        ColorScheme lightColorScheme, darkColorScheme;
+      if (lightDynamic != null && darkDynamic != null) {
+        Log.logger.d('Using dynamic color scheme.');
 
-        if (lightDynamic != null && darkDynamic != null) {
-          Log.logger.d('Using dynamic color scheme.');
+        lightColorScheme = lightDynamic.harmonized();
+        darkColorScheme = darkDynamic.harmonized();
+      } else {
+        Log.logger.d('No dynamic color scheme, using fallback.');
 
-          lightColorScheme = lightDynamic.harmonized();
-          darkColorScheme = darkDynamic.harmonized();
-        } else {
-          Log.logger.d('No dynamic color scheme, using fallback.');
-
-          lightColorScheme = ColorScheme.fromSeed(
-            seedColor: const Color.fromRGBO(153, 0, 228, 1),
-          );
-          darkColorScheme = ColorScheme.fromSeed(
-            seedColor: const Color.fromRGBO(153, 0, 228, 1),
-            brightness: Brightness.dark,
-          );
-        }
-
-        return MaterialApp(
-          navigatorKey: MyApp.navigatorKey,
-          title: 'Noterly',
-          localizationsDelegates: [
-            ...GlobalMaterialLocalizations.delegates,
-            GlobalWidgetsLocalizations.delegate,
-            localizationDelegate,
-          ],
-          supportedLocales: localizationDelegate.supportedLocales,
-          locale: localizationDelegate.currentLocale,
-          theme: ThemeData(
-            useMaterial3: true,
-            colorScheme: lightColorScheme,
-            fontFamily: GoogleFonts.inter().fontFamily,
-            textTheme: GoogleFonts.interTextTheme().copyWith(
-              labelLarge: TextStyle(color: Colors.black.withOpacity(0.5)),
-            ),
-          ),
-          darkTheme: ThemeData(
-            useMaterial3: true,
-            colorScheme: darkColorScheme,
-            fontFamily: GoogleFonts.inter().fontFamily,
-            textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme).copyWith(
-              labelLarge: TextStyle(color: Colors.white.withOpacity(0.5)),
-            ),
-          ),
-          themeMode: ThemeMode.system,
-          home: const MainPage(),
-          debugShowCheckedModeBanner: false,
+        lightColorScheme = ColorScheme.fromSeed(
+          seedColor: const Color.fromRGBO(153, 0, 228, 1),
         );
-      }),
-    );
+        darkColorScheme = ColorScheme.fromSeed(
+          seedColor: const Color.fromRGBO(153, 0, 228, 1),
+          brightness: Brightness.dark,
+        );
+      }
+
+      return MaterialApp(
+        navigatorKey: MyApp.navigatorKey,
+        title: 'Noterly',
+        localizationsDelegates: AppLocalisations.localizationsDelegates,
+        supportedLocales: AppLocalisations.supportedLocales,
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: lightColorScheme,
+          fontFamily: GoogleFonts.inter().fontFamily,
+          textTheme: GoogleFonts.interTextTheme().copyWith(
+            labelLarge: TextStyle(color: Colors.black.withOpacity(0.5)),
+          ),
+        ),
+        darkTheme: ThemeData(
+          useMaterial3: true,
+          colorScheme: darkColorScheme,
+          fontFamily: GoogleFonts.inter().fontFamily,
+          textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme).copyWith(
+            labelLarge: TextStyle(color: Colors.white.withOpacity(0.5)),
+          ),
+        ),
+        themeMode: ThemeMode.system,
+        home: const MainPage(),
+        debugShowCheckedModeBanner: false,
+      );
+    });
   }
 }

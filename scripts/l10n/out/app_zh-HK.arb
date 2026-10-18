@@ -1,0 +1,424 @@
+{
+    "@@locale": "zh_HK",
+    "main_action_new": "新增提示通知",
+    "main_action_create": "建立",
+    "main_action_save": "儲存",
+    "main_action_reactivate": "重新啓用",
+    "page_activeNotifications_label": "正在執行",
+    "page_activeNotifications_header_immediate": "立即顯示的通知",
+    "page_activeNotifications_header_scheduled": "已編排的通知",
+    "page_activeNotifications_header_repeating": "重複的通知",
+    "page_activeNotifications_empty": "沒有正在執行的通知",
+    "page_activeNotifications_item_repeats": "{durationString}重複",
+    "@page_activeNotifications_item_repeats": {
+        "description": "Under a notification item specifying repeat duration.",
+        "placeholders": {
+            "durationString": {
+                "type": "String",
+                "example": "every x hour(s)"
+            }
+        }
+    },
+    "page_activeNotifications_item_snoozed": "已延遲{dateTimeString}",
+    "@page_activeNotifications_item_snoozed": {
+        "description": "Under a notification item specifying snooze duration.",
+        "placeholders": {
+            "dateTimeString": {
+                "type": "String",
+                "example": "until 1st January 2023, 12:00"
+            }
+        }
+    },
+    "page_archivedNotifications_label": "封存",
+    "page_archivedNotifications_empty": "封存的通知會在這裏顯示",
+    "page_archivedNotifications_button_deleteAll": "刪除全部封存通知",
+    "page_archivedNotifications_item_archived": "{dateTimeString}前封存",
+    "@page_archivedNotifications_item_archived": {
+        "description": "Under a notification item specifying when it was archived.",
+        "placeholders": {
+            "dateTimeString": {
+                "type": "String",
+                "example": "on 1st January 2023, 12:00"
+            }
+        }
+    },
+    "snackbar_notificationDeleted": "\"{title}\"通知已刪除",
+    "@snackbar_notificationDeleted": {
+        "description": "Snackbar message when a notification is deleted.",
+        "placeholders": {
+            "title": {
+                "type": "String",
+                "example": "Example notification title"
+            }
+        }
+    },
+    "snackbar_notificationArchived": "\"{title}\"通知已封存",
+    "@snackbar_notificationArchived": {
+        "description": "Snackbar message when a notification is archived.",
+        "placeholders": {
+            "title": {
+                "type": "String",
+                "example": "Example notification title"
+            }
+        }
+    },
+    "snackbar_allArchivedNotificationsDeleted": "所有封存通知已刪除",
+    "toast_notificationSnoozed": "通知已延遲{durationString}",
+    "@toast_notificationSnoozed": {
+        "description": "Toast message when a notification is snoozed.",
+        "placeholders": {
+            "durationString": {
+                "type": "String",
+                "example": "every x hour(s)"
+            }
+        }
+    },
+    "page_settings_title": "設定",
+    "page_settings_header_notifications": "通知",
+    "page_settings_header_system": "系統",
+    "page_settings_header_about": "關於",
+    "page_settings_header_debug": "排除錯誤",
+    "page_settings_header_debug_disclaimer": "These options are not supported and may cause issues. Use at your own risk.",
+    "page_settings_notifications_snoozeDuration": "延遲時間",
+    "page_settings_system_notificationSettings": "通知設定",
+    "page_settings_about_version_title": "版本",
+    "page_settings_about_copyright_title": "版權和註明",
+    "page_settings_about_copyright_text": "2023 Tom Chapman, TDS Studios.",
+    "page_settings_about_tutorial_title": "教學",
+    "page_settings_about_licenses_title": "授權",
+    "page_settings_about_licenses_page_legalese": "Copyright © 2023 Tom Chapman, TDS Studios.",
+    "page_settings_about_licenses_page_openSourceSoftware": "Noterly is open-source software. The source code is available on GitHub.",
+    "page_settings_about_privacyPolicy_title": "私隱條例",
+    "page_settings_about_feedback_title": "發送反饋",
+    "page_settings_about_translate_title": "協助翻譯 Noterly",
+    "page_settings_about_donation_title": "幫我買杯咖啡",
+    "page_settings_about_github_title": "Open-source on GitHub",
+    "page_createNotification_title": "建立通知",
+    "page_createNotification_header_details": "通知內容",
+    "page_createNotification_header_timing": "發送時間",
+    "page_createNotification_timing_schedule_title": "設定發送時間",
+    "page_createNotification_timing_schedule_subtitle": "發送",
+    "page_createNotification_timing_repeat_title": "重複通知",
+    "page_createNotification_timing_repeat_subtitle": "重複",
+    "page_createNotification_timing_repeat_info": "用户需要於通知欄按下“標示為已完成”，通知才會重複發送。",
+    "page_createNotification_details_field_title_label": "標題",
+    "page_createNotification_details_field_title_error": "請輸入標題",
+    "page_createNotification_details_field_body_label": "內容",
+    "page_createNotification_details_field_colour_label": "顏色",
+    "page_editNotification_title": "編輯通知",
+    "page_editNotification_header_details": "通知內容",
+    "page_editNotification_header_timing": "時間",
+    "page_editNotification_timing_schedule_title": "發送時間",
+    "page_editNotification_timing_schedule_subtitle": "發送",
+    "page_editNotification_timing_repeat_title": "重複通知",
+    "page_editNotification_timing_repeat_subtitle": "重複",
+    "page_editNotification_timing_repeat_info": "用户需要於通知欄按下“標示為已完成”，通知才會重複發送。",
+    "page_editNotification_details_field_title_label": "標題",
+    "page_editNotification_details_field_title_error": "請輸入標題",
+    "page_editNotification_details_field_body_label": "內容",
+    "page_editNotification_details_field_colour_label": "顏色",
+    "item_title": "標題",
+    "item_body": "內容",
+    "item_colour": "顏色",
+    "notification_action_markAsDone": "標示為已完成",
+    "notification_action_snooze": "延遲",
+    "notification_action_snoozeFor": "延遲{durationString}",
+    "@notification_action_snoozeFor": {
+        "description": "Snooze action with duration.",
+        "placeholders": {
+            "durationString": {
+                "type": "String",
+                "example": "x hour(s)"
+            }
+        }
+    },
+    "dialog_picker_dateTime_title": "選擇日期與時間",
+    "dialog_picker_dateTime_header_date": "日期",
+    "dialog_picker_dateTime_header_time": "時間",
+    "dialog_picker_dateTime_button_selectDate": "選擇日期",
+    "dialog_picker_dateTime_button_selectTime": "選擇時間",
+    "dialog_picker_repetition_title": "選擇重複次數",
+    "dialog_picker_repetition_subtitle": "{durationString}重複",
+    "@dialog_picker_repetition_subtitle": {
+        "description": "Subtitle for dialog with repeat duration.",
+        "placeholders": {
+            "durationString": {
+                "type": "String",
+                "example": "every x hour(s)"
+            }
+        }
+    },
+    "dialog_picker_repetition_field_number_label": "次數",
+    "dialog_picker_repetition_field_period_label": "時間",
+    "dialog_picker_duration_title": "選擇",
+    "dialog_picker_duration_subtitle": "{durationString}",
+    "@dialog_picker_duration_subtitle": {
+        "description": "Subtitle for dialog with duration.",
+        "placeholders": {
+            "durationString": {
+                "type": "String",
+                "example": "every x hour(s)"
+            }
+        }
+    },
+    "dialog_picker_duration_field_number_label": "次數",
+    "dialog_picker_duration_field_period_label": "時間",
+    "dialog_picker_colour_title": "選擇顏色",
+    "dialog_easterEgg_title": "彩蛋！",
+    "dialog_easterEgg_text": "Congratulations, you''ve found the easter egg! You can now enable debug options. Please note that these options are not supported and may cause issues.",
+    "dialog_easterEgg_action_showDebugOptions": "Show debug options",
+    "dialog_about_translations_title": "翻譯",
+    "dialog_about_action_showLicenses": "授權",
+    "tutorial_page_0_title": "歡迎使用 Noterly",
+    "tutorial_page_0_subtitle": "簡易嘅通知提醒工具",
+    "tutorial_page_0_content": "以下是一些基本教學協助您開始使用。",
+    "tutorial_page_1_title": "提醒",
+    "tutorial_page_1_content": "Noterly is designed for quick, simple reminders. You may find a to-do list or calendar app more suitable for more complex tasks.",
+    "tutorial_page_2_title": "新增提示通知",
+    "tutorial_page_2_content": "按下此按鈕以新增提示通知。",
+    "tutorial_page_2_confirmations": "That''s right!|Well done!|You''ve got it!|Great job!|Great success!",
+    "tutorial_page_3_title": "管理提示通知",
+    "tutorial_page_3_content": "Completed your task? Swipe the notification away. To delete a notification, go to the archive page and swipe it away.",
+    "tutorial_page_3_example": "撥走提示通知以封存或刪除。",
+    "tutorial_page_4_title": "延遲提示通知",
+    "tutorial_page_4_content": "You can snooze a reminder by tapping the button in the notification. Customise the snooze duration in settings.",
+    "tutorial_page_5_title": "就係咁啦！",
+    "tutorial_page_5_content": "You''re ready to start using Noterly. You can always come back to this tutorial in settings.",
+    "tutorial_updatedExperienceText": "您睇到呢個信息代表有啲功能或者使用體驗已經更新。",
+    "tutorial_action_back": "返回",
+    "tutorial_action_next": "繼續",
+    "tutorial_action_done": "完成",
+    "tutorial_action_skip": "略過",
+    "general_ok": "確定",
+    "general_cancel": "取消",
+    "general_undo": "復原",
+    "general_close": "關閉",
+    "time_seconds": "{value, plural, =0{seconds} =1{second} other{seconds}}",
+    "@time_seconds": {
+        "description": "Used to pluralise second.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_seconds_value": "{value}秒",
+    "@time_seconds_value": {
+        "description": "Used to display a number of seconds.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_minutes": "{value, plural, =0{minutes} =1{minute} other{minutes}}",
+    "@time_minutes": {
+        "description": "Used to pluralise minute.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_minutes_value": "{value}分鐘",
+    "@time_minutes_value": {
+        "description": "Used to display a number of minutes.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_hours": "{value, plural, =0{hours} =1{hour} other{hours}}",
+    "@time_hours": {
+        "description": "Used to pluralise hour.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_hours_value": "{value}小時",
+    "@time_hours_value": {
+        "description": "Used to display a number of hours.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_days": "{value, plural, =0{days} =1{day} other{days}}",
+    "@time_days": {
+        "description": "Used to pluralise day.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_days_value": "{value}日",
+    "@time_days_value": {
+        "description": "Used to display a number of days.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_weeks": "{value, plural, =0{weeks} =1{week} other{weeks}}",
+    "@time_weeks": {
+        "description": "Used to pluralise week.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_weeks_value": "{value}個星期",
+    "@time_weeks_value": {
+        "description": "Used to display a number of weeks.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_months": "{value, plural, =0{months} =1{month} other{months}}",
+    "@time_months": {
+        "description": "Used to pluralise month.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_months_value": "{value}個月",
+    "@time_months_value": {
+        "description": "Used to display a number of months.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_years": "{value, plural, =0{years} =1{year} other{years}}",
+    "@time_years": {
+        "description": "Used to pluralise year.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_years_value": "{value}年",
+    "@time_years_value": {
+        "description": "Used to display a number of years.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_hourly": "每小時",
+    "time_daily": "每日",
+    "time_weekly": "每個禮拜",
+    "time_monthly": "每個月",
+    "time_yearly": "每年",
+    "time_repetition_every_value": "每隔{number} {type}",
+    "@time_repetition_every_value": {
+        "description": "Used to display a repeat duration.",
+        "placeholders": {
+            "number": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            },
+            "type": {
+                "type": "String",
+                "example": "hour(s)"
+            }
+        }
+    },
+    "time_snooze_until": "至{dateTimeString}",
+    "@time_snooze_until": {
+        "description": "Used to display a snooze duration.",
+        "placeholders": {
+            "dateTimeString": {
+                "type": "String",
+                "example": "tomorrow"
+            }
+        }
+    },
+    "time_todayAndTime": "今日，{timeString}",
+    "@time_todayAndTime": {
+        "description": "Used to display a time today.",
+        "placeholders": {
+            "timeString": {
+                "type": "String",
+                "example": "12:00"
+            }
+        }
+    },
+    "time_yesterdayAndTime": "尋日，{timeString}",
+    "@time_yesterdayAndTime": {
+        "description": "Used to display a time yesterday.",
+        "placeholders": {
+            "timeString": {
+                "type": "String",
+                "example": "12:00"
+            }
+        }
+    },
+    "time_tomorrowAndTime": "聽日，{timeString}",
+    "@time_tomorrowAndTime": {
+        "description": "Used to display a time tomorrow.",
+        "placeholders": {
+            "timeString": {
+                "type": "String",
+                "example": "12:00"
+            }
+        }
+    },
+    "time_dateAndTime": "{dateTimeString}，{timeString}",
+    "@time_dateAndTime": {
+        "description": "Used to display a date and time.",
+        "placeholders": {
+            "dateTimeString": {
+                "type": "String",
+                "example": "yesterday"
+            },
+            "timeString": {
+                "type": "String",
+                "example": "12:00"
+            }
+        }
+    }
+}
