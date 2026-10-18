@@ -80,6 +80,8 @@
     "page_settings_header_debug": "Debug Optionen",
     "page_settings_header_debug_disclaimer": "Diese Funktionen werden nicht unterstützt und können Probleme verursachen. Benutzung auf eigene Gefahr.",
     "page_settings_notifications_snoozeDuration": "Schlummerdauer",
+    "page_settings_notifications_dismissible_title": "Dismissible notifications",
+    "page_settings_notifications_dismissible_subtitle": "Show the Dismissible option on reminders. When off, every notification is ongoing.",
     "page_settings_system_notificationSettings": "Benachrichtigungseinstellungen",
     "page_settings_about_version_title": "Version",
     "page_settings_about_copyright_title": "Copyright & Credits",

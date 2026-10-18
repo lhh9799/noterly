@@ -80,6 +80,8 @@
     "page_settings_header_debug": "Параметри налагодження",
     "page_settings_header_debug_disclaimer": "Ці параметри не підтримуються і можуть спричинити проблеми. Використовуйте на свій страх і ризик.",
     "page_settings_notifications_snoozeDuration": "Інтервал повторення",
+    "page_settings_notifications_dismissible_title": "Dismissible notifications",
+    "page_settings_notifications_dismissible_subtitle": "Show the Dismissible option on reminders. When off, every notification is ongoing.",
     "page_settings_system_notificationSettings": "Налаштування сповіщень",
     "page_settings_about_version_title": "Версія",
     "page_settings_about_copyright_title": "Авторські права",
