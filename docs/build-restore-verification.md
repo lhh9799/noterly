@@ -77,3 +77,23 @@ punch-hole cutout position, 120 Hz adaptive refresh, S Pen, Samsung keyboard.
 | #21 hourly repeating item disappears from the list after tapping its notification | No | Tapping only opens the edit page (`lib/managers/notification_manager.dart` handleResponse, no data change; same logic as 1.4.2). Most likely the same mechanism as #42: the tap brings the app to the foreground, the resume callback (`lib/managers/app_manager.dart` LifecycleEventHandler → `fullUpdate`) re-reads `data.json`, and in 1.4.2 a failed/partial read replaced the list with `[]`. Fixed by 4666243. | Tested on the emulator with the app in the background and with the process killed (cold start): the item stays in the list both times |
 | #38 notifications disappear when the app is swiped away in Recents | No | On stock Android (emulator) swiping the task away ends the process but the posted notifications and the scheduled alarms stay. The report is from MIUI (Xiaomi Mi 8, Android 10), which force-stops apps without "Autostart" on swipe; a force-stop removes the app's notifications and alarms, and no app code can prevent it. Nothing in the app cancels notifications on task removal (no `onTaskRemoved`/`onDestroy` handling). Needs a check on One UI. | Not changed |
 | #35 notifications not shown on Galaxy Watch 4 | Not testable on the emulator | Every Noterly notification is posted with `ongoing: true` (`lib/managers/notification_manager.dart:322`). Ongoing notifications are not bridged from the phone to Wear OS / Galaxy Watch, so they never reach the watch. All items also share one `groupKey` (line 320) without a summary notification. Making notifications non-ongoing would change the app's core behaviour (reminders that cannot be swiped away), so no code change was made without confirming on a watch. | Not changed; candidate: an opt-in setting for non-ongoing notifications |
+
+## Final check of today's changes (emulator `S26U_API37`, FHD+ 1080x2340 @450, dev debug build)
+
+Static analysis: `flutter analyze` reports no errors or warnings (21 pre-existing infos: deprecations, `use_build_context_synchronously`).
+Unit checks (throwaway, not committed): JSON round trip of the new fields, old saves without them, atomic save,
+backup fallback, both files unreadable, corrupt file not replacing a good backup, delete. All passed.
+
+| Scenario | Result |
+|---|---|
+| Old save without `dismissible` / `dismissibleNotificationsEnabled` loads; items kept, defaults written (off per reminder, setting on) | Pass |
+| New reminder with Dismissible on: posted without `ONGOING_EVENT`; Clear all removes it, stays hidden after resume, stays in the list | Pass |
+| Scheduled and repeating dismissible reminders fire with the app in the background, not ongoing | Pass |
+| Swiped repeating dismissible reminder moves to its next occurrence | Pass |
+| Setting off: switch hidden on Create/Edit, every notification re-posted as ongoing (swiped ones come back); saving an edit keeps the reminder's own value | Pass |
+| Setting on again: dismissible reminders lose `ONGOING_EVENT` in place | Pass |
+| #20: snoozed repeating reminder, Mark as done after the snooze fires: not shown again, next hour scheduled | Pass |
+| #42: truncated `data.json` on cold start: backup loaded, all items kept, file rewritten | Pass |
+
+Known limitation of the dismissible option: the app cannot tell a swipe from the system removing the notification,
+so after a reboot or a force-stop a due dismissible reminder is not shown again (ongoing ones are). It stays in the list.
