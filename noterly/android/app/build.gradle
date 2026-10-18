@@ -53,9 +53,6 @@ android {
     defaultConfig {
         applicationId "uk.co.tdsstudios.noterly"
 
-        // INFO: needed to prevent desugaring error for flutter_local_notifications plugin
-        // INFO: required for Firebase
-        multiDexEnabled true
 
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
@@ -110,9 +107,6 @@ flutter {
 }
 
 dependencies {
-    // INFO: required for Firebase
-    implementation 'com.android.support:multidex:1.0.3'
-
     // INFO: needed to prevent desugaring error for flutter_local_notifications plugin
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
 

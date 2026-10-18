@@ -1,4 +1,3 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:noterly/extensions/date_time_extensions.dart';
 import 'package:noterly/l10n/localisations_util.dart';
@@ -50,13 +49,10 @@ class ArchivedNotificationsPage extends NavigationScreen {
                       label: Strings.of(context).general_undo,
                       onPressed: () {
                         AppManager.instance.restoreLastDeletedItems();
-                        FirebaseAnalytics.instance.logEvent(name: 'restore_all_deleted_items');
                       },
                     ),
                   ),
                 );
-
-                FirebaseAnalytics.instance.logEvent(name: 'delete_all_archived_items');
               },
               child: Text(Strings.of(context).page_archivedNotifications_button_deleteAll),
             ),
@@ -79,15 +75,9 @@ class ArchivedNotificationsPage extends NavigationScreen {
                   label: Strings.of(context).general_undo,
                   onPressed: () {
                     AppManager.instance.restoreLastDeletedItems();
-                    FirebaseAnalytics.instance.logEvent(name: 'restore_deleted_item');
                   },
                 ),
               ),
-            );
-
-            FirebaseAnalytics.instance.logEvent(
-              name: 'delete_item',
-              parameters: {'from': 'archived_notifications_page'},
             );
           },
           child: ListTile(

@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:noterly/extensions/date_time_extensions.dart';
 import 'package:noterly/l10n/localisations_util.dart';
@@ -85,16 +84,11 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
                     label: Strings.of(context).general_undo,
                     onPressed: () {
                       AppManager.instance.restoreLastDeletedItems();
-                      FirebaseAnalytics.instance.logEvent(name: 'restore_deleted_item');
                     },
                   ),
                 ),
               );
               Navigator.of(context).pop();
-              FirebaseAnalytics.instance.logEvent(
-                name: 'delete_item',
-                parameters: {'from': 'edit_notification_page'},
-              );
             },
           ),
         ],
@@ -241,14 +235,6 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
           _item.snoozeDateTime = null; // Un-snooze if we edit a snoozed item
 
           await AppManager.instance.editItem(_item);
-
-          await FirebaseAnalytics.instance.logEvent(
-            name: itemWasArchived ? 'reactivate_item' : 'edit_item',
-            parameters: {
-              'is_scheduled': _isScheduled ? 'yes' : 'no',
-              'is_repeating': _isRepeating ? 'yes' : 'no',
-            },
-          );
 
           if (mounted) {
             Navigator.of(context).pop();

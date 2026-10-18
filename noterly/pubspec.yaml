@@ -24,9 +24,6 @@ dependencies:
   url_launcher: ^6.1.8
   logger: ^2.6.2
   system_settings_2 : ^3.0.1
-  firebase_core: ^2.4.1
-  firebase_analytics: ^10.1.0
-  firebase_crashlytics: ^3.0.11
   flutter_localizations:
     sdk: flutter
   auto_size_text: ^3.0.0
