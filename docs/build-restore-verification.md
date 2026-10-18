@@ -66,3 +66,11 @@ the Schedule/Repeating switches (existing behaviour, not a regression).
 Not reproducible on the emulator: One UI itself (Samsung launcher, notification styling, Good Lock etc.),
 Samsung battery/background policies (sleeping apps, Adaptive battery), curved corner radius and the
 punch-hole cutout position, 120 Hz adaptive refresh, S Pen, Samsung keyboard.
+
+## Issue fixes (emulator `S26U_API37`)
+
+| Issue | Reproduced | Cause | Fix |
+|---|---|---|---|
+| #42 notes wiped | Yes (truncated `data.json` opened as an empty list) | Non-atomic, un-awaited save; a failed read set the list to `[]` and the next save made it permanent (`lib/managers/file_manager.dart`, `lib/managers/app_manager.dart` `_load`) | 4666243 |
+| #20 snoozed repeating reminder reappears after Mark as done | Yes | `snoozeDateTime` not cleared on done, so the past snooze time was rescheduled (`lib/managers/notification_manager.dart` done handler) | 180f20b |
+| #22 scheduled notification only appears after opening the app | No (fixed by the merge) | 1.4.2's manifest did not declare `ScheduledNotificationReceiver` / `ScheduledNotificationBootReceiver` or `RECEIVE_BOOT_COMPLETED`, so alarms had no receiver to post the notification; it was only shown when the app opened and `updateAllNotifications` caught up. Added by f267b6c (flutter-upgrade). | Verified: arrives with the app closed (07:35 test) and after a reboot without opening the app (08:21 test) |
