@@ -1,7 +1,5 @@
 import 'dart:math';
 
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:noterly/build_info.dart';
@@ -94,13 +92,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     SystemSettings.app();
                   } catch (_) {
                     Log.logger.e('Failed to open system settings');
-                    await FirebaseCrashlytics.instance.recordError(e, StackTrace.current, reason: 'Failed to open system settings');
                   }
                 }
-
-                await FirebaseAnalytics.instance.logEvent(
-                  name: 'open_notification_settings',
-                );
               },
             )
           ]),
@@ -115,10 +108,6 @@ class _SettingsPageState extends State<SettingsPage> {
               onTap: () async {
                 var uri = Uri.parse('https://ko-fi.com/tomchapman128');
                 await _launchUrl(uri);
-
-                await FirebaseAnalytics.instance.logEvent(
-                  name: 'open_donation_link',
-                );
               },
             ),
           ]),
@@ -172,10 +161,6 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     barrierDismissible: false,
                   );
-
-                  await FirebaseAnalytics.instance.logEvent(
-                    name: 'easter_egg',
-                  );
                 }
               },
             ),
@@ -226,10 +211,6 @@ class _SettingsPageState extends State<SettingsPage> {
                                       applicationLegalese: Strings.of(context).page_settings_about_licenses_page_legalese,
                                       applicationVersion: BuildInfo.appVersion,
                                     );
-
-                                    FirebaseAnalytics.instance.logEvent(
-                                      name: 'open_licenses',
-                                    );
                                   },
                                   child: Text(Strings.of(context).dialog_about_action_showLicenses),
                                 ),
@@ -244,10 +225,6 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                     );
                   },
-                );
-
-                FirebaseAnalytics.instance.logEvent(
-                  name: 'open_about_dialog',
                 );
               },
             ),
@@ -277,10 +254,6 @@ class _SettingsPageState extends State<SettingsPage> {
               onTap: () async {
                 var uri = Uri.parse('https://github.com/tomc128/noterly');
                 await _launchUrl(uri);
-
-                await FirebaseAnalytics.instance.logEvent(
-                  name: 'open_github_link',
-                );
               },
             ),
             ListTile(
@@ -291,10 +264,6 @@ class _SettingsPageState extends State<SettingsPage> {
               onTap: () async {
                 var uri = Uri.parse('https://tdsstudios.co.uk/privacy');
                 await _launchUrl(uri);
-
-                await FirebaseAnalytics.instance.logEvent(
-                  name: 'open_privacy_policy',
-                );
               },
             ),
             ListTile(
@@ -305,10 +274,6 @@ class _SettingsPageState extends State<SettingsPage> {
               onTap: () async {
                 var uri = Uri.parse('https://forms.gle/5HZNjmr5wF1t4r8q6');
                 await _launchUrl(uri);
-
-                await FirebaseAnalytics.instance.logEvent(
-                  name: 'open_feedback_form',
-                );
               },
             ),
             ListTile(
@@ -319,10 +284,6 @@ class _SettingsPageState extends State<SettingsPage> {
               onTap: () async {
                 var uri = Uri.parse('https://crowdin.com/project/noterly/invite?h=5831212784abb6a4b04739214cb7a1a91820487');
                 await _launchUrl(uri);
-
-                await FirebaseAnalytics.instance.logEvent(
-                  name: 'open_translate_link',
-                );
               },
             ),
           ]),
@@ -339,7 +300,6 @@ class _SettingsPageState extends State<SettingsPage> {
       }
     } on Exception catch (e) {
       Log.logger.e('Failed to launch URL: $uri [$e]');
-      await FirebaseCrashlytics.instance.recordError(e, StackTrace.current, reason: 'Failed to launch URL: $uri');
     }
   }
 
@@ -415,15 +375,6 @@ class _SettingsPageState extends State<SettingsPage> {
               minVerticalPadding: 12,
               onTap: () {
                 AppManager.instance.printItems();
-              },
-            ),
-            ListTile(
-              title: const Text('Send test analytics event'),
-              trailing: const Icon(Icons.chevron_right),
-              leading: const Icon(Icons.analytics),
-              minVerticalPadding: 12,
-              onTap: () {
-                FirebaseAnalytics.instance.logEvent(name: 'test');
               },
             ),
             ListTile(

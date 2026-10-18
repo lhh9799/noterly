@@ -1,4 +1,3 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:noterly/extensions/date_time_extensions.dart';
 import 'package:noterly/l10n/localisations_util.dart';
@@ -207,14 +206,6 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
               repetitionData: _isRepeating ? _repetitionData : null,
               colour: _colour,
             ),
-          );
-
-          await FirebaseAnalytics.instance.logEvent(
-            name: 'create_item',
-            parameters: {
-              'is_scheduled': _isScheduled ? 'yes' : 'no',
-              'is_repeating': _isRepeating ? 'yes' : 'no',
-            },
           );
 
           if (mounted) {
