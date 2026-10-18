@@ -196,7 +196,7 @@ class NotificationManager {
 
       if (item.isRepeating) {
         await updateRepeatingNotification(item);
-      } else if (item.dismissible && !_isDueInFuture(item)) {
+      } else if (_isDismissible(item) && !_isDueInFuture(item)) {
         // A dismissible notification that is due but not shown was swiped away by the user. Keep the reminder in the
         // list but do not show it again.
         continue;
@@ -204,6 +204,21 @@ class NotificationManager {
         await showOrUpdateNotification(item);
       }
     }
+  }
+
+  bool _isDismissible(NotificationItem item) => AppManager.instance.data.dismissibleNotificationsEnabled && item.dismissible;
+
+  /// Re-posts every notification so that a change to a global notification setting takes effect: shown notifications
+  /// are updated in place, and the rest are rescheduled.
+  Future refreshAllNotifications() async {
+    var shownIds = (await _plugin.getActiveNotifications()).map((n) => n.id).toSet();
+
+    for (var item in AppManager.instance.notifier.value) {
+      if (item.archived) continue;
+      if (shownIds.contains(item.id.hashCode)) await _showNotification(item);
+    }
+
+    await updateAllNotifications();
   }
 
   bool _isDueInFuture(NotificationItem item) {
@@ -328,7 +343,7 @@ class NotificationManager {
         priority: Priority.max,
         groupKey: 'uk.co.tdsstudios.noterly.ALL_NOTIFICATIONS_GROUP',
         color: item.colour,
-        ongoing: !item.dismissible,
+        ongoing: !_isDismissible(item),
         when: item.isImmediate ? null : item.dateTime!.millisecondsSinceEpoch,
         autoCancel: false,
       );

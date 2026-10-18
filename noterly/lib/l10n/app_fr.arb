@@ -80,6 +80,8 @@
     "page_settings_header_debug": "Options de débogage",
     "page_settings_header_debug_disclaimer": "Ces options ne sont pas prises en charge et peuvent causer des problèmes. À utiliser à vos risques et périls.",
     "page_settings_notifications_snoozeDuration": "Durée de mise en attente",
+    "page_settings_notifications_dismissible_title": "Dismissible notifications",
+    "page_settings_notifications_dismissible_subtitle": "Show the Dismissible option on reminders. When off, every notification is ongoing.",
     "page_settings_system_notificationSettings": "Paramètres de notification",
     "page_settings_about_version_title": "Version",
     "page_settings_about_copyright_title": "Droits d''auteur et crédits",
