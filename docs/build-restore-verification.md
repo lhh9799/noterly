@@ -1,6 +1,8 @@
 # Build restore verification (2026-10-18)
 
 > **Verified on an emulator only. Not yet verified on a physical device (Galaxy S26 Ultra / S22 Ultra).**
+>
+> Decision (2026-10-18): because the physical devices cannot be used for every test, verification is done on the Android emulator. Items that only a physical device can confirm are listed at the end of each section.
 
 ## Environment
 
@@ -32,7 +34,7 @@
 Notes
 1. `BuildInfo` is `UNSET_VERSION/UNSET_BRANCH` (inDev) for plain `flutter build`, and `main_page.dart` skips the first-launch dialog for inDev builds. Settings shows "inDev release UNSET_VERSION (UNSET_BRANCH)".
 2. Relative times ("2 minutes ago") stay in English when the app language is German (jiffy locale is not set). Candidate for a separate fix.
-3. No Korean translation exists (de, el, en, es, fr, it, pl, ru, uk only).
+3. Korean translation is intentionally not added (user decision). Shipped languages: de, el, en, es, fr, it, pl, ru, uk.
 
 ## Needs a human on the real devices
 
