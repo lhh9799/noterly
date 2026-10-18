@@ -225,8 +225,6 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
         onPressed: () async {
           if (!_formKey.currentState!.validate()) return;
 
-          var itemWasArchived = _item.archived;
-
           _item.title = _titleController.text;
           _item.body = _bodyController.text;
           _item.dateTime = _isScheduled ? _dateTime : null;
