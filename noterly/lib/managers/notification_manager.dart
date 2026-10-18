@@ -80,6 +80,9 @@ class NotificationManager {
     if (response.actionId == 'done') {
       if (item.isRepeating) {
         Log.logger.d('Marking repeating notification "${item.title}" as done and rescheduling');
+        // Clear any snooze, otherwise the past snooze time is scheduled again and the notification reappears
+        // immediately every time it is marked as done (#20).
+        item.snoozeDateTime = null;
         await NotificationManager.instance.updateRepeatingNotification(item);
       } else {
         Log.logger.d('Archiving notification "${item.title}"');
