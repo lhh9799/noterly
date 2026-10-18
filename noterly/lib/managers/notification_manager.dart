@@ -196,10 +196,19 @@ class NotificationManager {
 
       if (item.isRepeating) {
         await updateRepeatingNotification(item);
+      } else if (item.dismissible && !_isDueInFuture(item)) {
+        // A dismissible notification that is due but not shown was swiped away by the user. Keep the reminder in the
+        // list but do not show it again.
+        continue;
       } else {
         await showOrUpdateNotification(item);
       }
     }
+  }
+
+  bool _isDueInFuture(NotificationItem item) {
+    var due = item.isSnoozed ? item.snoozeDateTime : item.dateTime;
+    return due != null && due.isAfter(DateTime.now());
   }
 
   /// Updates a single notification. If the notification is already shown, it is cancelled.
@@ -319,7 +328,7 @@ class NotificationManager {
         priority: Priority.max,
         groupKey: 'uk.co.tdsstudios.noterly.ALL_NOTIFICATIONS_GROUP',
         color: item.colour,
-        ongoing: true,
+        ongoing: !item.dismissible,
         when: item.isImmediate ? null : item.dateTime!.millisecondsSinceEpoch,
         autoCancel: false,
       );

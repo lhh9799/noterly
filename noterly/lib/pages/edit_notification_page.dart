@@ -31,6 +31,7 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
   late NotificationItem _item;
   late bool _isScheduled;
   late bool _isRepeating;
+  late bool _isDismissible;
 
   late DateTime _dateTime;
 
@@ -47,6 +48,7 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
 
     _repetitionData = _item.repetitionData ?? RepetitionData(number: 1, type: Repetition.daily);
     _isRepeating = _item.isRepeating;
+    _isDismissible = _item.dismissible;
 
     _titleController.text = _item.title;
     _bodyController.text = _item.body;
@@ -210,6 +212,13 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
                     });
                   },
                 ),
+              SwitchListTile(
+                value: _isDismissible,
+                title: Text(Strings.of(context).page_editNotification_timing_dismissible_title),
+                subtitle: Text(Strings.of(context).page_editNotification_timing_dismissible_subtitle),
+                secondary: const Icon(Icons.swipe),
+                onChanged: (value) => setState(() => _isDismissible = value),
+              ),
             ]),
             if (_isRepeating) ...[
               _getSpacer(),
@@ -231,6 +240,7 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
           _item.archived = false; // Unarchive if we edit an archived item
           _item.repetitionData = _isRepeating ? _repetitionData : null;
           _item.snoozeDateTime = null; // Un-snooze if we edit a snoozed item
+          _item.dismissible = _isDismissible;
 
           await AppManager.instance.editItem(_item);
 
