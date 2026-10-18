@@ -1,0 +1,424 @@
+{
+    "@@locale": "zh_MO",
+    "main_action_new": "新建便條",
+    "main_action_create": "建立",
+    "main_action_save": "儲存",
+    "main_action_reactivate": "再啟用",
+    "page_activeNotifications_label": "待辦事項",
+    "page_activeNotifications_header_immediate": "立即顯示",
+    "page_activeNotifications_header_scheduled": "已經排程",
+    "page_activeNotifications_header_repeating": "巡迴",
+    "page_activeNotifications_empty": "暫無待辦事項通知",
+    "page_activeNotifications_item_repeats": "{durationString}巡迴",
+    "@page_activeNotifications_item_repeats": {
+        "description": "Under a notification item specifying repeat duration.",
+        "placeholders": {
+            "durationString": {
+                "type": "String",
+                "example": "every x hour(s)"
+            }
+        }
+    },
+    "page_activeNotifications_item_snoozed": "已延後{dateTimeString}",
+    "@page_activeNotifications_item_snoozed": {
+        "description": "Under a notification item specifying snooze duration.",
+        "placeholders": {
+            "dateTimeString": {
+                "type": "String",
+                "example": "until 1st January 2023, 12:00"
+            }
+        }
+    },
+    "page_archivedNotifications_label": "已辦事項",
+    "page_archivedNotifications_empty": "已辦事項將於此處顯示。",
+    "page_archivedNotifications_button_deleteAll": "刪除所有已辦事項。",
+    "page_archivedNotifications_item_archived": "{dateTimeString}前標為已辦",
+    "@page_archivedNotifications_item_archived": {
+        "description": "Under a notification item specifying when it was archived.",
+        "placeholders": {
+            "dateTimeString": {
+                "type": "String",
+                "example": "on 1st January 2023, 12:00"
+            }
+        }
+    },
+    "snackbar_notificationDeleted": "\"{title}\"通知已刪除",
+    "@snackbar_notificationDeleted": {
+        "description": "Snackbar message when a notification is deleted.",
+        "placeholders": {
+            "title": {
+                "type": "String",
+                "example": "Example notification title"
+            }
+        }
+    },
+    "snackbar_notificationArchived": "\"{title}\"通知已辦妥",
+    "@snackbar_notificationArchived": {
+        "description": "Snackbar message when a notification is archived.",
+        "placeholders": {
+            "title": {
+                "type": "String",
+                "example": "Example notification title"
+            }
+        }
+    },
+    "snackbar_allArchivedNotificationsDeleted": "所有已辦事項通知已刪除。",
+    "toast_notificationSnoozed": "通知已延後{durationString}",
+    "@toast_notificationSnoozed": {
+        "description": "Toast message when a notification is snoozed.",
+        "placeholders": {
+            "durationString": {
+                "type": "String",
+                "example": "every x hour(s)"
+            }
+        }
+    },
+    "page_settings_title": "設定",
+    "page_settings_header_notifications": "通知",
+    "page_settings_header_system": "系統",
+    "page_settings_header_about": "關於",
+    "page_settings_header_debug": "調試",
+    "page_settings_header_debug_disclaimer": "These options are not supported and may cause issues. Use at your own risk.",
+    "page_settings_notifications_snoozeDuration": "延後時長",
+    "page_settings_system_notificationSettings": "通知設定",
+    "page_settings_about_version_title": "版本",
+    "page_settings_about_copyright_title": "版權與信用",
+    "page_settings_about_copyright_text": "2023 Tom Chapman, TDS Studios",
+    "page_settings_about_tutorial_title": "教學",
+    "page_settings_about_licenses_title": "授權",
+    "page_settings_about_licenses_page_legalese": "版權所有 © 2023 Tom Chapman, TDS Studios",
+    "page_settings_about_licenses_page_openSourceSoftware": "Noterly is open-source software. The source code is available on GitHub.",
+    "page_settings_about_privacyPolicy_title": "隱私條例",
+    "page_settings_about_feedback_title": "發送反饋",
+    "page_settings_about_translate_title": "協助翻譯Noterly",
+    "page_settings_about_donation_title": "幫我買杯咖啡",
+    "page_settings_about_github_title": "Open-source on GitHub",
+    "page_createNotification_title": "建立通知",
+    "page_createNotification_header_details": "通知內容",
+    "page_createNotification_header_timing": "發出時間",
+    "page_createNotification_timing_schedule_title": "排程",
+    "page_createNotification_timing_schedule_subtitle": "發出",
+    "page_createNotification_timing_repeat_title": "巡迴通知",
+    "page_createNotification_timing_repeat_subtitle": "巡迴",
+    "page_createNotification_timing_repeat_info": "已辦妥的巡迴通知才會發出",
+    "page_createNotification_details_field_title_label": "標題",
+    "page_createNotification_details_field_title_error": "請鍵入標題",
+    "page_createNotification_details_field_body_label": "內容",
+    "page_createNotification_details_field_colour_label": "顏色",
+    "page_editNotification_title": "編輯通知",
+    "page_editNotification_header_details": "通知內容",
+    "page_editNotification_header_timing": "時間",
+    "page_editNotification_timing_schedule_title": "發出時間",
+    "page_editNotification_timing_schedule_subtitle": "發出",
+    "page_editNotification_timing_repeat_title": "Repeating",
+    "page_editNotification_timing_repeat_subtitle": "Repeat",
+    "page_editNotification_timing_repeat_info": "Repeating notifications will only repeat once they are marked as done from the notification.",
+    "page_editNotification_details_field_title_label": "Title",
+    "page_editNotification_details_field_title_error": "Please enter a title",
+    "page_editNotification_details_field_body_label": "Body",
+    "page_editNotification_details_field_colour_label": "Colour",
+    "item_title": "Title",
+    "item_body": "Body",
+    "item_colour": "Colour",
+    "notification_action_markAsDone": "Mark as done",
+    "notification_action_snooze": "Snooze",
+    "notification_action_snoozeFor": "Snooze for {durationString}",
+    "@notification_action_snoozeFor": {
+        "description": "Snooze action with duration.",
+        "placeholders": {
+            "durationString": {
+                "type": "String",
+                "example": "x hour(s)"
+            }
+        }
+    },
+    "dialog_picker_dateTime_title": "Select date and time",
+    "dialog_picker_dateTime_header_date": "Date",
+    "dialog_picker_dateTime_header_time": "Time",
+    "dialog_picker_dateTime_button_selectDate": "Select date",
+    "dialog_picker_dateTime_button_selectTime": "Select time",
+    "dialog_picker_repetition_title": "Select repeat duration",
+    "dialog_picker_repetition_subtitle": "repeats {durationString}",
+    "@dialog_picker_repetition_subtitle": {
+        "description": "Subtitle for dialog with repeat duration.",
+        "placeholders": {
+            "durationString": {
+                "type": "String",
+                "example": "every x hour(s)"
+            }
+        }
+    },
+    "dialog_picker_repetition_field_number_label": "Number",
+    "dialog_picker_repetition_field_period_label": "Period",
+    "dialog_picker_duration_title": "Select duration",
+    "dialog_picker_duration_subtitle": "{durationString}",
+    "@dialog_picker_duration_subtitle": {
+        "description": "Subtitle for dialog with duration.",
+        "placeholders": {
+            "durationString": {
+                "type": "String",
+                "example": "every x hour(s)"
+            }
+        }
+    },
+    "dialog_picker_duration_field_number_label": "Number",
+    "dialog_picker_duration_field_period_label": "Period",
+    "dialog_picker_colour_title": "Select colour",
+    "dialog_easterEgg_title": "Easter egg!",
+    "dialog_easterEgg_text": "Congratulations, you''ve found the easter egg! You can now enable debug options. Please note that these options are not supported and may cause issues.",
+    "dialog_easterEgg_action_showDebugOptions": "Show debug options",
+    "dialog_about_translations_title": "Translations",
+    "dialog_about_action_showLicenses": "Licenses",
+    "tutorial_page_0_title": "Welcome to Noterly",
+    "tutorial_page_0_subtitle": "Simple notification reminders",
+    "tutorial_page_0_content": "Here''s some basic information to get you started.",
+    "tutorial_page_1_title": "Reminders",
+    "tutorial_page_1_content": "Noterly is designed for quick, simple reminders. You may find a to-do list or calendar app more suitable for more complex tasks.",
+    "tutorial_page_2_title": "Create a notification",
+    "tutorial_page_2_content": "Tap the floating button to create a new notification.",
+    "tutorial_page_2_confirmations": "That''s right!|Well done!|You''ve got it!|Great job!|Great success!",
+    "tutorial_page_3_title": "Manage notifications",
+    "tutorial_page_3_content": "Completed your task? Swipe the notification away. To delete a notification, go to the archive page and swipe it away.",
+    "tutorial_page_3_example": "Swipe to archive or delete",
+    "tutorial_page_4_title": "Snoozing reminders",
+    "tutorial_page_4_content": "You can snooze a reminder by tapping the button in the notification. Customise the snooze duration in settings.",
+    "tutorial_page_5_title": "That''s it!",
+    "tutorial_page_5_content": "You''re ready to start using Noterly. You can always come back to this tutorial in settings.",
+    "tutorial_updatedExperienceText": "You''re seeing this because this tutorial experience has been updated.",
+    "tutorial_action_back": "Back",
+    "tutorial_action_next": "Next",
+    "tutorial_action_done": "Done",
+    "tutorial_action_skip": "Skip",
+    "general_ok": "OK",
+    "general_cancel": "Cancel",
+    "general_undo": "Undo",
+    "general_close": "Close",
+    "time_seconds": "{value, plural, =0{seconds} =1{second} other{seconds}}",
+    "@time_seconds": {
+        "description": "Used to pluralise second.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_seconds_value": "{value, plural, =0{0 seconds} =1{1 second} other{{value} seconds}}",
+    "@time_seconds_value": {
+        "description": "Used to display a number of seconds.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_minutes": "{value, plural, =0{minutes} =1{minute} other{minutes}}",
+    "@time_minutes": {
+        "description": "Used to pluralise minute.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_minutes_value": "{value, plural, =0{0 minutes} =1{1 minute} other{{value} minutes}}",
+    "@time_minutes_value": {
+        "description": "Used to display a number of minutes.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_hours": "{value, plural, =0{hours} =1{hour} other{hours}}",
+    "@time_hours": {
+        "description": "Used to pluralise hour.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_hours_value": "{value, plural, =0{0 hours} =1{1 hour} other{{value} hours}}",
+    "@time_hours_value": {
+        "description": "Used to display a number of hours.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_days": "{value, plural, =0{days} =1{day} other{days}}",
+    "@time_days": {
+        "description": "Used to pluralise day.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_days_value": "{value, plural, =0{0 days} =1{1 day} other{{value} days}}",
+    "@time_days_value": {
+        "description": "Used to display a number of days.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_weeks": "{value, plural, =0{weeks} =1{week} other{weeks}}",
+    "@time_weeks": {
+        "description": "Used to pluralise week.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_weeks_value": "{value, plural, =0{0 weeks} =1{1 week} other{{value} weeks}}",
+    "@time_weeks_value": {
+        "description": "Used to display a number of weeks.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_months": "{value, plural, =0{months} =1{month} other{months}}",
+    "@time_months": {
+        "description": "Used to pluralise month.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_months_value": "{value, plural, =0{0 months} =1{1 month} other{{value} months}}",
+    "@time_months_value": {
+        "description": "Used to display a number of months.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_years": "{value, plural, =0{years} =1{year} other{years}}",
+    "@time_years": {
+        "description": "Used to pluralise year.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_years_value": "{value, plural, =0{0 years} =1{1 year} other{{value} years}}",
+    "@time_years_value": {
+        "description": "Used to display a number of years.",
+        "placeholders": {
+            "value": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            }
+        }
+    },
+    "time_hourly": "hourly",
+    "time_daily": "daily",
+    "time_weekly": "weekly",
+    "time_monthly": "monthly",
+    "time_yearly": "yearly",
+    "time_repetition_every_value": "every {number} {type}",
+    "@time_repetition_every_value": {
+        "description": "Used to display a repeat duration.",
+        "placeholders": {
+            "number": {
+                "type": "num",
+                "format": "compact",
+                "example": "1"
+            },
+            "type": {
+                "type": "String",
+                "example": "hour(s)"
+            }
+        }
+    },
+    "time_snooze_until": "until {dateTimeString}",
+    "@time_snooze_until": {
+        "description": "Used to display a snooze duration.",
+        "placeholders": {
+            "dateTimeString": {
+                "type": "String",
+                "example": "tomorrow"
+            }
+        }
+    },
+    "time_todayAndTime": "Today, {timeString}",
+    "@time_todayAndTime": {
+        "description": "Used to display a time today.",
+        "placeholders": {
+            "timeString": {
+                "type": "String",
+                "example": "12:00"
+            }
+        }
+    },
+    "time_yesterdayAndTime": "Yesterday, {timeString}",
+    "@time_yesterdayAndTime": {
+        "description": "Used to display a time yesterday.",
+        "placeholders": {
+            "timeString": {
+                "type": "String",
+                "example": "12:00"
+            }
+        }
+    },
+    "time_tomorrowAndTime": "Tomorrow, {timeString}",
+    "@time_tomorrowAndTime": {
+        "description": "Used to display a time tomorrow.",
+        "placeholders": {
+            "timeString": {
+                "type": "String",
+                "example": "12:00"
+            }
+        }
+    },
+    "time_dateAndTime": "{dateTimeString}, {timeString}",
+    "@time_dateAndTime": {
+        "description": "Used to display a date and time.",
+        "placeholders": {
+            "dateTimeString": {
+                "type": "String",
+                "example": "yesterday"
+            },
+            "timeString": {
+                "type": "String",
+                "example": "12:00"
+            }
+        }
+    }
+}
