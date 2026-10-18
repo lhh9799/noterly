@@ -23,7 +23,7 @@ dependencies:
   quick_actions: ^1.0.1
   url_launcher: ^6.1.8
   logger: ^2.6.2
-  system_settings_2 : ^3.0.1
+  system_settings_2: ^3.0.2
   flutter_localizations:
     sdk: flutter
   auto_size_text: ^3.0.0
