@@ -30,6 +30,7 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
 
   var _isScheduled = false;
   var _isRepeating = false;
+  var _isDismissible = false;
 
   late DateTime _dateTime;
 
@@ -182,6 +183,13 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
                     });
                   },
                 ),
+              SwitchListTile(
+                value: _isDismissible,
+                title: Text(Strings.of(context).page_createNotification_timing_dismissible_title),
+                subtitle: Text(Strings.of(context).page_createNotification_timing_dismissible_subtitle),
+                secondary: const Icon(Icons.swipe),
+                onChanged: (value) => setState(() => _isDismissible = value),
+              ),
             ]),
             if (_isRepeating) ...[
               _getSpacer(),
@@ -205,6 +213,7 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
               dateTime: _isScheduled ? _dateTime : null,
               repetitionData: _isRepeating ? _repetitionData : null,
               colour: _colour,
+              dismissible: _isDismissible,
             ),
           );
 
