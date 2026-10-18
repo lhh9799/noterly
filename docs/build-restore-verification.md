@@ -41,3 +41,26 @@ Notes
 - Scheduled notifications under One UI battery settings (Settings > Battery > Background usage limits); record which list the app is in
 - Notification sound/vibration and heads-up appearance on One UI
 - Everything in the S26 Ultra / S22 Ultra columns above
+
+## Second pass: S26 Ultra screen profile (emulator)
+
+Assumption: exact S26 Ultra panel specs could not be confirmed from this PC, so the AVD uses the
+S25 Ultra values (6.9", 1440x3120 QHD+, ~500 ppi). Same API 37 system image as above.
+
+- AVD `S26U_API37`: `hw.lcd.width=1440`, `hw.lcd.height=3120`, `hw.lcd.density=600`, 4 GB RAM
+- One UI default display emulated with `adb shell wm size 1080x2340` + `adb shell wm density 450`
+  (same dp layout as QHD+ at 600 dpi: 600/1440 = 450/1080)
+
+| Item | QHD+ 1440x3120 @600 | FHD+ 1080x2340 @450 |
+|---|---|---|
+| App launch, notification permission prompt | Pass | Pass |
+| Immediate notification with Mark as done / Snooze | Pass | Pass |
+| Layout: tabs/FAB not covered, gesture navigation | Pass | Pass |
+| Layout: tabs/FAB not covered, 3-button navigation | — | Pass |
+
+Observed on both profiles: on the Create page with the keyboard open, the floating "Create" button overlaps
+the Schedule/Repeating switches (existing behaviour, not a regression).
+
+Not reproducible on the emulator: One UI itself (Samsung launcher, notification styling, Good Lock etc.),
+Samsung battery/background policies (sleeping apps, Adaptive battery), curved corner radius and the
+punch-hole cutout position, 120 Hz adaptive refresh, S Pen, Samsung keyboard.
