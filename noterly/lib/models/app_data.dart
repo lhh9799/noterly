@@ -8,11 +8,16 @@ class AppData {
 
   int firstLaunchDialogLastShown;
 
+  /// Whether the per-reminder "dismissible" option is in effect. When false, every notification is ongoing, but each
+  /// reminder keeps its own setting so it is restored when this is turned back on.
+  bool dismissibleNotificationsEnabled;
+
   AppData({
     required this.notificationItems,
     required this.snoozeDuration,
     required this.snoozeToastText,
     required this.firstLaunchDialogLastShown,
+    required this.dismissibleNotificationsEnabled,
   });
 
   Map<String, dynamic> toJson() {
@@ -21,6 +26,7 @@ class AppData {
       'snoozeDuration': snoozeDuration.inSeconds,
       'snoozeToastText': snoozeToastText,
       'firstLaunchDialogLastShown': firstLaunchDialogLastShown,
+      'dismissibleNotificationsEnabled': dismissibleNotificationsEnabled,
     };
   }
 
@@ -31,10 +37,11 @@ class AppData {
         snoozeDuration: AppDataJsonParser<Duration>('snoozeDuration', const Duration(hours: 1), parser: (value) => Duration(seconds: value)).parse(json),
         snoozeToastText: AppDataJsonParser<String>('snoozeToastText', 'Notification snoozed').parse(json),
         firstLaunchDialogLastShown: AppDataJsonParser<int>('firstLaunchDialogLastShown', -1).parse(json),
+        dismissibleNotificationsEnabled: AppDataJsonParser<bool>('dismissibleNotificationsEnabled', true).parse(json),
       );
 
   @override
-  String toString() => 'AppData(notificationItems: $notificationItems, snoozeDuration: $snoozeDuration, snoozeToastText: $snoozeToastText, firstLaunchDialogLastShown: $firstLaunchDialogLastShown)';
+  String toString() => 'AppData(notificationItems: $notificationItems, snoozeDuration: $snoozeDuration, snoozeToastText: $snoozeToastText, firstLaunchDialogLastShown: $firstLaunchDialogLastShown, dismissibleNotificationsEnabled: $dismissibleNotificationsEnabled)';
 }
 
 class AppDataJsonParser<T> {

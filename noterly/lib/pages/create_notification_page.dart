@@ -183,13 +183,14 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
                     });
                   },
                 ),
-              SwitchListTile(
-                value: _isDismissible,
-                title: Text(Strings.of(context).page_createNotification_timing_dismissible_title),
-                subtitle: Text(Strings.of(context).page_createNotification_timing_dismissible_subtitle),
-                secondary: const Icon(Icons.swipe),
-                onChanged: (value) => setState(() => _isDismissible = value),
-              ),
+              if (AppManager.instance.data.dismissibleNotificationsEnabled)
+                SwitchListTile(
+                  value: _isDismissible,
+                  title: Text(Strings.of(context).page_createNotification_timing_dismissible_title),
+                  subtitle: Text(Strings.of(context).page_createNotification_timing_dismissible_subtitle),
+                  secondary: const Icon(Icons.swipe),
+                  onChanged: (value) => setState(() => _isDismissible = value),
+                ),
             ]),
             if (_isRepeating) ...[
               _getSpacer(),

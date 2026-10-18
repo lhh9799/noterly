@@ -80,6 +80,8 @@
     "page_settings_header_debug": "Επιλογές αποσφαλμάτωσης",
     "page_settings_header_debug_disclaimer": "Αυτές οι επιλογές δεν υποστηρίζονται και μπορεί να προκαλέσουν προβλήματα. Χρησιμοποιήστε τις με δική σας ευθύνη.",
     "page_settings_notifications_snoozeDuration": "Διάρκεια αναβολής",
+    "page_settings_notifications_dismissible_title": "Dismissible notifications",
+    "page_settings_notifications_dismissible_subtitle": "Show the Dismissible option on reminders. When off, every notification is ongoing.",
     "page_settings_system_notificationSettings": "Ρυθμίσεις ειδοποιήσεων",
     "page_settings_about_version_title": "Έκδοση",
     "page_settings_about_copyright_title": "Πνευματικά δικαιώματα & ευχαριστίες",
