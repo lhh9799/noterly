@@ -67,17 +67,28 @@ class AppManager {
 
   Future _load() async {
     _loadingFuture = FileManager.load();
-    var newData = await _loadingFuture;
+    AppData? newData;
 
-    _loadingFuture = null;
+    try {
+      newData = await _loadingFuture;
+    } on SaveFileUnreadableException catch (e, s) {
+      // Never fall back to an empty list here: the next save would overwrite the user's notes (#42). Keep whatever
+      // is in memory; the unreadable file has been copied aside by FileManager.
+      Log.logger.e('Save file could not be read, keeping in-memory data', error: e, stackTrace: s);
+      return;
+    } finally {
+      _loadingFuture = null;
+    }
 
     if (newData == null) {
-      Log.logger.d('No (valid) previous save found.');
+      Log.logger.d('No previous save found.');
+      data = AppData.defaults();
       notifier.value = [];
+      isInitialised = true;
       return;
     }
 
-    if (newData != null) data = newData;
+    data = newData;
     notifier.value = data.notificationItems;
 
     Log.logger.d('Loaded data from file.');
