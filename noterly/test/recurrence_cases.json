@@ -1,0 +1,27 @@
+{
+  "_comment": "Shared repeat test cases. The same file is run by the phone app's Dart tests (test/recurrence_cases.json there) and by wearshared's Kotlin tests, so both sides must give the same answers. 'next' lists successive results of the next-repeat calculation starting from 'start'; 'advance' is the first repeat after 'now'. Times are local in 'zone'. type: 0 hourly, 1 daily, 2 weekly, 3 monthly, 4 yearly; weekdays 1 = Monday.",
+  "cases": [
+    { "name": "weekly Mon/Wed/Fri", "zone": "Asia/Seoul", "repetition": { "type": 2, "number": 1, "weekdays": [1, 3, 5] },
+      "start": "2026-10-19T09:00:00", "next": ["2026-10-21T09:00:00", "2026-10-23T09:00:00", "2026-10-26T09:00:00"] },
+    { "name": "every 2 weeks Tue/Thu", "zone": "Asia/Seoul", "repetition": { "type": 2, "number": 2, "weekdays": [2, 4] },
+      "start": "2026-10-20T08:30:00", "next": ["2026-10-22T08:30:00", "2026-11-03T08:30:00", "2026-11-05T08:30:00", "2026-11-17T08:30:00"] },
+    { "name": "monthly from the 31st", "zone": "Asia/Seoul", "repetition": { "type": 3, "number": 1, "weekdays": [] },
+      "start": "2026-01-31T10:00:00", "next": ["2026-03-03T00:00:00", "2026-04-03T00:00:00", "2026-05-03T00:00:00"] },
+    { "name": "yearly from 29 Feb", "zone": "Asia/Seoul", "repetition": { "type": 4, "number": 1, "weekdays": [] },
+      "start": "2028-02-29T07:00:00", "next": ["2029-03-01T00:00:00", "2030-03-01T00:00:00", "2031-03-01T00:00:00"] },
+    { "name": "every 3 days", "zone": "Asia/Seoul", "repetition": { "type": 1, "number": 3, "weekdays": [] },
+      "start": "2026-10-19T09:00:00", "next": ["2026-10-22T09:00:00", "2026-10-25T09:00:00", "2026-10-28T09:00:00"] },
+    { "name": "every 5 hours over midnight", "zone": "Asia/Seoul", "repetition": { "type": 0, "number": 5, "weekdays": [] },
+      "start": "2026-10-19T22:00:00", "next": ["2026-10-20T03:00:00", "2026-10-20T08:00:00", "2026-10-20T13:00:00"] },
+    { "name": "daily across the end of daylight saving", "zone": "America/New_York", "repetition": { "type": 1, "number": 1, "weekdays": [] },
+      "start": "2026-10-31T09:00:00", "next": ["2026-11-01T08:00:00", "2026-11-02T08:00:00", "2026-11-03T08:00:00"] },
+    { "name": "weekend weekdays keep the time across daylight saving", "zone": "America/New_York", "repetition": { "type": 2, "number": 1, "weekdays": [6, 7] },
+      "start": "2026-10-31T09:00:00", "next": ["2026-11-01T09:00:00", "2026-11-07T09:00:00", "2026-11-08T09:00:00"] },
+    { "name": "plain weekly across daylight saving", "zone": "America/New_York", "repetition": { "type": 2, "number": 1, "weekdays": [] },
+      "start": "2026-10-28T09:00:00", "next": ["2026-11-04T08:00:00", "2026-11-11T08:00:00", "2026-11-18T08:00:00"] },
+    { "name": "weekly Mon/Wed/Fri caught up after two weeks", "zone": "Asia/Seoul", "repetition": { "type": 2, "number": 1, "weekdays": [1, 3, 5] },
+      "start": "2026-10-05T09:00:00", "now": "2026-10-19T12:00:00", "advance": "2026-10-21T09:00:00" },
+    { "name": "daily caught up", "zone": "Asia/Seoul", "repetition": { "type": 1, "number": 1, "weekdays": [] },
+      "start": "2026-10-10T07:15:00", "now": "2026-10-19T07:15:00", "advance": "2026-10-19T07:15:00" }
+  ]
+}
