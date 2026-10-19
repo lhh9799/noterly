@@ -68,6 +68,7 @@ class NotificationItem {
       case Repetition.daily:
         return lastSent.add(Duration(days: repetitionData!.number));
       case Repetition.weekly:
+        if (repetitionData!.hasWeekdays) return repetitionData!.nextWeekdayDateTime(lastSent);
         return lastSent.add(Duration(days: repetitionData!.number * 7));
       case Repetition.monthly:
         return DateTime(lastSent.year, lastSent.month + repetitionData!.number, lastSent.day);

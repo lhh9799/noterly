@@ -39,7 +39,7 @@ class _RepetitionPickerState extends State<RepetitionPicker> {
 
     _intervalController = TextEditingController(text: widget.initialRepetitionData.number.toString());
 
-    _repetitionData = widget.initialRepetitionData;
+    _repetitionData = widget.initialRepetitionData.copy(); // Copy so that Cancel leaves the original unchanged
   }
 
   @override
@@ -84,6 +84,7 @@ class _RepetitionPickerState extends State<RepetitionPicker> {
             ),
           ),
           _getMainSection(),
+          if (_repetitionData.type == Repetition.weekly) _getWeekdaySection(),
           ButtonBar(
             children: [
               TextButton(
@@ -166,4 +167,55 @@ class _RepetitionPickerState extends State<RepetitionPicker> {
           ],
         ),
       );
+
+  /// Day-of-week toggles for weekly repetition, like the alarms in a clock app.
+  Widget _getWeekdaySection() {
+    final localisations = MaterialLocalizations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
+    final firstDay = localisations.firstDayOfWeekIndex; // 0 = Sunday
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          for (var i = 0; i < 7; i++)
+            Builder(builder: (context) {
+              final index = (firstDay + i) % 7;
+              final weekday = RepetitionData.weekdayFromIndex(index);
+              final selected = _repetitionData.weekdays.contains(weekday);
+
+              return SizedBox(
+                width: 36,
+                height: 36,
+                child: Semantics(
+                  label: localisations.narrowWeekdays[index],
+                  selected: selected,
+                  child: Material(
+                    shape: CircleBorder(side: BorderSide(color: selected ? colorScheme.primary : colorScheme.outline)),
+                    color: selected ? colorScheme.primary : Colors.transparent,
+                    clipBehavior: Clip.antiAlias,
+                    child: InkWell(
+                      onTap: () => setState(() {
+                        if (selected) {
+                          _repetitionData.weekdays.remove(weekday);
+                        } else {
+                          _repetitionData.weekdays.add(weekday);
+                        }
+                      }),
+                      child: Center(
+                        child: Text(
+                          localisations.narrowWeekdays[index],
+                          style: TextStyle(color: selected ? colorScheme.onPrimary : colorScheme.onSurface),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }),
+        ],
+      ),
+    );
+  }
 }

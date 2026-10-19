@@ -81,6 +81,7 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
               ScaffoldMessenger.of(context).clearSnackBars(); // Clear any existing snackbars, as only one item can be restored.
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
+                  persist: false, // Snack bars with an action stay until swiped away by default
                   content: Text(Strings.of(context).snackbar_notificationDeleted(_item.title)),
                   action: SnackBarAction(
                     label: Strings.of(context).general_undo,
@@ -207,6 +208,8 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
                       if (value != null) {
                         setState(() {
                           _repetitionData = value;
+                          // Move the first reminder onto a selected day of the week
+                          _dateTime = _repetitionData.alignToWeekdays(_dateTime);
                         });
                       }
                     });
@@ -237,7 +240,7 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
 
           _item.title = _titleController.text;
           _item.body = _bodyController.text;
-          _item.dateTime = _isScheduled ? _dateTime : null;
+          _item.dateTime = _isScheduled ? (_isRepeating ? _repetitionData.alignToWeekdays(_dateTime) : _dateTime) : null;
           _item.archived = false; // Unarchive if we edit an archived item
           _item.repetitionData = _isRepeating ? _repetitionData : null;
           _item.snoozeDateTime = null; // Un-snooze if we edit a snoozed item

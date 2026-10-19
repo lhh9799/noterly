@@ -35,6 +35,8 @@ class _MainPageState extends State<MainPage> {
 
   bool _isHandlingFirstLaunch = false;
 
+  bool _isScrolled = false;
+
   late final Timer _timer;
 
   @override
@@ -50,8 +52,9 @@ class _MainPageState extends State<MainPage> {
       _archivedNotificationsPageScrollController,
     ];
 
-    _activeNotificationsPageScrollController.addListener(() => setState(() {}));
-    _archivedNotificationsPageScrollController.addListener(() => setState(() {}));
+    // Only rebuild when the app bar elevation changes, not on every scroll frame
+    _activeNotificationsPageScrollController.addListener(_onScroll);
+    _archivedNotificationsPageScrollController.addListener(_onScroll);
 
     NotificationManager.instance.requestAndroid13Permissions();
 
@@ -64,6 +67,11 @@ class _MainPageState extends State<MainPage> {
     _timer.cancel();
 
     super.dispose();
+  }
+
+  void _onScroll() {
+    var isScrolled = _getAppBarElevation() > 0;
+    if (isScrolled != _isScrolled) setState(() => _isScrolled = isScrolled);
   }
 
   double _getAppBarElevation() {

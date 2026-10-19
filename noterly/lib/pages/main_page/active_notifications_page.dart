@@ -99,6 +99,10 @@ class ActiveNotificationsPage extends NavigationScreen {
   Widget _getCard(BuildContext context, List<NotificationItem> items) => SliverToBoxAdapter(
         child: Card(
           margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
+          // Newer Flutter versions no longer tint cards by elevation and use surfaceContainerLow instead, which the
+          // dynamic (Material You) colour scheme leaves equal to the page colour. The card then blended into the page
+          // and the dividers between items disappeared. Apply the elevation tint explicitly to keep the original look.
+          color: ElevationOverlay.applySurfaceTint(Theme.of(context).colorScheme.surface, Theme.of(context).colorScheme.primary, 1),
           elevation: 1,
           shadowColor: Colors.transparent,
           shape: RoundedRectangleBorder(
@@ -120,7 +124,7 @@ class ActiveNotificationsPage extends NavigationScreen {
           Divider(
             thickness: 2,
             height: 2,
-            color: Theme.of(context).colorScheme.background,
+            color: Theme.of(context).colorScheme.surface,
           ),
         ],
       );
@@ -134,6 +138,7 @@ class ActiveNotificationsPage extends NavigationScreen {
           ScaffoldMessenger.of(context).clearSnackBars(); // Prevents multiple snackbars from building up
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
+              persist: false, // Snack bars with an action stay until swiped away by default
               content: Text(Strings.of(context).snackbar_notificationArchived(item.title)),
               action: SnackBarAction(
                 label: Strings.of(context).general_undo,
