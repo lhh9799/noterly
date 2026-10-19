@@ -14,9 +14,6 @@ import 'create_notification_page.dart';
 import 'settings_page.dart';
 
 class MainPage extends StatefulWidget {
-  /// Shows snack bars in the row beside the New note button, so the button never moves and the snack bar never covers it.
-  static final GlobalKey<ScaffoldMessengerState> snackBarMessengerKey = GlobalKey(debugLabel: "Main page snack bars");
-
   const MainPage({
     super.key,
   });
@@ -39,9 +36,6 @@ class _MainPageState extends State<MainPage> {
   bool _isHandlingFirstLaunch = false;
 
   bool _isScrolled = false;
-
-  final _fabKey = GlobalKey();
-  double _fabWidth = 0;
 
   late final Timer _timer;
 
@@ -75,11 +69,6 @@ class _MainPageState extends State<MainPage> {
     super.dispose();
   }
 
-  void _measureFab() {
-    var width = _fabKey.currentContext?.size?.width ?? 0;
-    if (width != _fabWidth) setState(() => _fabWidth = width);
-  }
-
   void _onScroll() {
     var isScrolled = _getAppBarElevation() > 0;
     if (isScrolled != _isScrolled) setState(() => _isScrolled = isScrolled);
@@ -92,7 +81,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    SchedulerBinding.instance.addPostFrameCallback((_) => _measureFab()); // The FAB label width depends on the language
+    _isScrolled = _getAppBarElevation() > 0; // Also covers switching tabs, where the other page has its own offset
     if (!_isHandlingFirstLaunch) {
       _isHandlingFirstLaunch = true;
       _handleFirstLaunch(context);
@@ -107,7 +96,7 @@ class _MainPageState extends State<MainPage> {
         return Scaffold(
           appBar: AppBar(
             title: const Text('Noterly'),
-            elevation: _getAppBarElevation(),
+            elevation: _isScrolled ? 3.0 : 0.0,
             actions: [
               IconButton(
                 onPressed: () {
@@ -121,40 +110,24 @@ class _MainPageState extends State<MainPage> {
               ),
             ],
           ),
-          // Snack bars go to this inner scaffold, which has no FAB: the outer scaffold would otherwise push the FAB up
-          // (fixed) or stack the snack bar on top of it (floating). The right inset keeps it beside the FAB.
-          body: ScaffoldMessenger(
-            key: MainPage.snackBarMessengerKey,
-            child: Theme(
-              data: Theme.of(context).copyWith(
-                snackBarTheme: SnackBarThemeData(
-                  behavior: SnackBarBehavior.floating,
-                  insetPadding: EdgeInsets.fromLTRB(16, 0, 16 + _fabWidth + 16, 16),
-                ),
+          body: PageView(
+            physics: const NeverScrollableScrollPhysics(),
+            onPageChanged: (value) {
+              setState(() => _selectedDestination = value);
+            },
+            controller: _pageController,
+            children: [
+              ActiveNotificationsPage(
+                items: activeNotifications,
+                scrollController: _activeNotificationsPageScrollController,
               ),
-              child: Scaffold(
-                body: PageView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  onPageChanged: (value) {
-                    setState(() => _selectedDestination = value);
-                  },
-                  controller: _pageController,
-                  children: [
-                    ActiveNotificationsPage(
-                      items: activeNotifications,
-                      scrollController: _activeNotificationsPageScrollController,
-                    ),
-                    ArchivedNotificationsPage(
-                      items: archivedNotifications,
-                      scrollController: _archivedNotificationsPageScrollController,
-                    ),
-                  ],
-                ),
+              ArchivedNotificationsPage(
+                items: archivedNotifications,
+                scrollController: _archivedNotificationsPageScrollController,
               ),
-            ),
+            ],
           ),
           floatingActionButton: FloatingActionButton.extended(
-            key: _fabKey,
             onPressed: () async {
               await Navigator.of(context).push(
                 MaterialPageRoute(
