@@ -145,7 +145,7 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
                     ).then((value) {
                       if (value != null) {
                         setState(() {
-                          _dateTime = value;
+                          _dateTime = _isRepeating ? _repetitionData.alignToWeekdays(value) : value;
                         });
                       }
                     });
