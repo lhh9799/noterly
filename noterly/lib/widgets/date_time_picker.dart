@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:noterly/extensions/date_time_extensions.dart';
 import 'package:noterly/extensions/time_of_day_extensions.dart';
 import 'package:noterly/l10n/localisations_util.dart';
+import 'package:noterly/theme/app_theme.dart';
+import 'package:noterly/widgets/expressive.dart';
 
 import '../managers/log.dart';
 
@@ -66,40 +68,26 @@ class _DateTimePickerState extends State<DateTimePicker> {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
-
-    // The header should use the primary color in light themes and surface color in dark
-    final bool isDark = colorScheme.brightness == Brightness.dark;
-    final Color primarySurfaceColor = isDark ? colorScheme.surface : colorScheme.primary;
-    final Color onPrimarySurfaceColor = isDark ? colorScheme.onSurface : colorScheme.onPrimary;
-
     return Dialog(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            padding: const EdgeInsets.fromLTRB(16, 64, 16, 16),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-              color: primarySurfaceColor,
-            ),
-            child: Text(
-              Strings.of(context).dialog_picker_dateTime_title,
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(color: onPrimarySurfaceColor),
-            ),
+          ExpressiveDialogHeader(
+            icon: Icons.event,
+            title: Strings.of(context).dialog_picker_dateTime_title,
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(Strings.of(context).dialog_picker_dateTime_header_date, style: Theme.of(context).textTheme.titleMedium),
+            padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
+            child: Text(Strings.of(context).dialog_picker_dateTime_header_date, style: _getSectionStyle()),
           ),
           _getDatePicker(),
           Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(Strings.of(context).dialog_picker_dateTime_header_time, style: Theme.of(context).textTheme.titleMedium),
+            padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
+            child: Text(Strings.of(context).dialog_picker_dateTime_header_time, style: _getSectionStyle()),
           ),
           _getTimePicker(),
-          ButtonBar(
+          ExpressiveDialogActions(
             children: [
               TextButton(
                 onPressed: () {
@@ -107,7 +95,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
                 },
                 child: Text(Strings.of(context).general_cancel),
               ),
-              TextButton(
+              FilledButton(
                 onPressed: () {
                   Navigator.of(context).pop(_dateTime);
                 },
@@ -120,12 +108,32 @@ class _DateTimePickerState extends State<DateTimePicker> {
     );
   }
 
+  TextStyle _getSectionStyle() => Theme.of(context).textTheme.titleSmall!.copyWith(color: Theme.of(context).colorScheme.primary);
+
+  /// The date or time between the step buttons, animated when it changes.
+  Widget _getValue(String text) => Expanded(
+        child: AnimatedSwitcher(
+          duration: AppTheme.motionFast,
+          transitionBuilder: (child, animation) => FadeTransition(
+            opacity: animation,
+            child: ScaleTransition(scale: Tween(begin: 0.9, end: 1.0).animate(animation), child: child),
+          ),
+          child: Text(
+            text,
+            key: ValueKey(text),
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ),
+      );
+
   Widget _getDatePicker() => Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
+              const SizedBox(width: 16),
+              IconButton.filledTonal(
                 onPressed: () {
                   setState(() {
                     var newDateTime = _dateTime.subtract(const Duration(days: 1));
@@ -136,8 +144,8 @@ class _DateTimePickerState extends State<DateTimePicker> {
                 },
                 icon: const Icon(Icons.chevron_left),
               ),
-              Text(_dateTime.toDateOnlyString()),
-              IconButton(
+              _getValue(_dateTime.toDateOnlyString()),
+              IconButton.filledTonal(
                 onPressed: () {
                   setState(() {
                     var newDateTime = _dateTime.add(const Duration(days: 1));
@@ -148,6 +156,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
                 },
                 icon: const Icon(Icons.chevron_right),
               ),
+              const SizedBox(width: 16),
             ],
           ),
           TextButton.icon(
@@ -176,7 +185,8 @@ class _DateTimePickerState extends State<DateTimePicker> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
+              const SizedBox(width: 16),
+              IconButton.filledTonal(
                 onPressed: () {
                   setState(() {
                     var newDateTime = _dateTime.subtract(const Duration(hours: 1));
@@ -188,8 +198,8 @@ class _DateTimePickerState extends State<DateTimePicker> {
                 },
                 icon: const Icon(Icons.remove),
               ),
-              Text(_dateTime.toTimeOnlyString()),
-              IconButton(
+              _getValue(_dateTime.toTimeOnlyString()),
+              IconButton.filledTonal(
                 onPressed: () {
                   setState(() {
                     var newDateTime = _dateTime.add(const Duration(hours: 1));
@@ -199,6 +209,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
                 },
                 icon: const Icon(Icons.add),
               ),
+              const SizedBox(width: 16),
             ],
           ),
           TextButton.icon(

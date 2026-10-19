@@ -5,6 +5,9 @@ import 'package:noterly/managers/app_manager.dart';
 import 'package:noterly/models/navigation_screen.dart';
 import 'package:noterly/models/notification_item.dart';
 
+import 'package:noterly/widgets/empty_state.dart';
+import 'package:noterly/widgets/expressive.dart';
+
 import '../edit_notification_page.dart';
 
 class ArchivedNotificationsPage extends NavigationScreen {
@@ -20,24 +23,24 @@ class ArchivedNotificationsPage extends NavigationScreen {
   @override
   Widget build(BuildContext context) {
     if (items.isEmpty) {
-      return Center(
-        child: Text(Strings.of(context).page_archivedNotifications_empty),
-      );
+      return EmptyState(icon: Icons.history, text: Strings.of(context).page_archivedNotifications_empty);
     }
 
     items.sort((a, b) => b.archivedDateTime!.compareTo(a.archivedDateTime!));
 
-    // TODO: rework to allow for card design
     return ListView.builder(
       controller: scrollController,
       itemCount: items.length + (items.length > 1 ? 1 : 0),
-      padding: const EdgeInsets.only(bottom: 72), // Allow space for the FAB.
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 96), // Allow space for the FAB.
       itemBuilder: (context, index) {
         if (index == items.length) {
           // button to delete all archived notifications
           return Padding(
-            padding: const EdgeInsets.all(16),
-            child: ElevatedButton(
+            padding: const EdgeInsets.only(top: 24),
+            child: FilledButton.tonalIcon(
+              style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
+              icon: const Icon(Icons.delete_sweep),
+              label: Text(Strings.of(context).page_archivedNotifications_button_deleteAll),
               onPressed: () {
                 AppManager.instance.deleteAllArchivedItems();
 
@@ -55,67 +58,47 @@ class ArchivedNotificationsPage extends NavigationScreen {
                   ),
                 );
               },
-              child: Text(Strings.of(context).page_archivedNotifications_button_deleteAll),
             ),
           );
         }
 
         final item = items[index];
 
-        return Dismissible(
-          key: ValueKey(item.id),
-          background: _getDismissibleBackground(context),
-          secondaryBackground: _getDismissibleBackground(context, isSecondary: true),
-          onDismissed: (direction) {
-            AppManager.instance.deleteItem(item.id);
-            ScaffoldMessenger.of(context).clearSnackBars(); // Clear any existing snackbars to prevent buildup
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                persist: false, // Snack bars with an action stay until swiped away by default
-                content: Text(Strings.of(context).snackbar_notificationDeleted(item.title)),
-                action: SnackBarAction(
-                  label: Strings.of(context).general_undo,
-                  onPressed: () {
-                    AppManager.instance.restoreLastDeletedItems();
-                  },
+        return ExpressiveListItem(
+          index: index,
+          count: items.length,
+          child: Dismissible(
+            key: ValueKey(item.id),
+            background: const ExpressiveDismissBackground(icon: Icons.delete),
+            secondaryBackground: const ExpressiveDismissBackground(icon: Icons.delete, isSecondary: true),
+            onDismissed: (direction) {
+              AppManager.instance.deleteItem(item.id);
+              ScaffoldMessenger.of(context).clearSnackBars(); // Clear any existing snackbars to prevent buildup
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  persist: false, // Snack bars with an action stay until swiped away by default
+                  content: Text(Strings.of(context).snackbar_notificationDeleted(item.title)),
+                  action: SnackBarAction(
+                    label: Strings.of(context).general_undo,
+                    onPressed: () {
+                      AppManager.instance.restoreLastDeletedItems();
+                    },
+                  ),
                 ),
-              ),
-            );
-          },
-          child: ListTile(
-            title: Text(item.title),
-            subtitle: _getSubtitle(context, item),
-            minVerticalPadding: 12,
-            leading: SizedBox(
-              width: 32,
-              child: Align(
-                alignment: Alignment.center,
-                child: CircleAvatar(
-                  radius: 8,
-                  backgroundColor: item.colour,
-                ),
-              ),
+              );
+            },
+            child: ListTile(
+              title: Text(item.title),
+              subtitle: _getSubtitle(context, item),
+              minVerticalPadding: 14,
+              leading: ExpressiveColourBadge(colour: item.colour),
+              onTap: () => _onItemTap(context, item),
             ),
-            onTap: () => _onItemTap(context, item),
           ),
         );
       },
     );
   }
-
-  Widget _getDismissibleBackground(BuildContext context, {bool isSecondary = false}) => Container(
-        color: Theme.of(context).colorScheme.primary,
-        child: Align(
-          alignment: isSecondary ? Alignment.centerRight : Alignment.centerLeft,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Icon(
-              Icons.delete,
-              color: Theme.of(context).colorScheme.onPrimary,
-            ),
-          ),
-        ),
-      );
 
   Widget _getSubtitle(BuildContext context, NotificationItem item) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,

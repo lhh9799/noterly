@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:noterly/l10n/app_localisations.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:noterly/managers/app_manager.dart';
 import 'package:noterly/managers/isolate_manager.dart';
@@ -16,6 +15,7 @@ import 'package:noterly/managers/log.dart';
 import 'package:noterly/managers/notification_manager.dart';
 import 'package:noterly/pages/create_notification_page.dart';
 import 'package:noterly/pages/main_page.dart';
+import 'package:noterly/theme/app_theme.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:receive_intent/receive_intent.dart';
 import 'package:receive_intent/receive_intent.dart' as receive_intent;
@@ -232,18 +232,13 @@ class _MyAppState extends State<MyApp> {
       if (lightDynamic != null && darkDynamic != null) {
         Log.logger.d('Using dynamic color scheme.');
 
-        lightColorScheme = lightDynamic.harmonized();
-        darkColorScheme = darkDynamic.harmonized();
+        lightColorScheme = AppTheme.completeDynamicScheme(lightDynamic.harmonized());
+        darkColorScheme = AppTheme.completeDynamicScheme(darkDynamic.harmonized());
       } else {
         Log.logger.d('No dynamic color scheme, using fallback.');
 
-        lightColorScheme = ColorScheme.fromSeed(
-          seedColor: const Color.fromRGBO(153, 0, 228, 1),
-        );
-        darkColorScheme = ColorScheme.fromSeed(
-          seedColor: const Color.fromRGBO(153, 0, 228, 1),
-          brightness: Brightness.dark,
-        );
+        lightColorScheme = AppTheme.fallbackScheme(Brightness.light);
+        darkColorScheme = AppTheme.fallbackScheme(Brightness.dark);
       }
 
       return MaterialApp(
@@ -251,22 +246,8 @@ class _MyAppState extends State<MyApp> {
         title: 'Noterly',
         localizationsDelegates: AppLocalisations.localizationsDelegates,
         supportedLocales: AppLocalisations.supportedLocales,
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: lightColorScheme,
-          fontFamily: GoogleFonts.inter().fontFamily,
-          textTheme: GoogleFonts.interTextTheme().copyWith(
-            labelLarge: TextStyle(color: Colors.black.withOpacity(0.5)),
-          ),
-        ),
-        darkTheme: ThemeData(
-          useMaterial3: true,
-          colorScheme: darkColorScheme,
-          fontFamily: GoogleFonts.inter().fontFamily,
-          textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme).copyWith(
-            labelLarge: TextStyle(color: Colors.white.withOpacity(0.5)),
-          ),
-        ),
+        theme: AppTheme.build(lightColorScheme),
+        darkTheme: AppTheme.build(darkColorScheme),
         themeMode: ThemeMode.system,
         home: const MainPage(),
         debugShowCheckedModeBanner: false,

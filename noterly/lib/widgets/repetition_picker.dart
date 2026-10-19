@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:noterly/l10n/localisations_util.dart';
 import 'package:noterly/models/repetition_data.dart';
+import 'package:noterly/theme/app_theme.dart';
+import 'package:noterly/widgets/expressive.dart';
 
 Future<RepetitionData?> showRepetitionPicker({
   required BuildContext context,
@@ -51,41 +53,19 @@ class _RepetitionPickerState extends State<RepetitionPicker> {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
-
-    // The header should use the primary color in light themes and surface color in dark
-    final bool isDark = colorScheme.brightness == Brightness.dark;
-    final Color primarySurfaceColor = isDark ? colorScheme.surface : colorScheme.primary;
-    final Color onPrimarySurfaceColor = isDark ? colorScheme.onSurface : colorScheme.onPrimary;
-
     return Dialog(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            padding: const EdgeInsets.fromLTRB(16, 64, 16, 16),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-              color: primarySurfaceColor,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  Strings.of(context).dialog_picker_repetition_title,
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(color: onPrimarySurfaceColor),
-                ),
-                Text(
-                  Strings.of(context).dialog_picker_repetition_subtitle(_repetitionData.toReadableString()),
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(color: onPrimarySurfaceColor),
-                ),
-              ],
-            ),
+          ExpressiveDialogHeader(
+            icon: Icons.repeat,
+            title: Strings.of(context).dialog_picker_repetition_title,
+            subtitle: Strings.of(context).dialog_picker_repetition_subtitle(_repetitionData.toReadableString()),
           ),
           _getMainSection(),
           if (_repetitionData.type == Repetition.weekly) _getWeekdaySection(),
-          ButtonBar(
+          ExpressiveDialogActions(
             children: [
               TextButton(
                 onPressed: () {
@@ -93,7 +73,7 @@ class _RepetitionPickerState extends State<RepetitionPicker> {
                 },
                 child: Text(Strings.of(context).general_cancel),
               ),
-              TextButton(
+              FilledButton(
                 onPressed: () {
                   Navigator.of(context).pop(_repetitionData);
                 },
@@ -107,14 +87,13 @@ class _RepetitionPickerState extends State<RepetitionPicker> {
   }
 
   Widget _getMainSection() => Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
         child: Row(
           children: [
             Flexible(
               flex: 1,
               child: TextField(
                 decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
                   labelText: Strings.of(context).dialog_picker_repetition_field_number_label,
                 ),
                 controller: _intervalController,
@@ -145,8 +124,10 @@ class _RepetitionPickerState extends State<RepetitionPicker> {
             Flexible(
               flex: 2,
               child: DropdownButtonFormField(
+                borderRadius: BorderRadius.circular(AppTheme.radiusLarge),
+                dropdownColor: Theme.of(context).colorScheme.surfaceContainer,
+                style: Theme.of(context).textTheme.bodyLarge,
                 decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
                   labelText: Strings.of(context).dialog_picker_repetition_field_period_label,
                 ),
                 items: [
@@ -175,9 +156,8 @@ class _RepetitionPickerState extends State<RepetitionPicker> {
     final firstDay = localisations.firstDayOfWeekIndex; // 0 = Sunday
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      padding: const EdgeInsets.fromLTRB(24, 0, 24, 16),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           for (var i = 0; i < 7; i++)
             Builder(builder: (context) {
@@ -185,28 +165,49 @@ class _RepetitionPickerState extends State<RepetitionPicker> {
               final weekday = RepetitionData.weekdayFromIndex(index);
               final selected = _repetitionData.weekdays.contains(weekday);
 
-              return SizedBox(
-                width: 36,
-                height: 36,
-                child: Semantics(
-                  label: localisations.narrowWeekdays[index],
-                  selected: selected,
-                  child: Material(
-                    shape: CircleBorder(side: BorderSide(color: selected ? colorScheme.primary : colorScheme.outline)),
-                    color: selected ? colorScheme.primary : Colors.transparent,
-                    clipBehavior: Clip.antiAlias,
-                    child: InkWell(
-                      onTap: () => setState(() {
-                        if (selected) {
-                          _repetitionData.weekdays.remove(weekday);
-                        } else {
-                          _repetitionData.weekdays.add(weekday);
-                        }
-                      }),
-                      child: Center(
-                        child: Text(
-                          localisations.narrowWeekdays[index],
-                          style: TextStyle(color: selected ? colorScheme.onPrimary : colorScheme.onSurface),
+              // Selected days morph from a circle into a rounded square, the Material 3 Expressive way of showing a
+              // selection through shape.
+              final shape = RoundedSuperellipseBorder(
+                borderRadius: BorderRadius.circular(selected ? 12 : 20),
+                side: selected ? BorderSide.none : BorderSide(color: colorScheme.outlineVariant),
+              );
+
+              // Seven toggles share the dialog's width; on narrow screens they shrink instead of overflowing.
+              return Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 2),
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: Semantics(
+                      label: localisations.narrowWeekdays[index],
+                      selected: selected,
+                      button: true,
+                      child: AnimatedContainer(
+                        duration: AppTheme.motionMedium,
+                        curve: AppTheme.springBouncyCurve,
+                        decoration: ShapeDecoration(shape: shape, color: selected ? colorScheme.primary : Colors.transparent),
+                        child: Material(
+                          type: MaterialType.transparency,
+                          shape: shape,
+                          clipBehavior: Clip.antiAlias,
+                          child: InkWell(
+                            onTap: () => setState(() {
+                              if (selected) {
+                                _repetitionData.weekdays.remove(weekday);
+                              } else {
+                                _repetitionData.weekdays.add(weekday);
+                              }
+                            }),
+                            child: Center(
+                              child: Text(
+                                localisations.narrowWeekdays[index],
+                                style: AppTheme.weighted(
+                                  Theme.of(context).textTheme.labelLarge!.copyWith(color: selected ? colorScheme.onPrimary : colorScheme.onSurface),
+                                  selected ? FontWeight.w700 : FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),

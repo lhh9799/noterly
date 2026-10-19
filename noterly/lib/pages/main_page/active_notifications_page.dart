@@ -5,6 +5,8 @@ import 'package:noterly/managers/app_manager.dart';
 import 'package:noterly/models/navigation_screen.dart';
 import 'package:noterly/models/notification_item.dart';
 import 'package:noterly/pages/edit_notification_page.dart';
+import 'package:noterly/widgets/empty_state.dart';
+import 'package:noterly/widgets/expressive.dart';
 
 class ActiveNotificationsPage extends NavigationScreen {
   final ScrollController scrollController;
@@ -19,9 +21,7 @@ class ActiveNotificationsPage extends NavigationScreen {
   @override
   Widget build(BuildContext context) {
     if (items.isEmpty) {
-      return Center(
-        child: Text(Strings.of(context).page_activeNotifications_empty),
-      );
+      return EmptyState(icon: Icons.notifications_none, text: Strings.of(context).page_activeNotifications_empty);
     }
 
     items.sort((a, b) {
@@ -75,9 +75,7 @@ class ActiveNotificationsPage extends NavigationScreen {
         ? emptyWidgets
         : [
             ...immediateWidgets,
-            if (immediateWidgets.isNotEmpty && scheduledWidgets.isNotEmpty) const SliverToBoxAdapter(child: SizedBox(height: 16.0)),
             ...scheduledWidgets,
-            if (scheduledWidgets.isNotEmpty && repeatingWidgets.isNotEmpty) const SliverToBoxAdapter(child: SizedBox(height: 16.0)),
             ...repeatingWidgets,
           ];
 
@@ -85,54 +83,25 @@ class ActiveNotificationsPage extends NavigationScreen {
       controller: scrollController,
       slivers: [
         ...widgets,
-        const SliverToBoxAdapter(child: SizedBox(height: 86)), // Add some padding at the bottom so the FAB doesn't overlap with the last item
+        const SliverToBoxAdapter(child: SizedBox(height: 96)), // Add some padding at the bottom so the FAB doesn't overlap with the last item
       ],
     );
   }
 
   Widget _getListHeader(BuildContext context, String title) => SliverToBoxAdapter(
-        child: ListTile(
-          title: Text(title),
-        ),
+        child: ExpressiveSectionHeader(title),
       );
 
   Widget _getCard(BuildContext context, List<NotificationItem> items) => SliverToBoxAdapter(
-        child: Card(
-          margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
-          // Newer Flutter versions no longer tint cards by elevation and use surfaceContainerLow instead, which the
-          // dynamic (Material You) colour scheme leaves equal to the page colour. The card then blended into the page
-          // and the dividers between items disappeared. Apply the elevation tint explicitly to keep the original look.
-          color: ElevationOverlay.applySurfaceTint(Theme.of(context).colorScheme.surface, Theme.of(context).colorScheme.primary, 1),
-          elevation: 1,
-          shadowColor: Colors.transparent,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.0),
-          ),
-          clipBehavior: Clip.antiAlias,
-          child: Column(
-            children: [
-              for (var i = 0; i < items.length; i++)
-                if (i == items.length - 1) _getItem(context, items[i]) else _wrapItem(context, _getItem(context, items[i])),
-            ],
-          ),
+        child: ExpressiveListGroup(
+          children: [for (var item in items) _getItem(context, item)],
         ),
-      );
-
-  Widget _wrapItem(BuildContext context, Widget child) => Column(
-        children: [
-          child,
-          Divider(
-            thickness: 2,
-            height: 2,
-            color: Theme.of(context).colorScheme.surface,
-          ),
-        ],
       );
 
   Widget _getItem(BuildContext context, NotificationItem item) => Dismissible(
         key: ValueKey(item.id),
-        background: _getDismissibleBackground(context),
-        secondaryBackground: _getDismissibleBackground(context, isSecondary: true),
+        background: const ExpressiveDismissBackground(icon: Icons.archive),
+        secondaryBackground: const ExpressiveDismissBackground(icon: Icons.archive, isSecondary: true),
         onDismissed: (direction) {
           AppManager.instance.archiveItem(item.id);
           ScaffoldMessenger.of(context).clearSnackBars(); // Prevents multiple snackbars from building up
@@ -150,34 +119,9 @@ class ActiveNotificationsPage extends NavigationScreen {
         child: ListTile(
           title: Text(item.title),
           subtitle: _getSubtitle(context, item),
-          minVerticalPadding: 12,
-          leading: SizedBox(
-            width: 32,
-            child: Align(
-              alignment: Alignment.center,
-              child: CircleAvatar(
-                radius: 8,
-                backgroundColor: item.colour,
-              ),
-            ),
-          ),
+          minVerticalPadding: 14,
+          leading: ExpressiveColourBadge(colour: item.colour),
           onTap: () => _onItemTap(context, item),
-        ),
-      );
-
-  Widget _getDismissibleBackground(BuildContext context, {bool isSecondary = false}) => Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primary,
-        ),
-        child: Align(
-          alignment: isSecondary ? Alignment.centerRight : Alignment.centerLeft,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Icon(
-              Icons.archive,
-              color: Theme.of(context).colorScheme.onPrimary,
-            ),
-          ),
         ),
       );
 
