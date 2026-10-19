@@ -20,6 +20,10 @@ class NotificationItem {
   /// Whether the notification can be swiped away. Dismissing it does not mark the reminder as done.
   bool dismissible;
 
+  /// When the item was last changed, used to settle edits made on the watch and the phone at the same time. Null for
+  /// items saved before the watch app existed.
+  DateTime? updatedAt;
+
   bool get isImmediate => dateTime == null;
 
   bool get isScheduled => dateTime != null;
@@ -47,34 +51,19 @@ class NotificationItem {
     this.archivedDateTime,
     this.snoozeDateTime,
     this.dismissible = false,
+    this.updatedAt,
   });
 
   @override
   String toString() {
-    return 'NotificationItem(id: $id, title: $title, body: $body, dateTime: $dateTime, repetitionData: $repetitionData, colour: $colour, archived: $archived, archivedDateTime: $archivedDateTime, snoozeDateTime: $snoozeDateTime, dismissible: $dismissible)';
+    return 'NotificationItem(id: $id, title: $title, body: $body, dateTime: $dateTime, repetitionData: $repetitionData, colour: $colour, archived: $archived, archivedDateTime: $archivedDateTime, snoozeDateTime: $snoozeDateTime, dismissible: $dismissible, updatedAt: $updatedAt)';
   }
 
   DateTime get nextRepeatDateTime {
     if (repetitionData == null) return DateTime.now();
 
-    final now = DateTime.now();
-    final lastSent = dateTime ?? now;
-
     // Return the datetime at which the notification should be sent next. Base it off the last time it was sent.
-
-    switch (repetitionData!.type) {
-      case Repetition.hourly:
-        return lastSent.add(Duration(hours: repetitionData!.number));
-      case Repetition.daily:
-        return lastSent.add(Duration(days: repetitionData!.number));
-      case Repetition.weekly:
-        if (repetitionData!.hasWeekdays) return repetitionData!.nextWeekdayDateTime(lastSent);
-        return lastSent.add(Duration(days: repetitionData!.number * 7));
-      case Repetition.monthly:
-        return DateTime(lastSent.year, lastSent.month + repetitionData!.number, lastSent.day);
-      case Repetition.yearly:
-        return DateTime(lastSent.year + repetitionData!.number, lastSent.month, lastSent.day);
-    }
+    return repetitionData!.nextDateTime(dateTime ?? DateTime.now());
   }
 
   Map<String, dynamic> toJson() => {
@@ -88,6 +77,7 @@ class NotificationItem {
         'archivedDateTime': archivedDateTime?.toIso8601String(),
         'snoozeDateTime': snoozeDateTime?.toIso8601String(),
         'dismissible': dismissible,
+        'updatedAt': updatedAt?.toIso8601String(),
       };
 
   factory NotificationItem.fromJson(Map<String, dynamic> json) => NotificationItem(
@@ -101,5 +91,6 @@ class NotificationItem {
         archivedDateTime: json['archivedDateTime'] != null ? DateTime.parse(json['archivedDateTime']) : null,
         snoozeDateTime: json['snoozeDateTime'] != null ? DateTime.parse(json['snoozeDateTime']) : null,
         dismissible: json['dismissible'] ?? false,
+        updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
       );
 }

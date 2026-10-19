@@ -3,6 +3,7 @@ import 'package:logger/logger.dart';
 import 'package:noterly/managers/file_manager.dart';
 import 'package:noterly/managers/lifecycle_event_handler.dart';
 import 'package:noterly/managers/notification_manager.dart';
+import 'package:noterly/managers/wear_sync.dart';
 import 'package:noterly/models/app_data.dart';
 import 'package:noterly/models/notification_item.dart';
 
@@ -99,8 +100,12 @@ class AppManager {
   Future<void> _save() async {
     Log.logger.d('Saving data to file...');
     data.notificationItems = notifier.value;
+    data.rev++;
 
     await FileManager.save(data);
+
+    // Every save, from any isolate, sends the whole list to the watch app
+    await WearSync.sendSnapshot(data);
   }
 
   // #region List management
@@ -112,6 +117,7 @@ class AppManager {
   }
 
   Future addItem(NotificationItem item, {bool deferNotificationManagerCall = false}) async {
+    item.updatedAt = DateTime.now();
     notifier.value.add(item);
     await _save();
     _updateNotifier();
@@ -121,13 +127,15 @@ class AppManager {
     }
   }
 
-  Future editItem(NotificationItem item, {bool deferNotificationManagerCall = false}) async {
+  /// [touch] marks the item as changed (updatedAt); false for changes the app makes by itself, like moving a repeat on.
+  Future editItem(NotificationItem item, {bool deferNotificationManagerCall = false, bool touch = true}) async {
     var found = notifier.value.where((element) => element.id == item.id);
     if (found.isEmpty) {
       return;
     }
 
     var index = notifier.value.indexOf(found.first);
+    if (touch) item.updatedAt = DateTime.now();
     notifier.value[index] = item;
     await _save();
     _updateNotifier();
@@ -182,6 +190,7 @@ class AppManager {
     var index = notifier.value.indexOf(found.first);
     notifier.value[index].archived = true;
     notifier.value[index].archivedDateTime = DateTime.now();
+    notifier.value[index].updatedAt = DateTime.now();
     await _save();
     _updateNotifier();
 
@@ -199,6 +208,7 @@ class AppManager {
     var index = notifier.value.indexOf(found.first);
     notifier.value[index].archived = false;
     notifier.value[index].archivedDateTime = null;
+    notifier.value[index].updatedAt = DateTime.now();
     await _save();
     _updateNotifier();
 

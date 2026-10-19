@@ -33,6 +33,8 @@ dependencies:
       url: https://github.com/KasemJaffer/receive_sharing_intent
   receive_intent: ^0.2.3
   dots_indicator: ^4.0.1
+  noterly_wear:
+    path: packages/noterly_wear
 
 dev_dependencies:
   flutter_test:

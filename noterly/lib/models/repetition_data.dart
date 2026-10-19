@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:noterly/l10n/app_localisations.dart';
 import 'package:noterly/l10n/localisations_util.dart';
 import 'package:noterly/main.dart';
 
@@ -46,6 +47,24 @@ class RepetitionData {
     return 'RepetitionData(type: $type, number: $number, weekdays: $weekdays)';
   }
 
+  /// The next send time after [lastSent]. The watch app has a Kotlin copy of this (wearshared Recurrence.kt), checked
+  /// against the same cases in test/recurrence_cases.json.
+  DateTime nextDateTime(DateTime lastSent) {
+    switch (type) {
+      case Repetition.hourly:
+        return lastSent.add(Duration(hours: number));
+      case Repetition.daily:
+        return lastSent.add(Duration(days: number));
+      case Repetition.weekly:
+        if (hasWeekdays) return nextWeekdayDateTime(lastSent);
+        return lastSent.add(Duration(days: number * 7));
+      case Repetition.monthly:
+        return DateTime(lastSent.year, lastSent.month + number, lastSent.day);
+      case Repetition.yearly:
+        return DateTime(lastSent.year + number, lastSent.month, lastSent.day);
+    }
+  }
+
   /// Returns [dateTime] if it falls on one of the selected weekdays, otherwise the same time on the next selected weekday.
   DateTime alignToWeekdays(DateTime dateTime) {
     if (!hasWeekdays) return dateTime;
@@ -81,19 +100,27 @@ class RepetitionData {
 
   String toReadableString() {
     final context = MyApp.navigatorKey.currentContext!;
+    return toReadableStringWith(
+      Strings.of(context),
+      Localizations.localeOf(context).toString(),
+      MaterialLocalizations.of(context).firstDayOfWeekIndex,
+    );
+  }
 
+  /// [toReadableString] without a [BuildContext], for the watch snapshot, which can be built in a background isolate.
+  /// [firstDayOfWeekIndex] is 0 for Sunday, like [MaterialLocalizations.firstDayOfWeekIndex].
+  String toReadableStringWith(AppLocalisations strings, String locale, int firstDayOfWeekIndex) {
     if (hasWeekdays) {
-      final locale = Localizations.localeOf(context).toString();
       // List the days in the locale's week order, e.g. "Mon, Wed, Fri"
-      final firstDay = MaterialLocalizations.of(context).firstDayOfWeekIndex; // 0 = Sunday
       final days = [
         for (var i = 0; i < 7; i++)
-          if (weekdays.contains(weekdayFromIndex((firstDay + i) % 7))) DateFormat.E(locale).format(_dateOnWeekday(weekdayFromIndex((firstDay + i) % 7))),
+          if (weekdays.contains(weekdayFromIndex((firstDayOfWeekIndex + i) % 7)))
+            DateFormat.E(locale).format(_dateOnWeekday(weekdayFromIndex((firstDayOfWeekIndex + i) % 7))),
       ];
-      return '${_readableInterval(context)} (${days.join(', ')})';
+      return '${_readableInterval(strings)} (${days.join(', ')})';
     }
 
-    return _readableInterval(context);
+    return _readableInterval(strings);
   }
 
   /// Converts a [MaterialLocalizations] weekday index (0 = Sunday) to a [DateTime] weekday (7 = Sunday).
@@ -102,25 +129,25 @@ class RepetitionData {
   // 2024-01-01 was a Monday
   static DateTime _dateOnWeekday(int weekday) => DateTime(2024, 1, weekday);
 
-  String _readableInterval(BuildContext context) {
+  String _readableInterval(AppLocalisations strings) {
     if (number == 1) {
       return switch (type) {
-        Repetition.hourly => Strings.of(context).time_hourly,
-        Repetition.daily => Strings.of(context).time_daily,
-        Repetition.weekly => Strings.of(context).time_weekly,
-        Repetition.monthly => Strings.of(context).time_monthly,
-        Repetition.yearly => Strings.of(context).time_yearly,
+        Repetition.hourly => strings.time_hourly,
+        Repetition.daily => strings.time_daily,
+        Repetition.weekly => strings.time_weekly,
+        Repetition.monthly => strings.time_monthly,
+        Repetition.yearly => strings.time_yearly,
       };
     }
 
-    return Strings.of(context).time_repetition_every_value(
+    return strings.time_repetition_every_value(
         number,
         switch (type) {
-          Repetition.hourly => Strings.of(context).time_hours(number),
-          Repetition.daily => Strings.of(context).time_days(number),
-          Repetition.weekly => Strings.of(context).time_weeks(number),
-          Repetition.monthly => Strings.of(context).time_months(number),
-          Repetition.yearly => Strings.of(context).time_years(number),
+          Repetition.hourly => strings.time_hours(number),
+          Repetition.daily => strings.time_days(number),
+          Repetition.weekly => strings.time_weeks(number),
+          Repetition.monthly => strings.time_months(number),
+          Repetition.yearly => strings.time_years(number),
         });
   }
 }

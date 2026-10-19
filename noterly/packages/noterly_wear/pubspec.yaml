@@ -1,0 +1,20 @@
+name: noterly_wear
+description: Data Layer bridge between Noterly and its Wear OS app. Local plugin so it is registered on every Flutter
+  engine, including the background ones used by notification actions and the watch command handler.
+publish_to: 'none'
+version: 0.0.1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.3.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: uk.co.tdsstudios.noterly.wear_sync
+        pluginClass: WearSyncPlugin

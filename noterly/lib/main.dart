@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:isolate';
+import 'dart:ui';
 
 import 'package:background_fetch/background_fetch.dart';
 import 'package:dynamic_color/dynamic_color.dart';
@@ -13,6 +14,8 @@ import 'package:noterly/managers/app_manager.dart';
 import 'package:noterly/managers/isolate_manager.dart';
 import 'package:noterly/managers/log.dart';
 import 'package:noterly/managers/notification_manager.dart';
+import 'package:noterly/managers/wear_sync.dart';
+import 'package:noterly_wear/noterly_wear.dart';
 import 'package:noterly/pages/create_notification_page.dart';
 import 'package:noterly/pages/main_page.dart';
 import 'package:noterly/theme/app_theme.dart';
@@ -40,6 +43,32 @@ void backgroundFetchHeadlessTask(HeadlessTask task) async {
   await NotificationManager.instance.updateAllNotifications();
 
   BackgroundFetch.finish(taskId);
+}
+
+/// Run by the watch sync service in a headless engine when the watch app sends commands or asks for the list, also
+/// while the app is closed. Follows the pattern of the notification buttons' background handler.
+@pragma('vm:entry-point')
+Future<void> wearCommandEntryPoint() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  try {
+    await AppManager.instance.ensureInitialised();
+    await AppManager.instance.fullUpdate();
+
+    final changed = await WearSync.applyQueuedCommands();
+    // A sync request without commands still gets a fresh snapshot (the repeat times move on with the clock)
+    if (!changed) await WearSync.sendSnapshot(AppManager.instance.data);
+    await WearSync.applyBridgeTags(AppManager.instance.notifier.value);
+
+    if (changed) {
+      var sendPort = IsolateNameServer.lookupPortByName(IsolateManager.mainPortName);
+      sendPort?.send('update');
+    }
+  } catch (e, s) {
+    Log.logger.e('Failed to handle watch commands', error: e, stackTrace: s);
+  } finally {
+    await NoterlyWear.headlessDone();
+  }
 }
 
 Future<void> main(List<String> args) async {

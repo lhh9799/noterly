@@ -293,6 +293,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.19.0"
+  noterly_wear:
+    dependency: "direct main"
+    description:
+      path: "packages/noterly_wear"
+      relative: true
+    source: path
+    version: "0.0.1"
   path:
     dependency: transitive
     description:

@@ -1,0 +1,17 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <!-- Commands and sync requests from the watch app. Runs the Dart handler in a headless engine. -->
+        <service
+                android:name="uk.co.tdsstudios.noterly.wear_sync.WearCommandService"
+                android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED"/>
+                <data android:scheme="wear" android:host="*" android:pathPrefix="/noterly/cmd"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED"/>
+                <data android:scheme="wear" android:host="*" android:path="/noterly/sync-request"/>
+            </intent-filter>
+        </service>
+    </application>
+</manifest>
