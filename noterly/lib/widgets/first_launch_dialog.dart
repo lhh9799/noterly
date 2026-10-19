@@ -1,6 +1,7 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:noterly/l10n/localisations_util.dart';
+import 'package:noterly/widgets/expressive.dart';
 
 class FirstLaunchDialog extends Dialog {
   /// The most recent build number in which this dialog was updated.
@@ -111,12 +112,12 @@ class FirstLaunchDialog extends Dialog {
           var title = hasIcon
               ? Row(
                   children: [
-                    Icon(pages[currentPage].icon),
+                    Icon(pages[currentPage].icon, color: Theme.of(context).colorScheme.secondary, size: 28),
                     const SizedBox(width: 16),
-                    Text(pages[currentPage].title, style: Theme.of(context).textTheme.titleLarge),
+                    Flexible(child: Text(pages[currentPage].title, style: Theme.of(context).textTheme.headlineSmall)),
                   ],
                 )
-              : Text(pages[currentPage].title, style: Theme.of(context).textTheme.titleLarge);
+              : Text(pages[currentPage].title, style: Theme.of(context).textTheme.headlineSmall);
           var content = Text(pages[currentPage].content);
 
           return Column(
@@ -144,8 +145,15 @@ class FirstLaunchDialog extends Dialog {
                 dotsCount: pages.length,
                 position: currentPage.toDouble(),
                 mainAxisAlignment: MainAxisAlignment.center,
+                animate: true,
+                decorator: DotsDecorator(
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                  activeColor: Theme.of(context).colorScheme.primary,
+                  activeSize: const Size(24, 9),
+                  activeShape: const StadiumBorder(),
+                ),
               ),
-              ButtonBar(
+              ExpressiveDialogActions(
                 children: [
                   TextButton(
                     onPressed: () {
@@ -160,7 +168,7 @@ class FirstLaunchDialog extends Dialog {
                     },
                     child: Text(currentPage == 0 ? Strings.of(context).tutorial_action_skip : Strings.of(context).tutorial_action_back),
                   ),
-                  TextButton(
+                  FilledButton(
                     onPressed: () {
                       if (currentPage == pages.length - 1) {
                         onComplete();

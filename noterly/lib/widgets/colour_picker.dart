@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:noterly/l10n/localisations_util.dart';
+import 'package:noterly/theme/app_theme.dart';
+import 'package:noterly/widgets/expressive.dart';
 
 Future<Color?> showColourPicker({
   required BuildContext context,
@@ -74,69 +76,61 @@ class _ColourPickerState extends State<ColourPicker> {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
-
-    // The header should use the primary color in light themes and surface color in dark
-    final bool isDark = colorScheme.brightness == Brightness.dark;
-    final Color primarySurfaceColor = isDark ? colorScheme.surface : colorScheme.primary;
-    final Color onPrimarySurfaceColor = isDark ? colorScheme.onSurface : colorScheme.onPrimary;
-
     return Dialog(
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              padding: const EdgeInsets.fromLTRB(16, 64, 16, 16),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-                color: primarySurfaceColor,
-              ),
-              child: Text(
-                Strings.of(context).dialog_picker_colour_title,
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(color: onPrimarySurfaceColor),
-              ),
+            ExpressiveDialogHeader(
+              icon: Icons.palette,
+              title: Strings.of(context).dialog_picker_colour_title,
             ),
             GridView.builder(
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 64,
                 childAspectRatio: 1,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
               ),
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: colours.length,
               itemBuilder: (context, index) {
                 var colour = colours.values.elementAt(index);
+                var selected = _colour == colour;
+                // The selected colour morphs from a circle into a rounded square, the Material 3 Expressive way of
+                // showing a selection through shape.
+                var shape = RoundedSuperellipseBorder(borderRadius: BorderRadius.circular(selected ? 18 : 32));
 
-                return InkWell(
-                  borderRadius: BorderRadius.circular(16),
-                  onTap: () {
-                    setState(() {
-                      _colour = colour;
-                      Navigator.of(context).pop(colour);
-                    });
-                  },
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: colour,
-                      border: Border.all(
-                        color: _colour == colour ? Theme.of(context).colorScheme.primary : Colors.transparent,
-                        width: 2,
+                return Semantics(
+                  label: colours.keys.elementAt(index),
+                  selected: selected,
+                  button: true,
+                  child: AnimatedContainer(
+                    duration: AppTheme.motionMedium,
+                    curve: AppTheme.springBouncyCurve,
+                    decoration: ShapeDecoration(color: colour, shape: shape),
+                    child: Material(
+                      type: MaterialType.transparency,
+                      shape: shape,
+                      clipBehavior: Clip.antiAlias,
+                      child: InkWell(
+                        onTap: () {
+                          setState(() => _colour = colour);
+                          Navigator.of(context).pop(colour);
+                        },
+                        child: selected
+                            ? Icon(Icons.check, color: ThemeData.estimateBrightnessForColor(colour) == Brightness.dark ? Colors.white : Colors.black)
+                            : null,
                       ),
-                      boxShadow: [
-                        BoxShadow(color: colour.withOpacity(0.5), blurRadius: 2, offset: const Offset(0, 2)),
-                        BoxShadow(color: colour.withOpacity(0.25), blurRadius: 5, offset: const Offset(0, 5)),
-                      ],
                     ),
                   ),
                 );
               },
             ),
-            ButtonBar(
+            ExpressiveDialogActions(
               children: [
                 TextButton(
                   onPressed: () {

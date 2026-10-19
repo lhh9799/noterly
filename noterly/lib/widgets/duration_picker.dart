@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:noterly/extensions/duration_extensions.dart';
 import 'package:noterly/l10n/localisations_util.dart';
+import 'package:noterly/theme/app_theme.dart';
+import 'package:noterly/widgets/expressive.dart';
 
 Future<Duration?> showDurationPicker({
   required BuildContext context,
@@ -53,40 +55,18 @@ class _DurationPickerState extends State<DurationPicker> {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
-
-    // The header should use the primary color in light themes and surface color in dark
-    final bool isDark = colorScheme.brightness == Brightness.dark;
-    final Color primarySurfaceColor = isDark ? colorScheme.surface : colorScheme.primary;
-    final Color onPrimarySurfaceColor = isDark ? colorScheme.onSurface : colorScheme.onPrimary;
-
     return Dialog(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            padding: const EdgeInsets.fromLTRB(16, 64, 16, 16),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-              color: primarySurfaceColor,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  Strings.of(context).dialog_picker_duration_title,
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(color: onPrimarySurfaceColor),
-                ),
-                Text(
-                  Strings.of(context).dialog_picker_duration_subtitle(_duration.toRelativeDurationString()),
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(color: onPrimarySurfaceColor),
-                ),
-              ],
-            ),
+          ExpressiveDialogHeader(
+            icon: Icons.snooze,
+            title: Strings.of(context).dialog_picker_duration_title,
+            subtitle: Strings.of(context).dialog_picker_duration_subtitle(_duration.toRelativeDurationString()),
           ),
           _getMainSection(),
-          ButtonBar(
+          ExpressiveDialogActions(
             children: [
               TextButton(
                 onPressed: () {
@@ -94,7 +74,7 @@ class _DurationPickerState extends State<DurationPicker> {
                 },
                 child: Text(Strings.of(context).general_cancel),
               ),
-              TextButton(
+              FilledButton(
                 onPressed: () {
                   Navigator.of(context).pop(_duration);
                 },
@@ -108,14 +88,13 @@ class _DurationPickerState extends State<DurationPicker> {
   }
 
   Widget _getMainSection() => Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
         child: Row(
           children: [
             Flexible(
               flex: 1,
               child: TextField(
                 decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
                   labelText: Strings.of(context).dialog_picker_duration_field_number_label,
                 ),
                 controller: _intervalController,
@@ -145,8 +124,10 @@ class _DurationPickerState extends State<DurationPicker> {
             Flexible(
               flex: 2,
               child: DropdownButtonFormField(
+                borderRadius: BorderRadius.circular(AppTheme.radiusLarge),
+                dropdownColor: Theme.of(context).colorScheme.surfaceContainer,
+                style: Theme.of(context).textTheme.bodyLarge,
                 decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
                   labelText: Strings.of(context).dialog_picker_duration_field_period_label,
                 ),
                 items: [

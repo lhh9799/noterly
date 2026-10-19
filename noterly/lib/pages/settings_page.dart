@@ -12,6 +12,7 @@ import 'package:noterly/models/notification_item.dart';
 import 'package:noterly/models/repetition_data.dart';
 import 'package:noterly/widgets/duration_picker.dart';
 import 'package:noterly/widgets/first_launch_dialog.dart';
+import 'package:noterly/widgets/expressive.dart';
 import 'package:system_settings_2/system_settings_2.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
@@ -52,6 +53,7 @@ class _SettingsPageState extends State<SettingsPage> {
         title: Text(Strings.of(context).page_settings_title),
       ),
       body: ListView(
+        padding: const EdgeInsets.only(bottom: 32),
         children: [
           _getHeader(Strings.of(context).page_settings_header_notifications),
           _getCard(context, [
@@ -401,29 +403,9 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ];
 
-  Widget _getCard(BuildContext context, List<Widget> children) => Card(
-        clipBehavior: Clip.antiAlias,
-        margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.0),
-        ),
-        shadowColor: Colors.transparent,
-        child: Column(
-          children: children.expand((child) => [child, _getDivider(context)]).take(children.length * 2 - 1).toList(),
-        ),
-      );
+  Widget _getCard(BuildContext context, List<Widget> children) => ExpressiveListGroup(children: children);
 
-  Widget _getHeader(String title, {String? subtitle}) => ListTile(
-        title: Text(title),
-        subtitle: subtitle != null ? Text(subtitle) : null,
-        minVerticalPadding: 16,
-      );
+  Widget _getHeader(String title, {String? subtitle}) => ExpressiveSectionHeader(title, subtitle: subtitle);
 
-  Widget _getSpacer() => const SizedBox(height: 16);
-
-  Widget _getDivider(BuildContext context) => Divider(
-        thickness: 2,
-        height: 2,
-        color: Theme.of(context).colorScheme.background,
-      );
+  Widget _getSpacer() => const SizedBox(height: 8);
 }
