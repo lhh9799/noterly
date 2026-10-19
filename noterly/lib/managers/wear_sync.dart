@@ -280,12 +280,11 @@ class WearSync {
   // #endregion
 
   /// Tags each shown notification with its item and send time, so the watch can leave out the ones it already showed
-  /// by itself while the phone was away.
+  /// by itself while the phone was away. Immediate items have no send time and get an 'immediate' tag.
   static Future<void> applyBridgeTags(List<NotificationItem> items) async {
     final tags = <int, String>{
       for (final item in items)
-        if (!item.archived && (item.snoozeDateTime ?? item.dateTime) != null)
-          item.id.hashCode: bridgeTag(item.id, (item.snoozeDateTime ?? item.dateTime)!),
+        if (!item.archived) item.id.hashCode: bridgeTag(item.id, item.snoozeDateTime ?? item.dateTime),
     };
     try {
       await NoterlyWear.applyBridgeTags(tags);
@@ -294,6 +293,6 @@ class WearSync {
     }
   }
 
-  /// Must match WatchState.bridgeTag in the watch app.
-  static String bridgeTag(String itemId, DateTime due) => 'noterly:$itemId:${due.millisecondsSinceEpoch}';
+  /// Must match WatchState.bridgeTag in the watch app. [due] is null for an immediate item.
+  static String bridgeTag(String itemId, DateTime? due) => 'noterly:$itemId:${due?.millisecondsSinceEpoch ?? 'immediate'}';
 }
