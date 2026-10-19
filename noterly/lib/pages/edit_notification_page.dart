@@ -8,7 +8,6 @@ import 'package:noterly/models/repetition_data.dart';
 import 'package:noterly/widgets/colour_picker.dart';
 import 'package:noterly/widgets/date_time_picker.dart';
 import 'package:noterly/widgets/item_list_decoration.dart';
-import 'package:noterly/pages/main_page.dart';
 import 'package:noterly/widgets/repetition_picker.dart';
 
 class EditNotificationPage extends StatefulWidget {
@@ -79,10 +78,8 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
             icon: const Icon(Icons.delete),
             onPressed: () {
               AppManager.instance.deleteItem(_item.id);
-              // Show it on the main page, which this page returns to
-              var messenger = MainPage.snackBarMessengerKey.currentState ?? ScaffoldMessenger.of(context);
-              messenger.clearSnackBars(); // Clear any existing snackbars, as only one item can be restored.
-              messenger.showSnackBar(
+              ScaffoldMessenger.of(context).clearSnackBars(); // Clear any existing snackbars, as only one item can be restored.
+              ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   persist: false, // Snack bars with an action stay until swiped away by default
                   content: Text(Strings.of(context).snackbar_notificationDeleted(_item.title)),
@@ -178,7 +175,7 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
                     ).then((value) {
                       if (value != null) {
                         setState(() {
-                          _dateTime = value;
+                          _dateTime = _isRepeating ? _repetitionData.alignToWeekdays(value) : value;
                         });
                       }
                     });

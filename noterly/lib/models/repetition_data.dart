@@ -38,7 +38,7 @@ class RepetitionData {
   factory RepetitionData.fromJson(Map<String, dynamic> json) => RepetitionData(
         type: Repetition.values[json['type']],
         number: json['number'],
-        weekdays: (json['weekdays'] as List?)?.cast<int>(),
+        weekdays: json['weekdays'] != null ? List<int>.from(json['weekdays']) : null,
       );
 
   @override
