@@ -126,5 +126,6 @@ void main() {
 
   test('bridge tag matches the watch', () {
     expect(WearSync.bridgeTag('id', DateTime.fromMillisecondsSinceEpoch(1792400000000)), 'noterly:id:1792400000000');
+    expect(WearSync.bridgeTag('id', null), 'noterly:id:immediate');
   });
 }
