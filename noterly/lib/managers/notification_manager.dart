@@ -255,7 +255,7 @@ class NotificationManager {
 
     if (isShown) {
       Log.logger.d('Repeating notification "${item.title}" is already shown, no need to update');
-      if (dirty) await AppManager.instance.editItem(item, deferNotificationManagerCall: true);
+      if (dirty) await AppManager.instance.editItem(item, deferNotificationManagerCall: true, touch: false);
       return;
     }
 
@@ -263,7 +263,7 @@ class NotificationManager {
       item.dateTime = item.nextRepeatDateTime; // Increment the dateTime until it's in the future
     }
 
-    await AppManager.instance.editItem(item, deferNotificationManagerCall: true);
+    await AppManager.instance.editItem(item, deferNotificationManagerCall: true, touch: false);
     await _scheduleNotification(item);
   }
 
