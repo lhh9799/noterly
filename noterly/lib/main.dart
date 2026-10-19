@@ -254,8 +254,6 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: lightColorScheme,
-          // Floating snack bars sit above the FAB instead of pushing it up
-          snackBarTheme: const SnackBarThemeData(behavior: SnackBarBehavior.floating),
           fontFamily: GoogleFonts.inter().fontFamily,
           textTheme: GoogleFonts.interTextTheme().copyWith(
             labelLarge: TextStyle(color: Colors.black.withOpacity(0.5)),
@@ -264,7 +262,6 @@ class _MyAppState extends State<MyApp> {
         darkTheme: ThemeData(
           useMaterial3: true,
           colorScheme: darkColorScheme,
-          snackBarTheme: const SnackBarThemeData(behavior: SnackBarBehavior.floating),
           fontFamily: GoogleFonts.inter().fontFamily,
           textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme).copyWith(
             labelLarge: TextStyle(color: Colors.white.withOpacity(0.5)),
