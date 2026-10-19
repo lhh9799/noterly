@@ -178,6 +178,8 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
                       if (value != null) {
                         setState(() {
                           _repetitionData = value;
+                          // Move the first reminder onto a selected day of the week
+                          _dateTime = _repetitionData.alignToWeekdays(_dateTime);
                         });
                       }
                     });
@@ -211,7 +213,7 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
               id: const Uuid().v4(),
               title: _titleController.text,
               body: _bodyController.text,
-              dateTime: _isScheduled ? _dateTime : null,
+              dateTime: _isScheduled ? (_isRepeating ? _repetitionData.alignToWeekdays(_dateTime) : _dateTime) : null,
               repetitionData: _isRepeating ? _repetitionData : null,
               colour: _colour,
               dismissible: _isDismissible,

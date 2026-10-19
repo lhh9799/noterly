@@ -44,6 +44,7 @@ class ArchivedNotificationsPage extends NavigationScreen {
                 ScaffoldMessenger.of(context).clearSnackBars(); // Clear any existing snackbars
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
+                    persist: false, // Snack bars with an action stay until swiped away by default
                     content: Text(Strings.of(context).snackbar_allArchivedNotificationsDeleted),
                     action: SnackBarAction(
                       label: Strings.of(context).general_undo,
@@ -70,6 +71,7 @@ class ArchivedNotificationsPage extends NavigationScreen {
             ScaffoldMessenger.of(context).clearSnackBars(); // Clear any existing snackbars to prevent buildup
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
+                persist: false, // Snack bars with an action stay until swiped away by default
                 content: Text(Strings.of(context).snackbar_notificationDeleted(item.title)),
                 action: SnackBarAction(
                   label: Strings.of(context).general_undo,

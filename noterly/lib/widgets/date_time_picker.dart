@@ -206,6 +206,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
               showTimePicker(
                 context: context,
                 initialTime: TimeOfDay.fromDateTime(_dateTime),
+                initialEntryMode: TimePickerEntryMode.input, // Type the time with the number keypad
               ).then((value) {
                 if (value != null) {
                   setState(() {
