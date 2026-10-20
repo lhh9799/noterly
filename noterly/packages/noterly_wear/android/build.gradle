@@ -1,0 +1,32 @@
+group = "uk.co.tdsstudios.noterly.wear_sync"
+version = "1.0"
+
+// AGP and Kotlin come from the app's settings.gradle
+apply plugin: "com.android.library"
+apply plugin: "org.jetbrains.kotlin.android"
+
+android {
+    namespace = "uk.co.tdsstudios.noterly.wear_sync"
+    compileSdk = 36
+
+    defaultConfig {
+        minSdk = 36
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
+    }
+
+    sourceSets {
+        main.java.srcDirs += "src/main/kotlin"
+    }
+}
+
+dependencies {
+    implementation "com.google.android.gms:play-services-wearable:19.0.0"
+}
