@@ -228,6 +228,8 @@ class WearSync {
           // As 'Mark as done' on the notification: clear the snooze and move on to the next repeat. The notification
           // is still shown here (the button press cancels it), so cancel it first or it would not be rescheduled.
           item.snoozeDateTime = null;
+          // Done before the repeat is due counts for that repeat, so always move on at least once
+          if (item.dateTime != null && !item.dateTime!.isBefore(DateTime.now())) item.dateTime = item.nextRepeatDateTime;
           await notifications.cancelNotification(item.id);
           await notifications.updateRepeatingNotification(item);
         } else {
