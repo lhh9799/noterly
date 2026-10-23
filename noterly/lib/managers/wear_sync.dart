@@ -252,7 +252,9 @@ class WearSync {
           repetitionData: command.repetitionData,
           colour: Color(command.payload['colour'] ?? Colors.blue.toARGB32()),
           dismissible: false,
-        ));
+        ), deferNotificationManagerCall: true);
+        // Awaited here: the background engine is shut down as soon as the commands are applied
+        await notifications.showOrUpdateNotification(manager.getItem(command.itemId)!);
         break;
 
       case WearCommand.update:
@@ -262,10 +264,12 @@ class WearSync {
         if (command.payload['colour'] != null) item.colour = Color(command.payload['colour']);
         item.dateTime = command.dateTime;
         item.repetitionData = command.repetitionData;
-        await manager.editItem(item);
+        await manager.editItem(item, deferNotificationManagerCall: true);
         if (item.isRepeating && repetitionChanged) {
           await notifications.cancelNotification(item.id);
           await notifications.updateRepeatingNotification(item);
+        } else {
+          await notifications.showOrUpdateNotification(item);
         }
         break;
 
@@ -274,7 +278,8 @@ class WearSync {
         break;
 
       case WearCommand.restore:
-        await manager.restoreArchivedItem(command.itemId);
+        await manager.restoreArchivedItem(command.itemId, deferNotificationManagerCall: true);
+        await notifications.showOrUpdateNotification(manager.getItem(command.itemId)!);
         break;
     }
   }
