@@ -22,12 +22,15 @@ class NotificationManager {
   static NotificationManager get instance => _instance;
 
   NotificationManager._internal() {
-    init();
+    _initialised = init();
   }
 
   final _plugin = FlutterLocalNotificationsPlugin();
 
-  void init() async {
+  /// Completes once the plugin is set up. A background engine (watch commands) can show a notification right away.
+  late final Future<void> _initialised;
+
+  Future<void> init() async {
     Log.logger.d('Initialising notification manager...');
 
     tz.initializeTimeZones();
@@ -276,6 +279,7 @@ class NotificationManager {
   }
 
   Future _showNotification(NotificationItem item) async {
+    await _initialised;
     var androidDetails = _getNotificationDetails(item);
     var details = NotificationDetails(android: androidDetails);
 
@@ -298,6 +302,7 @@ class NotificationManager {
   }
 
   Future _scheduleNotification(NotificationItem item) async {
+    await _initialised;
     // send the notification either at its datetime or if its snoozed, at its snooze datetime
     var dateTime = item.isSnoozed ? item.snoozeDateTime : item.dateTime;
 
