@@ -221,7 +221,7 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
                   value: _isDismissible,
                   title: Text(Strings.of(context).page_editNotification_timing_dismissible_title),
                   subtitle: Text(Strings.of(context).page_editNotification_timing_dismissible_subtitle),
-                  secondary: const Icon(Icons.swipe),
+                  secondary: const Icon(Icons.watch),
                   onChanged: (value) => setState(() => _isDismissible = value),
                 ),
             ]),

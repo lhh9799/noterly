@@ -81,13 +81,24 @@ class _SettingsPageState extends State<SettingsPage> {
               value: AppManager.instance.data.dismissibleNotificationsEnabled,
               title: Text(Strings.of(context).page_settings_notifications_dismissible_title),
               subtitle: Text(Strings.of(context).page_settings_notifications_dismissible_subtitle),
-              secondary: const Icon(Icons.swipe),
+              secondary: const Icon(Icons.watch),
               onChanged: (value) async {
                 setState(() => AppManager.instance.data.dismissibleNotificationsEnabled = value);
                 await AppManager.instance.saveSettings();
                 await NotificationManager.instance.refreshAllNotifications();
               },
             ),
+            if (AppManager.instance.data.dismissibleNotificationsEnabled)
+              SwitchListTile(
+                value: AppManager.instance.data.dismissibleByDefault,
+                title: Text(Strings.of(context).page_settings_notifications_dismissibleByDefault_title),
+                subtitle: Text(Strings.of(context).page_settings_notifications_dismissibleByDefault_subtitle),
+                secondary: const Icon(Icons.tune),
+                onChanged: (value) async {
+                  setState(() => AppManager.instance.data.dismissibleByDefault = value);
+                  await AppManager.instance.saveSettings();
+                },
+              ),
           ]),
           _getSpacer(),
           _getHeader(Strings.of(context).page_settings_header_system),
