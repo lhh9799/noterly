@@ -109,4 +109,7 @@ Requirements: Flutter **3.47.7** stable, JDK 17 or newer, and the Android SDK (`
    - or `flutter run --flavor dev` to run on a connected device
 
 Release builds use `android/key.properties` for signing when it exists, and otherwise sign with the local debug key.
+The fork's own release APKs are then re-signed with the release key and its rotation lineage (from the old debug
+key), so they install over earlier releases and keep their data: `.\scripts\sign-release.ps1` (PowerShell, from the
+repository root) writes `app-dev-release-signed.apk`. The key and lineage are kept in `keys/`, which git ignores.
 The APK is written to `noterly/build/app/outputs/flutter-apk/`.

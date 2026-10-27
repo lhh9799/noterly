@@ -1,0 +1,12 @@
+# Start
+noterly-build-restore-handoff.md
+
+# Noterly App Issues
+noterly-issues-summary.md
+
+# Signing keys (never commit)
+/keys/
+*.jks
+*.keystore
+*.lineage
+key.properties
