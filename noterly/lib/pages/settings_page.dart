@@ -81,7 +81,7 @@ class _SettingsPageState extends State<SettingsPage> {
               value: AppManager.instance.data.dismissibleNotificationsEnabled,
               title: Text(Strings.of(context).page_settings_notifications_dismissible_title),
               subtitle: Text(Strings.of(context).page_settings_notifications_dismissible_subtitle),
-              secondary: const Icon(Icons.swipe),
+              secondary: const Icon(Icons.watch),
               onChanged: (value) async {
                 setState(() => AppManager.instance.data.dismissibleNotificationsEnabled = value);
                 await AppManager.instance.saveSettings();

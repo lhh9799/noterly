@@ -17,7 +17,7 @@ Release build on a Galaxy S26 Ultra spec emulator (Android 16, 1080x2340).
 
 | Reminders | Dark theme | Edit a reminder |
 |:-:|:-:|:-:|
-| <img src="assets/screenshots/2026-10/main.png" width="250" alt="Main list grouped into Shown immediately, Scheduled and Repeating"> | <img src="assets/screenshots/2026-10/main_dark.png" width="250" alt="Main list in the dark theme"> | <img src="assets/screenshots/2026-10/edit.png" width="250" alt="Edit page with schedule, weekly repeat and the Dismissible switch"> |
+| <img src="assets/screenshots/2026-10/main.png" width="250" alt="Main list grouped into Shown immediately, Scheduled and Repeating"> | <img src="assets/screenshots/2026-10/main_dark.png" width="250" alt="Main list in the dark theme"> | <img src="assets/screenshots/2026-10/edit.png" width="250" alt="Edit page with schedule, weekly repeat and the Dismissible switch (now Send to watch)"> |
 | **Repeat on days of the week** | **Date and time** | **Time entry with the keypad** |
 | <img src="assets/screenshots/2026-10/repeat_weekdays.png" width="250" alt="Repeat dialog with Monday, Wednesday and Friday selected"> | <img src="assets/screenshots/2026-10/date_time.png" width="250" alt="Date and time dialog"> | <img src="assets/screenshots/2026-10/time_keypad.png" width="250" alt="Time picker in keypad input mode"> |
 | **Colours** | **Archive** | **Settings** |
@@ -43,8 +43,8 @@ The original app is available on the [Play Store](https://play.google.com/store/
 - ⌨️ Enter the time with the number keypad (the clock icon switches to the dial)
 - 🪃 Repeat reminders every few hours, days, weeks, months or years
 - 📅 Weekly repeats can be limited to days of the week, like an alarm clock, e.g. "weekly (Mon, Wed, Fri)"
-- 👆🏻 Per-reminder **Dismissible** option: allow swiping the notification away (the reminder stays in the list). Only
-  dismissible notifications are forwarded to a smartwatch; it can be hidden with a switch in Settings
+- ⌚ Per-reminder **Send to watch** option: only these reminders notify on the watch, and their phone notification can
+  be swiped away (the reminder stays in the list). Settings has its default for new reminders and a switch to hide it
 - 💤 Snooze reminders for a customisable amount of time
 - ✅ Mark reminders as done from the notification, or swipe them away in the app (with Undo); done reminders move to the Archive
 - 🏃🏻‍♀️ Create reminders from a quick settings tile, or share text to Noterly from other apps
@@ -58,7 +58,7 @@ Compared with the original 1.4.3 beta:
 
 - **Toolchain:** Flutter 3.47.7, Gradle 8.14.3, AGP 8.13.0, Kotlin 2.3.20; minSdk 36 (Android 16), arm64 only
 - **Firebase removed** (Analytics and Crashlytics)
-- **New:** weekday repeats, keypad time entry, the Dismissible option and its Settings switch (#35)
+- **New:** weekday repeats, keypad time entry, the Send to watch option (formerly Dismissible) and its Settings switches (#35)
 - **Design:** Material 3 Expressive look (segmented list groups, pill buttons, larger New note button, reworked dialogs,
   empty-state illustrations)
 - **Fixes:**
