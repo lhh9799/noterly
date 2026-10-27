@@ -198,21 +198,30 @@ class WearSync {
 
     var changed = false;
     for (final (entry, command) in commands) {
-      final manager = AppManager.instance;
-      final outcome = decide(manager.data, manager.getItem(command.itemId), command);
-      Log.logger.d('Watch command ${command.type} for ${command.itemId}: ${outcome.name}');
+      // One failing command (bad payload, missing item) must not block the ones after it or stay queued forever
+      try {
+        final manager = AppManager.instance;
+        final outcome = decide(manager.data, manager.getItem(command.itemId), command);
+        Log.logger.d('Watch command ${command.type} for ${command.itemId}: ${outcome.name}');
 
-      if (outcome != WearCommandOutcome.duplicate) recordApplied(manager.data, command.commandId);
+        if (outcome != WearCommandOutcome.duplicate) recordApplied(manager.data, command.commandId);
 
-      if (outcome == WearCommandOutcome.apply) {
-        await _apply(command);
-        changed = true;
-      } else {
-        // Nothing to change, but save so the applied list is kept and the watch gets a snapshot that drops the command
-        await manager.saveSettings();
+        if (outcome == WearCommandOutcome.apply) {
+          await _apply(command);
+          changed = true;
+        } else {
+          // Nothing to change, but save so the applied list is kept and the watch gets a snapshot that drops the command
+          await manager.saveSettings();
+        }
+      } catch (e, s) {
+        Log.logger.e('Watch command ${command.type} for ${command.itemId} failed, removing it', error: e, stackTrace: s);
       }
 
-      await NoterlyWear.deleteCommand(entry.uri);
+      try {
+        await NoterlyWear.deleteCommand(entry.uri);
+      } catch (e) {
+        Log.logger.w('Watch command ${command.commandId} not removed', error: e);
+      }
     }
     return changed;
   }
