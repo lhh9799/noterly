@@ -96,6 +96,7 @@ class WearSync {
         'settings': {
           'snoozeSeconds': data.snoozeDuration.inSeconds,
           'dismissibleEnabled': data.dismissibleNotificationsEnabled,
+          'dismissibleByDefault': data.dismissibleByDefault,
         },
         'items': [
           for (final item in data.notificationItems)
@@ -251,7 +252,7 @@ class WearSync {
           dateTime: command.dateTime,
           repetitionData: command.repetitionData,
           colour: Color(command.payload['colour'] ?? Colors.blue.toARGB32()),
-          dismissible: false,
+          dismissible: manager.data.dismissibleByDefault,
         ), deferNotificationManagerCall: true);
         // Awaited here: the background engine is shut down as soon as the commands are applied
         await notifications.showOrUpdateNotification(manager.getItem(command.itemId)!);

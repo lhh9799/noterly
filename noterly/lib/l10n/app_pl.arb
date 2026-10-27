@@ -82,6 +82,8 @@
     "page_settings_notifications_snoozeDuration": "Czas trwania uśpienia",
     "page_settings_notifications_dismissible_title": "Dismissible notifications",
     "page_settings_notifications_dismissible_subtitle": "Show the Dismissible option on reminders. When off, every notification is ongoing.",
+    "page_settings_notifications_dismissibleByDefault_title": "Dismissible by default",
+    "page_settings_notifications_dismissibleByDefault_subtitle": "Turn on the Dismissible option for new reminders.",
     "page_settings_system_notificationSettings": "Ustawienia powiadomień",
     "page_settings_about_version_title": "Wersja",
     "page_settings_about_copyright_title": "Prawa autorskie & wyrazy uznania",

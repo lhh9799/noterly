@@ -31,7 +31,7 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
 
   var _isScheduled = false;
   var _isRepeating = false;
-  var _isDismissible = false;
+  var _isDismissible = AppManager.instance.data.dismissibleByDefault;
 
   late DateTime _dateTime;
 

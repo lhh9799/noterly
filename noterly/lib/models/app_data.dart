@@ -12,6 +12,9 @@ class AppData {
   /// reminder keeps its own setting so it is restored when this is turned back on.
   bool dismissibleNotificationsEnabled;
 
+  /// The "dismissible" option of a new reminder, made on the phone or the watch.
+  bool dismissibleByDefault;
+
   /// Goes up by one on every save, so the watch can tell a newer snapshot from an older one.
   int rev;
 
@@ -24,6 +27,7 @@ class AppData {
     required this.snoozeToastText,
     required this.firstLaunchDialogLastShown,
     required this.dismissibleNotificationsEnabled,
+    this.dismissibleByDefault = false,
     this.rev = 0,
     List<String>? appliedWearCommands,
   }) : appliedWearCommands = appliedWearCommands ?? [];
@@ -35,6 +39,7 @@ class AppData {
       'snoozeToastText': snoozeToastText,
       'firstLaunchDialogLastShown': firstLaunchDialogLastShown,
       'dismissibleNotificationsEnabled': dismissibleNotificationsEnabled,
+      'dismissibleByDefault': dismissibleByDefault,
       'rev': rev,
       'appliedWearCommands': appliedWearCommands,
     };
@@ -48,12 +53,13 @@ class AppData {
         snoozeToastText: AppDataJsonParser<String>('snoozeToastText', 'Notification snoozed').parse(json),
         firstLaunchDialogLastShown: AppDataJsonParser<int>('firstLaunchDialogLastShown', -1).parse(json),
         dismissibleNotificationsEnabled: AppDataJsonParser<bool>('dismissibleNotificationsEnabled', true).parse(json),
+        dismissibleByDefault: AppDataJsonParser<bool>('dismissibleByDefault', false).parse(json),
         rev: AppDataJsonParser<int>('rev', 0).parse(json),
         appliedWearCommands: AppDataJsonParser<List<String>>('appliedWearCommands', [], parser: (value) => List<String>.from(value)).parse(json),
       );
 
   @override
-  String toString() => 'AppData(notificationItems: $notificationItems, snoozeDuration: $snoozeDuration, snoozeToastText: $snoozeToastText, firstLaunchDialogLastShown: $firstLaunchDialogLastShown, dismissibleNotificationsEnabled: $dismissibleNotificationsEnabled, rev: $rev)';
+  String toString() => 'AppData(notificationItems: $notificationItems, snoozeDuration: $snoozeDuration, snoozeToastText: $snoozeToastText, firstLaunchDialogLastShown: $firstLaunchDialogLastShown, dismissibleNotificationsEnabled: $dismissibleNotificationsEnabled, dismissibleByDefault: $dismissibleByDefault, rev: $rev)';
 }
 
 class AppDataJsonParser<T> {

@@ -36,7 +36,7 @@ void main() {
 
       expect(snapshot['schema'], 1);
       expect(snapshot['rev'], 128);
-      expect(snapshot['settings'], {'snoozeSeconds': 1800, 'dismissibleEnabled': true});
+      expect(snapshot['settings'], {'snoozeSeconds': 1800, 'dismissibleEnabled': true, 'dismissibleByDefault': false});
       expect(snapshot['appliedCommands'], ['old']);
 
       final items = snapshot['items'] as List;
