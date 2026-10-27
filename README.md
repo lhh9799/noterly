@@ -112,4 +112,7 @@ Release builds use `android/key.properties` for signing when it exists, and othe
 The fork's own release APKs are then re-signed with the release key and its rotation lineage (from the old debug
 key), so they install over earlier releases and keep their data: `.\scripts\sign-release.ps1` (PowerShell, from the
 repository root) writes `app-dev-release-signed.apk`. The key and lineage are kept in `keys/`, which git ignores.
+`.\scripts\release.ps1` builds the dev release from an ASCII drive letter (`subst X:`, as Android Gradle refuses the
+non-ASCII path) and then signs it. Run `.\scripts\sign-release.ps1 -SavePassword` once to store the keystore password
+for your Windows user (DPAPI-encrypted, in `%LOCALAPPDATA%\noterly\`), so neither script asks for it again.
 The APK is written to `noterly/build/app/outputs/flutter-apk/`.
