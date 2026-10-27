@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:noterly/l10n/app_localisations.dart';
 import 'package:logger/logger.dart';
 import 'package:noterly/managers/app_manager.dart';
@@ -107,6 +108,13 @@ Future<void> main(List<String> args) async {
     final license = await rootBundle.loadString('assets/google_fonts/OFL.txt');
     yield LicenseEntryWithLineBreaks(['assets/google_fonts'], license);
   });
+  LicenseRegistry.addLicense(() async* {
+    final license = await rootBundle.loadString('assets/google_fonts/Inter-OFL.txt');
+    yield LicenseEntryWithLineBreaks(['Inter'], license);
+  });
+
+  // Inter is bundled in assets/google_fonts, so never download fonts at runtime
+  GoogleFonts.config.allowRuntimeFetching = false;
 
   // Run the app
   runApp(MyApp(launchMessage: args.isNotEmpty ? args[0] : null));
