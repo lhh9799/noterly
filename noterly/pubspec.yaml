@@ -22,6 +22,7 @@ dependencies:
   background_fetch: ^1.4.0
   quick_actions: ^1.0.1
   url_launcher: ^6.1.8
+  file_picker: ^10.3.3
   logger: ^2.6.2
   system_settings_2: ^3.0.2
   flutter_localizations:

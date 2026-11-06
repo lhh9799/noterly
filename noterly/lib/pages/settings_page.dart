@@ -6,6 +6,7 @@ import 'package:noterly/build_info.dart';
 import 'package:noterly/extensions/duration_extensions.dart';
 import 'package:noterly/l10n/localisations_util.dart';
 import 'package:noterly/managers/app_manager.dart';
+import 'package:noterly/managers/backup_manager.dart';
 import 'package:noterly/managers/file_manager.dart';
 import 'package:noterly/managers/notification_manager.dart';
 import 'package:noterly/managers/scroll_capture.dart';
@@ -132,6 +133,26 @@ class _SettingsPageState extends State<SettingsPage> {
                   }
                 },
               )
+            ]),
+            _getSpacer(),
+            _getHeader(Strings.of(context).page_settings_header_backup),
+            _getCard(context, [
+              ListTile(
+                title: Text(Strings.of(context).page_settings_backup_export_title),
+                subtitle: Text(Strings.of(context).page_settings_backup_export_subtitle),
+                leading: const Icon(Icons.upload_file),
+                trailing: const Icon(Icons.chevron_right),
+                minVerticalPadding: 12,
+                onTap: _exportReminders,
+              ),
+              ListTile(
+                title: Text(Strings.of(context).page_settings_backup_import_title),
+                subtitle: Text(Strings.of(context).page_settings_backup_import_subtitle),
+                leading: const Icon(Icons.file_open),
+                trailing: const Icon(Icons.chevron_right),
+                minVerticalPadding: 12,
+                onTap: _importReminders,
+              ),
             ]),
             _getSpacer(),
             _getHeader(Strings.of(context).page_settings_header_about),
@@ -328,6 +349,77 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
     );
+  }
+
+  void _showSnackBar(String text) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context)
+      ..clearSnackBars()
+      ..showSnackBar(SnackBar(content: Text(text)));
+  }
+
+  Future<void> _exportReminders() async {
+    final strings = Strings.of(context);
+    final items = List<NotificationItem>.from(AppManager.instance.notifier.value);
+
+    try {
+      if (!await BackupManager.exportToFile(items)) return;
+      _showSnackBar(strings.snackbar_export_done(items.length));
+    } catch (e, s) {
+      Log.logger.e('Failed to export reminders', error: e, stackTrace: s);
+      _showSnackBar(strings.snackbar_export_failed);
+    }
+  }
+
+  Future<void> _importReminders() async {
+    final strings = Strings.of(context);
+
+    final List<NotificationItem>? items;
+    try {
+      items = await BackupManager.pickAndRead();
+    } catch (e, s) {
+      Log.logger.e('Failed to read reminders file', error: e, stackTrace: s);
+      _showSnackBar(strings.snackbar_import_failed);
+      return;
+    }
+
+    if (items == null || !mounted) return;
+    if (items.isEmpty) {
+      _showSnackBar(strings.snackbar_import_empty);
+      return;
+    }
+
+    final count = items.length;
+    final replace = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(strings.dialog_import_title),
+        content: Text(strings.dialog_import_text(count)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(strings.general_cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(strings.dialog_import_action_replace),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(strings.dialog_import_action_merge),
+          ),
+        ],
+      ),
+    );
+    if (replace == null) return;
+
+    try {
+      final result = await AppManager.instance.importItems(items, replace: replace);
+      _showSnackBar(strings.snackbar_import_done(result.added, result.updated, result.removed));
+    } catch (e, s) {
+      Log.logger.e('Failed to import reminders', error: e, stackTrace: s);
+      _showSnackBar(strings.snackbar_import_failed);
+    }
   }
 
   Future<void> _launchUrl(Uri uri) async {

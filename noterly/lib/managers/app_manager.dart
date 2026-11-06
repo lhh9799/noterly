@@ -229,6 +229,72 @@ class AppManager {
     deletedItems = [];
   }
 
+  /// Puts reminders read from an export file into the list and saves it (atomically, see [FileManager.save]).
+  ///
+  /// With [replace], the list becomes exactly the imported reminders. Otherwise an imported reminder is added when its
+  /// ID is new, and replaces the current one only when it was changed more recently, so importing an older export
+  /// never undoes newer edits. Only the notifications of reminders that were added, changed or removed are touched.
+  Future<ImportResult> importItems(List<NotificationItem> imported, {required bool replace}) async {
+    await ensureInitialised();
+
+    final current = List<NotificationItem>.from(notifier.value);
+    final currentById = {for (final item in current) item.id: item};
+
+    final List<NotificationItem> result;
+    final changed = <NotificationItem>[];
+    final removed = <NotificationItem>[];
+    var added = 0;
+
+    if (replace) {
+      final importedIds = imported.map((e) => e.id).toSet();
+      removed.addAll(current.where((item) => !importedIds.contains(item.id)));
+      result = List.of(imported);
+      for (final item in imported) {
+        if (!currentById.containsKey(item.id)) added++;
+        changed.add(item);
+      }
+    } else {
+      result = List.of(current);
+      for (final item in imported) {
+        final existing = currentById[item.id];
+        if (existing == null) {
+          result.add(item);
+          changed.add(item);
+          added++;
+        } else if (_isNewer(item, existing)) {
+          result[result.indexOf(existing)] = item;
+          changed.add(item);
+        }
+      }
+    }
+
+    deletedItems = [];
+    notifier.value = result;
+    await _save();
+    _updateNotifier();
+
+    for (final item in removed) {
+      await NotificationManager.instance.cancelNotification(item.id);
+    }
+    for (final item in changed) {
+      await NotificationManager.instance.cancelNotification(item.id);
+      if (item.archived) continue;
+      if (item.isRepeating) {
+        await NotificationManager.instance.updateRepeatingNotification(item);
+      } else {
+        await NotificationManager.instance.showOrUpdateNotification(item);
+      }
+    }
+
+    return ImportResult(added: added, updated: changed.length - added, removed: removed.length);
+  }
+
+  static bool _isNewer(NotificationItem a, NotificationItem b) {
+    if (a.updatedAt == null) return false;
+    if (b.updatedAt == null) return true;
+    return a.updatedAt!.isAfter(b.updatedAt!);
+  }
+
   // #endregion
 
   Future saveSettings() async {
@@ -251,4 +317,12 @@ class AppManager {
   }
 
   void printItems() => Log.logger.d(notifier.value);
+}
+
+class ImportResult {
+  final int added;
+  final int updated;
+  final int removed;
+
+  const ImportResult({required this.added, required this.updated, required this.removed});
 }
