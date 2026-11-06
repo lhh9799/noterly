@@ -1,5 +1,9 @@
 # Final check of today's changes (2026-10-18)
 
+> **Later change (2026-10-27):** the Dismissible switch was renamed **Send to watch**, and the Dismissible notifications
+> setting became **Watch notifications** (plus **Send to watch by default**). The JSON keys (`dismissible`,
+> `dismissibleNotificationsEnabled`) are unchanged. This record keeps the names used at the time.
+
 Scope: everything merged into `main` today: the build restore (`noterly-build-restore-handoff.md`), the six issues
 (#42, #20, #22, #21, #38, #35), the per-reminder **Dismissible** switch and the **Dismissible notifications** setting.
 Diff checked: `c0d7894..2f75058`.

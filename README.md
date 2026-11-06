@@ -13,27 +13,40 @@ All credit for the original app goes to Tom Chapman; see [What's different in th
 
 ## 📸 Screenshots
 
-Release build on a Galaxy S26 Ultra spec emulator (Android 16, 1080x2340).
+Release build (v2026.10.27-3 code) on a Galaxy S26 Ultra spec emulator (Android 17, 1080x2340), taken 2026-11-06.
 
 | Reminders | Dark theme | Edit a reminder |
 |:-:|:-:|:-:|
-| <img src="assets/screenshots/2026-10/main.png" width="250" alt="Main list grouped into Shown immediately, Scheduled and Repeating"> | <img src="assets/screenshots/2026-10/main_dark.png" width="250" alt="Main list in the dark theme"> | <img src="assets/screenshots/2026-10/edit.png" width="250" alt="Edit page with schedule, weekly repeat and the Dismissible switch (now Send to watch)"> |
+| <img src="assets/screenshots/2026-10/main.png" width="250" alt="Main list grouped into Shown immediately, Scheduled and Repeating"> | <img src="assets/screenshots/2026-10/main_dark.png" width="250" alt="Main list in the dark theme"> | <img src="assets/screenshots/2026-10/edit.png" width="250" alt="Edit page with schedule, weekly repeat and the Send to watch switch"> |
 | **Repeat on days of the week** | **Date and time** | **Time entry with the keypad** |
 | <img src="assets/screenshots/2026-10/repeat_weekdays.png" width="250" alt="Repeat dialog with Monday, Wednesday and Friday selected"> | <img src="assets/screenshots/2026-10/date_time.png" width="250" alt="Date and time dialog"> | <img src="assets/screenshots/2026-10/time_keypad.png" width="250" alt="Time picker in keypad input mode"> |
 | **Colours** | **Archive** | **Settings** |
-| <img src="assets/screenshots/2026-10/colour.png" width="250" alt="Colour picker"> | <img src="assets/screenshots/2026-10/archive.png" width="250" alt="Archive tab"> | <img src="assets/screenshots/2026-10/settings.png" width="250" alt="Settings page"> |
+| <img src="assets/screenshots/2026-10/colour.png" width="250" alt="Colour picker"> | <img src="assets/screenshots/2026-10/archive.png" width="250" alt="Archive tab"> | <img src="assets/screenshots/2026-10/settings.png" width="250" alt="Settings page with the Watch notifications and Send to watch by default switches"> |
 
-<img src="assets/screenshots/2026-10/notification.png" width="400" alt="A Noterly notification with Mark as done and Snooze actions">
+<img src="assets/screenshots/2026-10/notification.png" width="400" alt="A Noterly Dev notification with Mark as done and Snooze actions">
 
 
 ## 👇🏻 Download
 
 APKs of this fork are on the [GitHub releases page](https://github.com/lhh9799/noterly/releases). They are built for
 personal use: **Android 16 or newer, 64-bit ARM (arm64-v8a) only**. The release APKs are the `dev` flavour
-(installed as *Noterly Dev*, alongside the Play Store app) and are signed with a local key, so later releases install
-over earlier ones and keep your reminders.
+(installed as *Noterly Dev*, alongside the Play Store app). Since v2026.10.27-2 they are signed with a release key that
+takes over from the earlier debug key (APK key rotation), so every release installs over the earlier ones and keeps your
+reminders.
 
 The original app is available on the [Play Store](https://play.google.com/store/apps/details?id=uk.co.tdsstudios.noterly).
+
+### ⌚ Galaxy Watch app
+
+Noterly Watch is a separate Wear OS app for the Galaxy Watch, kept in a private repository. It shows your reminders,
+lets you add, finish and snooze them from the watch, and raises alarms on the watch for the reminders with
+**Send to watch** on. The two apps only connect when they are signed with the same key:
+
+| Phone app | Watch app |
+|---|---|
+| v2026.10.27-2 or newer | v1.0.1 or newer |
+| v2026.10.23-1, v2026.10.27-1 | v1.0.0 only |
+| v2026.10.19-1, v2026.10.19-2 | none (no watch sync yet) |
 
 
 ## 📝 Features
@@ -44,7 +57,8 @@ The original app is available on the [Play Store](https://play.google.com/store/
 - 🪃 Repeat reminders every few hours, days, weeks, months or years
 - 📅 Weekly repeats can be limited to days of the week, like an alarm clock, e.g. "weekly (Mon, Wed, Fri)"
 - ⌚ Per-reminder **Send to watch** option: only these reminders notify on the watch, and their phone notification can
-  be swiped away (the reminder stays in the list). Settings has its default for new reminders and a switch to hide it
+  be swiped away (the reminder stays in the list). In Settings, *Send to watch by default* sets it for new
+  reminders and *Watch notifications* turns the option off altogether
 - 💤 Snooze reminders for a customisable amount of time
 - ✅ Mark reminders as done from the notification, or swipe them away in the app (with Undo); done reminders move to the Archive
 - 🏃🏻‍♀️ Create reminders from a quick settings tile, or share text to Noterly from other apps
@@ -56,9 +70,10 @@ The original app is available on the [Play Store](https://play.google.com/store/
 
 Compared with the original 1.4.3 beta:
 
-- **Toolchain:** Flutter 3.47.7, Gradle 8.14.3, AGP 8.13.0, Kotlin 2.3.20; minSdk 36 (Android 16), arm64 only
-- **Firebase removed** (Analytics and Crashlytics)
-- **New:** weekday repeats, keypad time entry, the Send to watch option (formerly Dismissible) and its Settings switches (#35)
+- **Toolchain:** Flutter 3.47.7, Gradle 9.5.1, AGP 8.13.0, Kotlin 2.3.20; minSdk 36 (Android 16), arm64 only
+- **Firebase removed** (Analytics and Crashlytics), and the Inter font is bundled instead of downloaded at run time
+- **New:** weekday repeats, keypad time entry, the Send to watch option (formerly Dismissible) and its Settings switches
+  (#35), and sync with the Galaxy Watch app
 - **Design:** Material 3 Expressive look (segmented list groups, pill buttons, larger New note button, reworked dialogs,
   empty-state illustrations)
 - **Fixes:**

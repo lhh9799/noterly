@@ -1,5 +1,7 @@
 # Build restore verification (2026-10-18)
 
+> **Later change:** the Gradle wrapper is now 9.5.1 (2026-10-27); the versions below are those verified on 2026-10-18.
+
 > **Verified on an emulator only. Not yet verified on a physical device (Galaxy S26 Ultra / S22 Ultra).**
 >
 > Decision (2026-10-18): because the physical devices cannot be used for every test, verification is done on the Android emulator. Items that only a physical device can confirm are listed at the end of each section.

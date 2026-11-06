@@ -1,5 +1,8 @@
 # Improvements (2026-10-19)
 
+> **Later changes:** the Dismissible switch is now **Send to watch** (2026-10-27), and the Galaxy Watch app shows the
+> reminders and raises alarms for the ones with Send to watch on. Item 8 describes the state on 2026-10-19.
+
 Eight items reported after using the dev build on the S26 Ultra. Verified on the emulator `S26U_API37`
 (1440x3120 @600, shown as One UI default FHD+ 1080x2340 @450), mostly with the release build.
 
