@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:noterly/extensions/date_time_extensions.dart';
 import 'package:noterly/l10n/localisations_util.dart';
 import 'package:noterly/managers/app_manager.dart';
+import 'package:noterly/managers/scroll_capture.dart';
 import 'package:noterly/models/navigation_screen.dart';
 import 'package:noterly/models/notification_item.dart';
 import 'package:noterly/pages/edit_notification_page.dart';
@@ -79,12 +80,15 @@ class ActiveNotificationsPage extends NavigationScreen {
             ...repeatingWidgets,
           ];
 
-    return CustomScrollView(
+    return ScrollCaptureTarget(
       controller: scrollController,
-      slivers: [
-        ...widgets,
-        const SliverToBoxAdapter(child: SizedBox(height: 96)), // Add some padding at the bottom so the FAB doesn't overlap with the last item
-      ],
+      child: CustomScrollView(
+        controller: scrollController,
+        slivers: [
+          ...widgets,
+          const SliverToBoxAdapter(child: SizedBox(height: 96)), // Add some padding at the bottom so the FAB doesn't overlap with the last item
+        ],
+      ),
     );
   }
 

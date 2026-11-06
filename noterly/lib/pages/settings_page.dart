@@ -8,6 +8,7 @@ import 'package:noterly/l10n/localisations_util.dart';
 import 'package:noterly/managers/app_manager.dart';
 import 'package:noterly/managers/file_manager.dart';
 import 'package:noterly/managers/notification_manager.dart';
+import 'package:noterly/managers/scroll_capture.dart';
 import 'package:noterly/models/notification_item.dart';
 import 'package:noterly/models/repetition_data.dart';
 import 'package:noterly/widgets/duration_picker.dart';
@@ -29,6 +30,14 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  final _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   static const String _copyrightText = '''
 • Tom Chapman (en_GB, en_US)
 • FBI (es)
@@ -52,267 +61,271 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         title: Text(Strings.of(context).page_settings_title),
       ),
-      body: ListView(
-        padding: const EdgeInsets.only(bottom: 32),
-        children: [
-          _getHeader(Strings.of(context).page_settings_header_notifications),
-          _getCard(context, [
-            ListTile(
-              title: Text(Strings.of(context).page_settings_notifications_snoozeDuration),
-              subtitle: Text(AppManager.instance.data.snoozeDuration.toRelativeDurationString()),
-              leading: const Icon(Icons.snooze),
-              trailing: const Icon(Icons.chevron_right),
-              minVerticalPadding: 12,
-              onTap: () {
-                showDurationPicker(
-                  context: context,
-                  initialDuration: AppManager.instance.data.snoozeDuration,
-                ).then((value) {
-                  if (value == null) return;
-                  setState(() {
-                    AppManager.instance.data.snoozeDuration = value;
-                    AppManager.instance.data.snoozeToastText = Strings.of(context).toast_notificationSnoozed(value.toRelativeDurationString());
-                  });
-                  AppManager.instance.saveSettings();
-                });
-              },
-            ),
-            SwitchListTile(
-              value: AppManager.instance.data.dismissibleNotificationsEnabled,
-              title: Text(Strings.of(context).page_settings_notifications_dismissible_title),
-              subtitle: Text(Strings.of(context).page_settings_notifications_dismissible_subtitle),
-              secondary: const Icon(Icons.watch),
-              onChanged: (value) async {
-                setState(() => AppManager.instance.data.dismissibleNotificationsEnabled = value);
-                await AppManager.instance.saveSettings();
-                await NotificationManager.instance.refreshAllNotifications();
-              },
-            ),
-            if (AppManager.instance.data.dismissibleNotificationsEnabled)
-              SwitchListTile(
-                value: AppManager.instance.data.dismissibleByDefault,
-                title: Text(Strings.of(context).page_settings_notifications_dismissibleByDefault_title),
-                subtitle: Text(Strings.of(context).page_settings_notifications_dismissibleByDefault_subtitle),
-                secondary: const Icon(Icons.tune),
-                onChanged: (value) async {
-                  setState(() => AppManager.instance.data.dismissibleByDefault = value);
-                  await AppManager.instance.saveSettings();
-                },
-              ),
-          ]),
-          _getSpacer(),
-          _getHeader(Strings.of(context).page_settings_header_system),
-          _getCard(context, [
-            ListTile(
-              title: Text(Strings.of(context).page_settings_system_notificationSettings),
-              leading: const Icon(Icons.notifications),
-              trailing: const Icon(Icons.open_in_new),
-              minVerticalPadding: 12,
-              onTap: () async {
-                try {
-                  SystemSettings.appNotifications();
-                } catch (_) {
-                  try {
-                    SystemSettings.app();
-                  } catch (_) {
-                    Log.logger.e('Failed to open system settings');
-                  }
-                }
-              },
-            )
-          ]),
-          _getSpacer(),
-          _getHeader(Strings.of(context).page_settings_header_about),
-          _getCard(context, [
-            ListTile(
-              title: Text(Strings.of(context).page_settings_about_donation_title),
-              leading: const Icon(Icons.coffee),
-              trailing: const Icon(Icons.open_in_new),
-              minVerticalPadding: 12,
-              onTap: () async {
-                var uri = Uri.parse('https://ko-fi.com/tomchapman128');
-                await _launchUrl(uri);
-              },
-            ),
-          ]),
-          _getSpacer(),
-          _getCard(context, [
-            ListTile(
-              title: Text(Strings.of(context).page_settings_about_version_title),
-              subtitle: Builder(
-                builder: (BuildContext context) {
-                  if (BuildInfo.releaseType == ReleaseType.stable) return const Text(BuildInfo.appVersion);
-
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('${BuildInfo.releaseType.name} release', style: const TextStyle(color: Colors.amber)),
-                      const Text('${BuildInfo.appVersion} (${BuildInfo.branch})'),
-                    ],
-                  );
-                },
-              ),
-              leading: const Icon(Icons.info),
-              minVerticalPadding: 12,
-              onTap: () async {
-                _easterEggCount++;
-
-                var newTime = DateTime.now().millisecondsSinceEpoch;
-                if (newTime - _lastTapTime > _millisBeforeReset) {
-                  _easterEggCount = 0;
-                }
-                _lastTapTime = newTime;
-
-                if (_easterEggCount == 7) {
-                  showDialog(
+      body: ScrollCaptureTarget(
+        controller: _scrollController,
+        child: ListView(
+          controller: _scrollController,
+          padding: const EdgeInsets.only(bottom: 32),
+          children: [
+            _getHeader(Strings.of(context).page_settings_header_notifications),
+            _getCard(context, [
+              ListTile(
+                title: Text(Strings.of(context).page_settings_notifications_snoozeDuration),
+                subtitle: Text(AppManager.instance.data.snoozeDuration.toRelativeDurationString()),
+                leading: const Icon(Icons.snooze),
+                trailing: const Icon(Icons.chevron_right),
+                minVerticalPadding: 12,
+                onTap: () {
+                  showDurationPicker(
                     context: context,
-                    builder: (context) => AlertDialog(
-                      title: Text(Strings.of(context).dialog_easterEgg_title),
-                      content: Text(Strings.of(context).dialog_easterEgg_text),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            setState(() => _debugOptions = true);
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(Strings.of(context).dialog_easterEgg_action_showDebugOptions),
-                        ),
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          child: Text(Strings.of(context).general_close),
-                        ),
+                    initialDuration: AppManager.instance.data.snoozeDuration,
+                  ).then((value) {
+                    if (value == null) return;
+                    setState(() {
+                      AppManager.instance.data.snoozeDuration = value;
+                      AppManager.instance.data.snoozeToastText = Strings.of(context).toast_notificationSnoozed(value.toRelativeDurationString());
+                    });
+                    AppManager.instance.saveSettings();
+                  });
+                },
+              ),
+              SwitchListTile(
+                value: AppManager.instance.data.dismissibleNotificationsEnabled,
+                title: Text(Strings.of(context).page_settings_notifications_dismissible_title),
+                subtitle: Text(Strings.of(context).page_settings_notifications_dismissible_subtitle),
+                secondary: const Icon(Icons.watch),
+                onChanged: (value) async {
+                  setState(() => AppManager.instance.data.dismissibleNotificationsEnabled = value);
+                  await AppManager.instance.saveSettings();
+                  await NotificationManager.instance.refreshAllNotifications();
+                },
+              ),
+              if (AppManager.instance.data.dismissibleNotificationsEnabled)
+                SwitchListTile(
+                  value: AppManager.instance.data.dismissibleByDefault,
+                  title: Text(Strings.of(context).page_settings_notifications_dismissibleByDefault_title),
+                  subtitle: Text(Strings.of(context).page_settings_notifications_dismissibleByDefault_subtitle),
+                  secondary: const Icon(Icons.tune),
+                  onChanged: (value) async {
+                    setState(() => AppManager.instance.data.dismissibleByDefault = value);
+                    await AppManager.instance.saveSettings();
+                  },
+                ),
+            ]),
+            _getSpacer(),
+            _getHeader(Strings.of(context).page_settings_header_system),
+            _getCard(context, [
+              ListTile(
+                title: Text(Strings.of(context).page_settings_system_notificationSettings),
+                leading: const Icon(Icons.notifications),
+                trailing: const Icon(Icons.open_in_new),
+                minVerticalPadding: 12,
+                onTap: () async {
+                  try {
+                    SystemSettings.appNotifications();
+                  } catch (_) {
+                    try {
+                      SystemSettings.app();
+                    } catch (_) {
+                      Log.logger.e('Failed to open system settings');
+                    }
+                  }
+                },
+              )
+            ]),
+            _getSpacer(),
+            _getHeader(Strings.of(context).page_settings_header_about),
+            _getCard(context, [
+              ListTile(
+                title: Text(Strings.of(context).page_settings_about_donation_title),
+                leading: const Icon(Icons.coffee),
+                trailing: const Icon(Icons.open_in_new),
+                minVerticalPadding: 12,
+                onTap: () async {
+                  var uri = Uri.parse('https://ko-fi.com/tomchapman128');
+                  await _launchUrl(uri);
+                },
+              ),
+            ]),
+            _getSpacer(),
+            _getCard(context, [
+              ListTile(
+                title: Text(Strings.of(context).page_settings_about_version_title),
+                subtitle: Builder(
+                  builder: (BuildContext context) {
+                    if (BuildInfo.releaseType == ReleaseType.stable) return const Text(BuildInfo.appVersion);
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('${BuildInfo.releaseType.name} release', style: const TextStyle(color: Colors.amber)),
+                        const Text('${BuildInfo.appVersion} (${BuildInfo.branch})'),
                       ],
-                    ),
-                    barrierDismissible: false,
-                  );
-                }
-              },
-            ),
-            ListTile(
-              title: Text(Strings.of(context).page_settings_about_copyright_title),
-              subtitle: Text(Strings.of(context).page_settings_about_copyright_text),
-              leading: const Icon(Icons.copyright),
-              trailing: const Icon(Icons.chevron_right),
-              minVerticalPadding: 12,
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: Column(
-                        children: [
-                          Text('Noterly', style: Theme.of(context).textTheme.titleLarge),
-                          if (BuildInfo.releaseType != ReleaseType.stable)
-                            Text('${BuildInfo.releaseType.name} release',
-                                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                      color: Colors.amber,
-                                    )),
-                          Text(
-                            BuildInfo.releaseType == ReleaseType.stable ? BuildInfo.appVersion : '${BuildInfo.appVersion} (${BuildInfo.branch})',
-                            style: Theme.of(context).textTheme.titleMedium,
+                    );
+                  },
+                ),
+                leading: const Icon(Icons.info),
+                minVerticalPadding: 12,
+                onTap: () async {
+                  _easterEggCount++;
+
+                  var newTime = DateTime.now().millisecondsSinceEpoch;
+                  if (newTime - _lastTapTime > _millisBeforeReset) {
+                    _easterEggCount = 0;
+                  }
+                  _lastTapTime = newTime;
+
+                  if (_easterEggCount == 7) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text(Strings.of(context).dialog_easterEgg_title),
+                        content: Text(Strings.of(context).dialog_easterEgg_text),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              setState(() => _debugOptions = true);
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(Strings.of(context).dialog_easterEgg_action_showDebugOptions),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: Text(Strings.of(context).general_close),
                           ),
                         ],
                       ),
-                      content: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
+                      barrierDismissible: false,
+                    );
+                  }
+                },
+              ),
+              ListTile(
+                title: Text(Strings.of(context).page_settings_about_copyright_title),
+                subtitle: Text(Strings.of(context).page_settings_about_copyright_text),
+                leading: const Icon(Icons.copyright),
+                trailing: const Icon(Icons.chevron_right),
+                minVerticalPadding: 12,
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Column(
                           children: [
-                            Text(Strings.of(context).page_settings_about_licenses_page_legalese),
-                            const SizedBox(height: 8),
-                            Text(Strings.of(context).page_settings_about_licenses_page_openSourceSoftware),
-                            const SizedBox(height: 16),
-                            Text(Strings.of(context).dialog_about_translations_title, style: Theme.of(context).textTheme.titleMedium),
-                            const Text(_copyrightText),
-                            const SizedBox(height: 16),
-                            ButtonBar(
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                    showLicensePage(
-                                      context: context,
-                                      applicationLegalese: Strings.of(context).page_settings_about_licenses_page_legalese,
-                                      applicationVersion: BuildInfo.appVersion,
-                                    );
-                                  },
-                                  child: Text(Strings.of(context).dialog_about_action_showLicenses),
-                                ),
-                                TextButton(
-                                  onPressed: () => Navigator.of(context).pop(),
-                                  child: Text(Strings.of(context).general_close),
-                                ),
-                              ],
+                            Text('Noterly', style: Theme.of(context).textTheme.titleLarge),
+                            if (BuildInfo.releaseType != ReleaseType.stable)
+                              Text('${BuildInfo.releaseType.name} release',
+                                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                        color: Colors.amber,
+                                      )),
+                            Text(
+                              BuildInfo.releaseType == ReleaseType.stable ? BuildInfo.appVersion : '${BuildInfo.appVersion} (${BuildInfo.branch})',
+                              style: Theme.of(context).textTheme.titleMedium,
                             ),
                           ],
                         ),
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-            ListTile(
-              title: Text(Strings.of(context).page_settings_about_tutorial_title),
-              leading: const Icon(Icons.school),
-              trailing: const Icon(Icons.chevron_right),
-              minVerticalPadding: 12,
-              onTap: () async {
-                showDialog(
-                  context: context,
-                  builder: (context) => FirstLaunchDialog(
-                    onComplete: () {},
-                  ),
-                  barrierDismissible: false,
-                );
-              },
-            ),
-          ]),
-          _getSpacer(),
-          _getCard(context, [
-            ListTile(
-              title: Text(Strings.of(context).page_settings_about_github_title),
-              leading: const Icon(Icons.favorite),
-              trailing: const Icon(Icons.open_in_new),
-              minVerticalPadding: 12,
-              onTap: () async {
-                var uri = Uri.parse('https://github.com/tomc128/noterly');
-                await _launchUrl(uri);
-              },
-            ),
-            ListTile(
-              title: Text(Strings.of(context).page_settings_about_privacyPolicy_title),
-              leading: const Icon(Icons.privacy_tip),
-              trailing: const Icon(Icons.open_in_new),
-              minVerticalPadding: 12,
-              onTap: () async {
-                var uri = Uri.parse('https://tdsstudios.co.uk/privacy');
-                await _launchUrl(uri);
-              },
-            ),
-            ListTile(
-              title: Text(Strings.of(context).page_settings_about_feedback_title),
-              leading: const Icon(Icons.comment),
-              trailing: const Icon(Icons.open_in_new),
-              minVerticalPadding: 12,
-              onTap: () async {
-                var uri = Uri.parse('https://forms.gle/5HZNjmr5wF1t4r8q6');
-                await _launchUrl(uri);
-              },
-            ),
-            ListTile(
-              title: Text(Strings.of(context).page_settings_about_translate_title),
-              leading: const Icon(Icons.translate),
-              trailing: const Icon(Icons.open_in_new),
-              minVerticalPadding: 12,
-              onTap: () async {
-                var uri = Uri.parse('https://crowdin.com/project/noterly/invite?h=5831212784abb6a4b04739214cb7a1a91820487');
-                await _launchUrl(uri);
-              },
-            ),
-          ]),
-          if (kDebugMode || _debugOptions) ..._getDebugOptions(context),
-        ],
+                        content: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(Strings.of(context).page_settings_about_licenses_page_legalese),
+                              const SizedBox(height: 8),
+                              Text(Strings.of(context).page_settings_about_licenses_page_openSourceSoftware),
+                              const SizedBox(height: 16),
+                              Text(Strings.of(context).dialog_about_translations_title, style: Theme.of(context).textTheme.titleMedium),
+                              const Text(_copyrightText),
+                              const SizedBox(height: 16),
+                              ButtonBar(
+                                children: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      showLicensePage(
+                                        context: context,
+                                        applicationLegalese: Strings.of(context).page_settings_about_licenses_page_legalese,
+                                        applicationVersion: BuildInfo.appVersion,
+                                      );
+                                    },
+                                    child: Text(Strings.of(context).dialog_about_action_showLicenses),
+                                  ),
+                                  TextButton(
+                                    onPressed: () => Navigator.of(context).pop(),
+                                    child: Text(Strings.of(context).general_close),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+              ListTile(
+                title: Text(Strings.of(context).page_settings_about_tutorial_title),
+                leading: const Icon(Icons.school),
+                trailing: const Icon(Icons.chevron_right),
+                minVerticalPadding: 12,
+                onTap: () async {
+                  showDialog(
+                    context: context,
+                    builder: (context) => FirstLaunchDialog(
+                      onComplete: () {},
+                    ),
+                    barrierDismissible: false,
+                  );
+                },
+              ),
+            ]),
+            _getSpacer(),
+            _getCard(context, [
+              ListTile(
+                title: Text(Strings.of(context).page_settings_about_github_title),
+                leading: const Icon(Icons.favorite),
+                trailing: const Icon(Icons.open_in_new),
+                minVerticalPadding: 12,
+                onTap: () async {
+                  var uri = Uri.parse('https://github.com/tomc128/noterly');
+                  await _launchUrl(uri);
+                },
+              ),
+              ListTile(
+                title: Text(Strings.of(context).page_settings_about_privacyPolicy_title),
+                leading: const Icon(Icons.privacy_tip),
+                trailing: const Icon(Icons.open_in_new),
+                minVerticalPadding: 12,
+                onTap: () async {
+                  var uri = Uri.parse('https://tdsstudios.co.uk/privacy');
+                  await _launchUrl(uri);
+                },
+              ),
+              ListTile(
+                title: Text(Strings.of(context).page_settings_about_feedback_title),
+                leading: const Icon(Icons.comment),
+                trailing: const Icon(Icons.open_in_new),
+                minVerticalPadding: 12,
+                onTap: () async {
+                  var uri = Uri.parse('https://forms.gle/5HZNjmr5wF1t4r8q6');
+                  await _launchUrl(uri);
+                },
+              ),
+              ListTile(
+                title: Text(Strings.of(context).page_settings_about_translate_title),
+                leading: const Icon(Icons.translate),
+                trailing: const Icon(Icons.open_in_new),
+                minVerticalPadding: 12,
+                onTap: () async {
+                  var uri = Uri.parse('https://crowdin.com/project/noterly/invite?h=5831212784abb6a4b04739214cb7a1a91820487');
+                  await _launchUrl(uri);
+                },
+              ),
+            ]),
+            if (kDebugMode || _debugOptions) ..._getDebugOptions(context),
+          ],
+        ),
       ),
     );
   }

@@ -15,6 +15,7 @@ import 'package:noterly/managers/app_manager.dart';
 import 'package:noterly/managers/isolate_manager.dart';
 import 'package:noterly/managers/log.dart';
 import 'package:noterly/managers/notification_manager.dart';
+import 'package:noterly/managers/scroll_capture.dart';
 import 'package:noterly/managers/wear_sync.dart';
 import 'package:noterly_wear/noterly_wear.dart';
 import 'package:noterly/pages/create_notification_page.dart';
@@ -115,6 +116,9 @@ Future<void> main(List<String> args) async {
 
   // Inter is bundled in assets/google_fonts, so never download fonts at runtime
   GoogleFonts.config.allowRuntimeFetching = false;
+
+  // Let the Galaxy screenshot toolbar's scroll capture scroll through the lists
+  ScrollCapture.init();
 
   // Run the app
   runApp(MyApp(launchMessage: args.isNotEmpty ? args[0] : null));

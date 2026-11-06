@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:noterly/extensions/date_time_extensions.dart';
 import 'package:noterly/l10n/localisations_util.dart';
 import 'package:noterly/managers/app_manager.dart';
+import 'package:noterly/managers/scroll_capture.dart';
 import 'package:noterly/models/navigation_screen.dart';
 import 'package:noterly/models/notification_item.dart';
 
@@ -28,27 +29,58 @@ class ArchivedNotificationsPage extends NavigationScreen {
 
     items.sort((a, b) => b.archivedDateTime!.compareTo(a.archivedDateTime!));
 
-    return ListView.builder(
+    return ScrollCaptureTarget(
       controller: scrollController,
-      itemCount: items.length + (items.length > 1 ? 1 : 0),
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 96), // Allow space for the FAB.
-      itemBuilder: (context, index) {
-        if (index == items.length) {
-          // button to delete all archived notifications
-          return Padding(
-            padding: const EdgeInsets.only(top: 24),
-            child: FilledButton.tonalIcon(
-              style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
-              icon: const Icon(Icons.delete_sweep),
-              label: Text(Strings.of(context).page_archivedNotifications_button_deleteAll),
-              onPressed: () {
-                AppManager.instance.deleteAllArchivedItems();
+      child: ListView.builder(
+        controller: scrollController,
+        itemCount: items.length + (items.length > 1 ? 1 : 0),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 96), // Allow space for the FAB.
+        itemBuilder: (context, index) {
+          if (index == items.length) {
+            // button to delete all archived notifications
+            return Padding(
+              padding: const EdgeInsets.only(top: 24),
+              child: FilledButton.tonalIcon(
+                style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
+                icon: const Icon(Icons.delete_sweep),
+                label: Text(Strings.of(context).page_archivedNotifications_button_deleteAll),
+                onPressed: () {
+                  AppManager.instance.deleteAllArchivedItems();
 
-                ScaffoldMessenger.of(context).clearSnackBars(); // Clear any existing snackbars
+                  ScaffoldMessenger.of(context).clearSnackBars(); // Clear any existing snackbars
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      persist: false, // Snack bars with an action stay until swiped away by default
+                      content: Text(Strings.of(context).snackbar_allArchivedNotificationsDeleted),
+                      action: SnackBarAction(
+                        label: Strings.of(context).general_undo,
+                        onPressed: () {
+                          AppManager.instance.restoreLastDeletedItems();
+                        },
+                      ),
+                    ),
+                  );
+                },
+              ),
+            );
+          }
+
+          final item = items[index];
+
+          return ExpressiveListItem(
+            index: index,
+            count: items.length,
+            child: Dismissible(
+              key: ValueKey(item.id),
+              background: const ExpressiveDismissBackground(icon: Icons.delete),
+              secondaryBackground: const ExpressiveDismissBackground(icon: Icons.delete, isSecondary: true),
+              onDismissed: (direction) {
+                AppManager.instance.deleteItem(item.id);
+                ScaffoldMessenger.of(context).clearSnackBars(); // Clear any existing snackbars to prevent buildup
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     persist: false, // Snack bars with an action stay until swiped away by default
-                    content: Text(Strings.of(context).snackbar_allArchivedNotificationsDeleted),
+                    content: Text(Strings.of(context).snackbar_notificationDeleted(item.title)),
                     action: SnackBarAction(
                       label: Strings.of(context).general_undo,
                       onPressed: () {
@@ -58,45 +90,17 @@ class ArchivedNotificationsPage extends NavigationScreen {
                   ),
                 );
               },
+              child: ListTile(
+                title: Text(item.title),
+                subtitle: _getSubtitle(context, item),
+                minVerticalPadding: 14,
+                leading: ExpressiveColourBadge(colour: item.colour),
+                onTap: () => _onItemTap(context, item),
+              ),
             ),
           );
-        }
-
-        final item = items[index];
-
-        return ExpressiveListItem(
-          index: index,
-          count: items.length,
-          child: Dismissible(
-            key: ValueKey(item.id),
-            background: const ExpressiveDismissBackground(icon: Icons.delete),
-            secondaryBackground: const ExpressiveDismissBackground(icon: Icons.delete, isSecondary: true),
-            onDismissed: (direction) {
-              AppManager.instance.deleteItem(item.id);
-              ScaffoldMessenger.of(context).clearSnackBars(); // Clear any existing snackbars to prevent buildup
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  persist: false, // Snack bars with an action stay until swiped away by default
-                  content: Text(Strings.of(context).snackbar_notificationDeleted(item.title)),
-                  action: SnackBarAction(
-                    label: Strings.of(context).general_undo,
-                    onPressed: () {
-                      AppManager.instance.restoreLastDeletedItems();
-                    },
-                  ),
-                ),
-              );
-            },
-            child: ListTile(
-              title: Text(item.title),
-              subtitle: _getSubtitle(context, item),
-              minVerticalPadding: 14,
-              leading: ExpressiveColourBadge(colour: item.colour),
-              onTap: () => _onItemTap(context, item),
-            ),
-          ),
-        );
-      },
+        },
+      ),
     );
   }
 
