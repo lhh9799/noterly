@@ -2,6 +2,9 @@
 <img src="assets/figma/logo_full_circle.svg" width="100">
 
 # Noterly
+
+**English** | [한국어](README.ko.md)
+
 Simple notification reminders for Android devices.
 
 This is a personal fork of [tomc128/noterly](https://github.com/tomc128/noterly). It builds on the 1.4.3 beta
