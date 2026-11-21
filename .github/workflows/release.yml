@@ -1,0 +1,153 @@
+# Builds, signs and publishes a GitHub Release whenever app code lands on main.
+#
+# Runs on pushes to main that change the app (not docs, screenshots or tests), or by hand from the Actions tab.
+# The APK is signed like scripts/sign-release.ps1: debug key -> release key with the rotation lineage, so it installs
+# over every earlier release. The keys come from repository secrets, set with scripts/set-ci-secrets.ps1.
+# The APK goes straight to the Release, not to an Actions artifact, so it uses none of the Actions storage quota.
+name: Release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'noterly/lib/**'
+      - 'noterly/android/**'
+      - 'noterly/assets/**'
+      - 'noterly/packages/**'
+      - 'noterly/pubspec.yaml'
+      - 'noterly/pubspec.lock'
+      - 'noterly/l10n.yaml'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Build and sign only, without creating a Release'
+        type: boolean
+        default: false
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: bash
+    env:
+      # SHA-256 of the release key certificate; the job fails rather than publish an APK signed with anything else
+      RELEASE_CERT_SHA256: 1e7a919cd9e5fd10015cc8170c03648f765a7521c832e35cd8fad1a3559c2658
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.7'
+          channel: stable
+          cache: true
+
+      - name: Test
+        working-directory: noterly
+        run: |
+          flutter pub get
+          flutter test
+
+      - name: Restore signing keys
+        env:
+          RELEASE_KEYSTORE: ${{ secrets.NOTERLY_RELEASE_KEYSTORE }}
+          LINEAGE: ${{ secrets.NOTERLY_LINEAGE }}
+          DEBUG_KEYSTORE: ${{ secrets.NOTERLY_DEBUG_KEYSTORE }}
+        run: |
+          for name in RELEASE_KEYSTORE LINEAGE DEBUG_KEYSTORE; do
+            [ -n "${!name}" ] || { echo "::error::Secret for $name is missing. Run scripts/set-ci-secrets.ps1."; exit 1; }
+          done
+          mkdir -p "$RUNNER_TEMP/keys" ~/.android
+          echo "$RELEASE_KEYSTORE" | base64 -d > "$RUNNER_TEMP/keys/release.jks"
+          echo "$LINEAGE" | base64 -d > "$RUNNER_TEMP/keys/noterly.lineage"
+          # The old debug key is the first signer of the lineage (and Gradle signs the unsigned build with it)
+          echo "$DEBUG_KEYSTORE" | base64 -d > ~/.android/debug.keystore
+
+      - name: Build
+        working-directory: noterly
+        run: flutter build apk --release --flavor dev
+
+      - name: Sign
+        env:
+          KS_PASS: ${{ secrets.NOTERLY_KEYSTORE_PASSWORD }}
+        run: |
+          [ -n "$KS_PASS" ] || { echo "::error::NOTERLY_KEYSTORE_PASSWORD is missing. Run scripts/set-ci-secrets.ps1."; exit 1; }
+          export KS_PASS="$(printf '%s' "$KS_PASS" | tr -d '\r\n')"
+          apksigner="$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)/apksigner"
+          out=noterly/build/app/outputs/flutter-apk
+          "$apksigner" sign \
+            --ks ~/.android/debug.keystore --ks-key-alias androiddebugkey --ks-pass pass:android --key-pass pass:android \
+            --next-signer --ks "$RUNNER_TEMP/keys/release.jks" --ks-key-alias noterly --ks-pass env:KS_PASS \
+            --lineage "$RUNNER_TEMP/keys/noterly.lineage" \
+            --out "$out/signed.apk" "$out/app-dev-release.apk"
+          "$apksigner" verify --print-certs "$out/signed.apk" | tee "$RUNNER_TEMP/certs.txt"
+          grep -q "Signer #1 certificate SHA-256 digest: $RELEASE_CERT_SHA256" "$RUNNER_TEMP/certs.txt" \
+            || { echo "::error::The APK is not signed with the release key"; exit 1; }
+
+      - name: Remove signing keys
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/keys" ~/.android/debug.keystore
+
+      - name: Pick the tag and write the notes
+        id: meta
+        run: |
+          # vYYYY.MM.DD-N in Korean time, N counting up from 1 for releases on the same day
+          day="$(TZ=Asia/Seoul date +%Y.%m.%d)"
+          n=1
+          while git rev-parse -q --verify "refs/tags/v$day-$n" >/dev/null; do n=$((n + 1)); done
+          tag="v$day-$n"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          mv noterly/build/app/outputs/flutter-apk/signed.apk "$RUNNER_TEMP/noterly-phone-${tag#v}.apk"
+          echo "apk=$RUNNER_TEMP/noterly-phone-${tag#v}.apk" >> "$GITHUB_OUTPUT"
+
+          prev="$(git describe --tags --abbrev=0 --match 'v[0-9]*.[0-9]*.[0-9]*-[0-9]*' 2>/dev/null || true)"
+          range="${prev:+$prev..}HEAD"
+          section() { # $1 = heading, $2 = regex for the commit types it takes
+            local lines
+            lines="$(git log --no-merges --format='%s (%h)' "$range" | grep -E "^($2)(\(|!|:)" || true)"
+            [ -n "$lines" ] && printf '### %s\n\n%s\n\n' "$1" "$(echo "$lines" | sed 's/^/- /')"
+            return 0
+          }
+          {
+            echo "## 변경 사항"
+            echo
+            section "새 기능" "feat"
+            section "버그 수정" "fix"
+            section "기타" "perf|refactor|build|revert"
+            [ -n "$prev" ] && echo "이전 릴리스: [$prev](https://github.com/${GITHUB_REPOSITORY}/releases/tag/$prev)" && echo
+            echo "## 참고"
+            echo
+            echo "- v2026.10.27-2 이후와 같은 릴리스 키로 서명되어 이전 버전 위에 그대로 업데이트 설치되며 데이터가 유지됩니다."
+            echo "- 현재 서명 인증서 SHA-256: \`$RELEASE_CERT_SHA256\`"
+            echo "- GitHub Actions에서 자동으로 빌드·서명했습니다 (커밋 ${GITHUB_SHA::7})."
+            echo
+            echo "## 호환 워치 앱"
+            echo
+            echo "- [Noterly Watch v1.0.1](https://github.com/lhh9799/noterly-watch/releases/tag/v1.0.1) 이상 (같은 새 릴리스 키로 서명된 버전)"
+          } > "$RUNNER_TEMP/notes.md"
+          cat "$RUNNER_TEMP/notes.md"
+
+      - name: Create the Release
+        if: ${{ !inputs.dry_run }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ steps.meta.outputs.tag }}" "${{ steps.meta.outputs.apk }}" \
+            --target "$GITHUB_SHA" --title "${{ steps.meta.outputs.tag }}" --notes-file "$RUNNER_TEMP/notes.md"
