@@ -54,6 +54,10 @@ class NotificationManager {
 
     if (isBackground) {
       await AppManager.instance.ensureInitialised();
+      // The background engine stays alive between button presses, so its copy of the list can be out of date: the
+      // app or the watch may have changed the file since the last press. Reload it, otherwise the save below writes
+      // the old copy back and reminders that were marked as done or archived elsewhere come back with a notification.
+      await AppManager.instance.fullUpdate();
     }
 
     // The old notification system used the item ID as the payload, but the new system uses a JSON string
