@@ -3,6 +3,7 @@ import 'package:noterly/extensions/date_time_extensions.dart';
 import 'package:noterly/l10n/localisations_util.dart';
 import 'package:noterly/managers/app_manager.dart';
 import 'package:noterly/managers/scroll_capture.dart';
+import 'package:noterly/models/app_data.dart';
 import 'package:noterly/models/navigation_screen.dart';
 import 'package:noterly/models/notification_item.dart';
 import 'package:noterly/pages/edit_notification_page.dart';
@@ -102,32 +103,61 @@ class ActiveNotificationsPage extends NavigationScreen {
         ),
       );
 
-  Widget _getItem(BuildContext context, NotificationItem item) => Dismissible(
-        key: ValueKey(item.id),
-        background: const ExpressiveDismissBackground(icon: Icons.archive),
-        secondaryBackground: const ExpressiveDismissBackground(icon: Icons.archive, isSecondary: true),
-        onDismissed: (direction) {
-          AppManager.instance.archiveItem(item.id);
-          ScaffoldMessenger.of(context).clearSnackBars(); // Prevents multiple snackbars from building up
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              persist: false, // Snack bars with an action stay until swiped away by default
-              content: Text(Strings.of(context).snackbar_notificationArchived(item.title)),
-              action: SnackBarAction(
-                label: Strings.of(context).general_undo,
-                onPressed: () => AppManager.instance.restoreArchivedItem(item.id),
-              ),
-            ),
-          );
-        },
-        child: ListTile(
-          title: Text(item.title),
-          subtitle: _getSubtitle(context, item),
-          minVerticalPadding: 14,
-          leading: ExpressiveColourBadge(colour: item.colour),
-          onTap: () => _onItemTap(context, item),
-        ),
-      );
+  Widget _getItem(BuildContext context, NotificationItem item) {
+    final tile = ListTile(
+      title: Text(item.title),
+      subtitle: _getSubtitle(context, item),
+      minVerticalPadding: 14,
+      leading: ExpressiveColourBadge(colour: item.colour),
+      onTap: () => _onItemTap(context, item),
+    );
+
+    final data = AppManager.instance.data;
+    final right = data.swipeEnabled ? data.swipeRightAction : SwipeAction.none;
+    final left = data.swipeEnabled ? data.swipeLeftAction : SwipeAction.none;
+    if (right == SwipeAction.none && left == SwipeAction.none) return tile;
+
+    return Dismissible(
+      key: ValueKey(item.id),
+      direction: right == SwipeAction.none
+          ? DismissDirection.endToStart
+          : left == SwipeAction.none
+              ? DismissDirection.startToEnd
+              : DismissDirection.horizontal,
+      // Without a secondaryBackground, background is shown for both directions
+      background: ExpressiveDismissBackground(icon: _swipeIcon(right == SwipeAction.none ? left : right), isSecondary: right == SwipeAction.none),
+      secondaryBackground: left == SwipeAction.none ? null : ExpressiveDismissBackground(icon: _swipeIcon(left), isSecondary: true),
+      onDismissed: (direction) => _onSwiped(context, item, direction == DismissDirection.startToEnd ? right : left),
+      child: tile,
+    );
+  }
+
+  static IconData _swipeIcon(SwipeAction action) => action == SwipeAction.delete ? Icons.delete : Icons.archive;
+
+  void _onSwiped(BuildContext context, NotificationItem item, SwipeAction action) {
+    final strings = Strings.of(context);
+    final String message;
+    final VoidCallback undo;
+
+    if (action == SwipeAction.delete) {
+      AppManager.instance.deleteItem(item.id);
+      message = strings.snackbar_notificationDeleted(item.title);
+      undo = () => AppManager.instance.restoreLastDeletedItems();
+    } else {
+      AppManager.instance.archiveItem(item.id);
+      message = strings.snackbar_notificationArchived(item.title);
+      undo = () => AppManager.instance.restoreArchivedItem(item.id);
+    }
+
+    ScaffoldMessenger.of(context).clearSnackBars(); // Prevents multiple snackbars from building up
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        persist: false, // Snack bars with an action stay until swiped away by default
+        content: Text(message),
+        action: SnackBarAction(label: strings.general_undo, onPressed: undo),
+      ),
+    );
+  }
 
   Widget? _getSubtitle(BuildContext context, NotificationItem item) {
     // Contains a list of conditions, each one of which returns true if it should NOT be shown

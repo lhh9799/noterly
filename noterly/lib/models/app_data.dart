@@ -1,5 +1,8 @@
 import 'package:noterly/models/notification_item.dart';
 
+/// What swiping a reminder in the active list does.
+enum SwipeAction { archive, delete, none }
+
 class AppData {
   List<NotificationItem> notificationItems;
 
@@ -21,6 +24,13 @@ class AppData {
   /// IDs of the most recent watch commands that were applied or ignored, so a command is never applied twice.
   List<String> appliedWearCommands;
 
+  /// Whether reminders can be swiped in the lists at all.
+  bool swipeEnabled;
+
+  /// What a swipe to the right (start to end) and to the left does in the active list.
+  SwipeAction swipeRightAction;
+  SwipeAction swipeLeftAction;
+
   AppData({
     required this.notificationItems,
     required this.snoozeDuration,
@@ -30,6 +40,9 @@ class AppData {
     this.dismissibleByDefault = false,
     this.rev = 0,
     List<String>? appliedWearCommands,
+    this.swipeEnabled = true,
+    this.swipeRightAction = SwipeAction.archive,
+    this.swipeLeftAction = SwipeAction.archive,
   }) : appliedWearCommands = appliedWearCommands ?? [];
 
   Map<String, dynamic> toJson() {
@@ -42,6 +55,9 @@ class AppData {
       'dismissibleByDefault': dismissibleByDefault,
       'rev': rev,
       'appliedWearCommands': appliedWearCommands,
+      'swipeEnabled': swipeEnabled,
+      'swipeRightAction': swipeRightAction.name,
+      'swipeLeftAction': swipeLeftAction.name,
     };
   }
 
@@ -56,7 +72,12 @@ class AppData {
         dismissibleByDefault: AppDataJsonParser<bool>('dismissibleByDefault', false).parse(json),
         rev: AppDataJsonParser<int>('rev', 0).parse(json),
         appliedWearCommands: AppDataJsonParser<List<String>>('appliedWearCommands', [], parser: (value) => List<String>.from(value)).parse(json),
+        swipeEnabled: AppDataJsonParser<bool>('swipeEnabled', true).parse(json),
+        swipeRightAction: AppDataJsonParser<SwipeAction>('swipeRightAction', SwipeAction.archive, parser: _parseSwipeAction).parse(json),
+        swipeLeftAction: AppDataJsonParser<SwipeAction>('swipeLeftAction', SwipeAction.archive, parser: _parseSwipeAction).parse(json),
       );
+
+  static SwipeAction _parseSwipeAction(dynamic value) => SwipeAction.values.asNameMap()[value] ?? SwipeAction.archive;
 
   @override
   String toString() => 'AppData(notificationItems: $notificationItems, snoozeDuration: $snoozeDuration, snoozeToastText: $snoozeToastText, firstLaunchDialogLastShown: $firstLaunchDialogLastShown, dismissibleNotificationsEnabled: $dismissibleNotificationsEnabled, dismissibleByDefault: $dismissibleByDefault, rev: $rev)';

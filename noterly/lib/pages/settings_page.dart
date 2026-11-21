@@ -10,6 +10,7 @@ import 'package:noterly/managers/backup_manager.dart';
 import 'package:noterly/managers/file_manager.dart';
 import 'package:noterly/managers/notification_manager.dart';
 import 'package:noterly/managers/scroll_capture.dart';
+import 'package:noterly/models/app_data.dart';
 import 'package:noterly/models/notification_item.dart';
 import 'package:noterly/models/repetition_data.dart';
 import 'package:noterly/widgets/duration_picker.dart';
@@ -112,6 +113,24 @@ class _SettingsPageState extends State<SettingsPage> {
                     await AppManager.instance.saveSettings();
                   },
                 ),
+            ]),
+            _getSpacer(),
+            _getHeader(Strings.of(context).page_settings_header_swipe),
+            _getCard(context, [
+              SwitchListTile(
+                value: AppManager.instance.data.swipeEnabled,
+                title: Text(Strings.of(context).page_settings_swipe_enabled_title),
+                subtitle: Text(Strings.of(context).page_settings_swipe_enabled_subtitle),
+                secondary: const Icon(Icons.swipe),
+                onChanged: (value) async {
+                  setState(() => AppManager.instance.data.swipeEnabled = value);
+                  await AppManager.instance.saveSettings();
+                },
+              ),
+              if (AppManager.instance.data.swipeEnabled) ...[
+                _getSwipeActionTile(context, right: true),
+                _getSwipeActionTile(context, right: false),
+              ],
             ]),
             _getSpacer(),
             _getHeader(Strings.of(context).page_settings_header_system),
@@ -348,6 +367,62 @@ class _SettingsPageState extends State<SettingsPage> {
           ],
         ),
       ),
+    );
+  }
+
+  String _swipeActionLabel(BuildContext context, SwipeAction action) => switch (action) {
+        SwipeAction.archive => Strings.of(context).swipeAction_archive,
+        SwipeAction.delete => Strings.of(context).swipeAction_delete,
+        SwipeAction.none => Strings.of(context).swipeAction_none,
+      };
+
+  Widget _getSwipeActionTile(BuildContext context, {required bool right}) {
+    final data = AppManager.instance.data;
+    final title = right ? Strings.of(context).page_settings_swipe_right : Strings.of(context).page_settings_swipe_left;
+    final current = right ? data.swipeRightAction : data.swipeLeftAction;
+
+    return ListTile(
+      title: Text(title),
+      subtitle: Text(_swipeActionLabel(context, current)),
+      leading: Icon(right ? Icons.east : Icons.west),
+      trailing: const Icon(Icons.chevron_right),
+      minVerticalPadding: 12,
+      onTap: () async {
+        final selected = await showDialog<SwipeAction>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(title),
+            contentPadding: const EdgeInsets.symmetric(vertical: 16),
+            content: RadioGroup<SwipeAction>(
+              groupValue: current,
+              onChanged: (value) => Navigator.of(context).pop(value),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  for (final action in SwipeAction.values)
+                    RadioListTile<SwipeAction>(value: action, title: Text(_swipeActionLabel(context, action))),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(Strings.of(context).general_cancel),
+              ),
+            ],
+          ),
+        );
+        if (selected == null || selected == current) return;
+
+        setState(() {
+          if (right) {
+            data.swipeRightAction = selected;
+          } else {
+            data.swipeLeftAction = selected;
+          }
+        });
+        await AppManager.instance.saveSettings();
+      },
     );
   }
 

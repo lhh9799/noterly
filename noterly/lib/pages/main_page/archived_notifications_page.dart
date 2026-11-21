@@ -66,6 +66,17 @@ class ArchivedNotificationsPage extends NavigationScreen {
           }
 
           final item = items[index];
+          final tile = ListTile(
+            title: Text(item.title),
+            subtitle: _getSubtitle(context, item),
+            minVerticalPadding: 14,
+            leading: ExpressiveColourBadge(colour: item.colour),
+            onTap: () => _onItemTap(context, item),
+          );
+
+          if (!AppManager.instance.data.swipeEnabled) {
+            return ExpressiveListItem(index: index, count: items.length, child: tile);
+          }
 
           return ExpressiveListItem(
             index: index,
@@ -90,13 +101,7 @@ class ArchivedNotificationsPage extends NavigationScreen {
                   ),
                 );
               },
-              child: ListTile(
-                title: Text(item.title),
-                subtitle: _getSubtitle(context, item),
-                minVerticalPadding: 14,
-                leading: ExpressiveColourBadge(colour: item.colour),
-                onTap: () => _onItemTap(context, item),
-              ),
+              child: tile,
             ),
           );
         },
