@@ -13,7 +13,8 @@ All credit for the original app goes to Tom Chapman; see [What's different in th
 
 ## 📸 Screenshots
 
-Release build (v2026.10.27-3 code) on a Galaxy S26 Ultra spec emulator (Android 17, 1080x2340), taken 2026-11-06.
+Release builds on a Galaxy S26 Ultra spec emulator (Android 17): v2026.10.27-3 code, taken 2026-11-06; settings, swipe
+and import screenshots from v2026.11.21-1, taken 2026-11-21.
 
 | Reminders | Dark theme | Edit a reminder |
 |:-:|:-:|:-:|
@@ -21,7 +22,9 @@ Release build (v2026.10.27-3 code) on a Galaxy S26 Ultra spec emulator (Android 
 | **Repeat on days of the week** | **Date and time** | **Time entry with the keypad** |
 | <img src="assets/screenshots/2026-10/repeat_weekdays.png" width="250" alt="Repeat dialog with Monday, Wednesday and Friday selected"> | <img src="assets/screenshots/2026-10/date_time.png" width="250" alt="Date and time dialog"> | <img src="assets/screenshots/2026-10/time_keypad.png" width="250" alt="Time picker in keypad input mode"> |
 | **Colours** | **Archive** | **Settings** |
-| <img src="assets/screenshots/2026-10/colour.png" width="250" alt="Colour picker"> | <img src="assets/screenshots/2026-10/archive.png" width="250" alt="Archive tab"> | <img src="assets/screenshots/2026-10/settings.png" width="250" alt="Settings page with the Watch notifications and Send to watch by default switches"> |
+| <img src="assets/screenshots/2026-10/colour.png" width="250" alt="Colour picker"> | <img src="assets/screenshots/2026-10/archive.png" width="250" alt="Archive tab"> | <img src="assets/screenshots/2026-10/settings.png" width="250" alt="Settings page with the watch switches and the Swipe actions section"> |
+| **Swipe to archive or delete** | **Choose what each swipe does** | **Import reminders from a file** |
+| <img src="assets/screenshots/2026-10/swipe.png" width="250" alt="A reminder swiped left, showing the delete icon"> | <img src="assets/screenshots/2026-10/swipe_actions.png" width="250" alt="Swipe left dialog with Archive, Delete and Do nothing"> | <img src="assets/screenshots/2026-10/import.png" width="250" alt="Import dialog asking whether to merge or replace"> |
 
 <img src="assets/screenshots/2026-10/notification.png" width="400" alt="A Noterly Dev notification with Mark as done and Snooze actions">
 
@@ -60,7 +63,10 @@ lets you add, finish and snooze them from the watch, and raises alarms on the wa
   be swiped away (the reminder stays in the list). In Settings, *Send to watch by default* sets it for new
   reminders and *Watch notifications* turns the option off altogether
 - 💤 Snooze reminders for a customisable amount of time
-- ✅ Mark reminders as done from the notification, or swipe them away in the app (with Undo); done reminders move to the Archive
+- ✅ Mark reminders as done from the notification; done reminders move to the Archive
+- 👉 Swipe reminders in the list to archive or delete them (with Undo). In Settings, choose what a right and a left
+  swipe do (Archive, Delete or Do nothing), or turn swiping off
+- 💾 Export all reminders, archived ones included, to a JSON file, and import them again with Merge or Replace
 - 🏃🏻‍♀️ Create reminders from a quick settings tile, or share text to Noterly from other apps
 - 🎨 Material 3 Expressive UI with Material You colours and a dark theme
 - 🔒 No analytics or crash reporting: nothing leaves the device
@@ -73,12 +79,13 @@ Compared with the original 1.4.3 beta:
 - **Toolchain:** Flutter 3.47.7, Gradle 9.5.1, AGP 8.13.0, Kotlin 2.3.20; minSdk 36 (Android 16), arm64 only
 - **Firebase removed** (Analytics and Crashlytics), and the Inter font is bundled instead of downloaded at run time
 - **New:** weekday repeats, keypad time entry, the Send to watch option (formerly Dismissible) and its Settings switches
-  (#35), and sync with the Galaxy Watch app
+  (#35), sync with the Galaxy Watch app, export and import of reminders, and Gmail-style swipe settings
 - **Design:** Material 3 Expressive look (segmented list groups, pill buttons, larger New note button, reworked dialogs,
   empty-state illustrations)
 - **Fixes:**
   - Reminders were all lost when the save file failed to load (#42)
   - A snoozed repeating reminder came back after being marked as done (#20)
+  - A reminder archived in the app or on the watch came back when another one was marked as done from its notification
   - The Undo snack bar stayed until swiped away
   - No visible separation between items on the main list, and jerky scrolling
   - The app bar shadow stayed after switching tabs
@@ -131,3 +138,9 @@ repository root) writes `app-dev-release-signed.apk`. The key and lineage are ke
 non-ASCII path) and then signs it. Run `.\scripts\sign-release.ps1 -SavePassword` once to store the keystore password
 for your Windows user (DPAPI-encrypted, in `%LOCALAPPDATA%\noterly\`), so neither script asks for it again.
 The APK is written to `noterly/build/app/outputs/flutter-apk/`.
+
+Releases are made by GitHub Actions ([.github/workflows/release.yml](.github/workflows/release.yml)): every push to
+`main` that changes the app (not only docs or tests) is tested, built, signed the same way and published as a
+`vYYYY.MM.DD-N` release with notes from the commit messages. The key, lineage and password come from repository
+secrets, uploaded once with `pwsh -File .\scripts\set-ci-secrets.ps1`. A manual run with `dry_run` builds and signs
+without publishing.
