@@ -42,12 +42,12 @@ jobs:
       # SHA-256 of the release key certificate; the job fails rather than publish an APK signed with anything else
       RELEASE_CERT_SHA256: 1e7a919cd9e5fd10015cc8170c03648f765a7521c832e35cd8fad1a3559c2658
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           fetch-tags: true
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
