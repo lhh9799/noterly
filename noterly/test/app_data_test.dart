@@ -27,4 +27,22 @@ void main() {
       expect(data.swipeRightAction, SwipeAction.archive);
     });
   });
+
+  group('automatic backup settings', () {
+    test('an old save file without them has automatic backup off', () {
+      final data = AppData.fromJson({});
+      expect(data.autoBackupFolderUri, isNull);
+      expect(data.autoBackupFolderName, isNull);
+    });
+
+    test('are kept through a save and load', () {
+      final data = AppData.defaults()
+        ..autoBackupFolderUri = 'content://com.android.externalstorage.documents/tree/primary%3ADownload'
+        ..autoBackupFolderName = 'Download';
+
+      final loaded = AppData.fromJson(data.toJson());
+      expect(loaded.autoBackupFolderUri, data.autoBackupFolderUri);
+      expect(loaded.autoBackupFolderName, 'Download');
+    });
+  });
 }

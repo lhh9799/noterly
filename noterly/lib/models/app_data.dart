@@ -31,6 +31,13 @@ class AppData {
   SwipeAction swipeRightAction;
   SwipeAction swipeLeftAction;
 
+  /// The folder the automatic backup is written to (a tree URI from the system folder picker), or null when automatic
+  /// backup is off. After a reinstall it may still be set while the app no longer has access to the folder.
+  String? autoBackupFolderUri;
+
+  /// The name of that folder, to show in the settings.
+  String? autoBackupFolderName;
+
   AppData({
     required this.notificationItems,
     required this.snoozeDuration,
@@ -43,6 +50,8 @@ class AppData {
     this.swipeEnabled = true,
     this.swipeRightAction = SwipeAction.archive,
     this.swipeLeftAction = SwipeAction.archive,
+    this.autoBackupFolderUri,
+    this.autoBackupFolderName,
   }) : appliedWearCommands = appliedWearCommands ?? [];
 
   Map<String, dynamic> toJson() {
@@ -58,6 +67,8 @@ class AppData {
       'swipeEnabled': swipeEnabled,
       'swipeRightAction': swipeRightAction.name,
       'swipeLeftAction': swipeLeftAction.name,
+      'autoBackupFolderUri': autoBackupFolderUri,
+      'autoBackupFolderName': autoBackupFolderName,
     };
   }
 
@@ -75,6 +86,8 @@ class AppData {
         swipeEnabled: AppDataJsonParser<bool>('swipeEnabled', true).parse(json),
         swipeRightAction: AppDataJsonParser<SwipeAction>('swipeRightAction', SwipeAction.archive, parser: _parseSwipeAction).parse(json),
         swipeLeftAction: AppDataJsonParser<SwipeAction>('swipeLeftAction', SwipeAction.archive, parser: _parseSwipeAction).parse(json),
+        autoBackupFolderUri: AppDataJsonParser<String?>('autoBackupFolderUri', null).parse(json),
+        autoBackupFolderName: AppDataJsonParser<String?>('autoBackupFolderName', null).parse(json),
       );
 
   static SwipeAction _parseSwipeAction(dynamic value) => SwipeAction.values.asNameMap()[value] ?? SwipeAction.archive;

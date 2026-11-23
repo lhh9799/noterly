@@ -89,6 +89,32 @@
     "page_settings_backup_export_subtitle": "Save all reminders, including archived ones, to a file.",
     "page_settings_backup_import_title": "Import reminders",
     "page_settings_backup_import_subtitle": "Load reminders from an exported file.",
+    "page_settings_backup_auto_title": "Automatic backup",
+    "page_settings_backup_auto_subtitle_off": "Keep a copy of all reminders in a folder you choose, such as Documents, updated after every change. After reinstalling the app, bring it back with Import reminders.",
+    "page_settings_backup_auto_subtitle_on": "Saved as {file} in {folder} after every change. Tap to choose another folder.",
+    "@page_settings_backup_auto_subtitle_on": {
+        "description": "Subtitle of the automatic backup switch while it is on.",
+        "placeholders": {
+            "file": {
+                "type": "String",
+                "example": "noterly-backup.json"
+            },
+            "folder": {
+                "type": "String",
+                "example": "Download"
+            }
+        }
+    },
+    "page_settings_backup_auto_subtitle_error": "Can't save to {folder}, for example after the app was reinstalled. Tap to choose the folder again.",
+    "@page_settings_backup_auto_subtitle_error": {
+        "description": "Subtitle of the automatic backup switch when the app can no longer write to the folder.",
+        "placeholders": {
+            "folder": {
+                "type": "String",
+                "example": "Download"
+            }
+        }
+    },
     "page_settings_header_swipe": "Swipe actions",
     "page_settings_swipe_enabled_title": "Swipe reminders",
     "page_settings_swipe_enabled_subtitle": "Archive or delete a reminder by swiping it in a list.",
@@ -141,6 +167,17 @@
     },
     "snackbar_import_empty": "The file has no reminders.",
     "snackbar_import_failed": "This file couldn't be read as a Noterly reminders file.",
+    "snackbar_auto_backup_done": "Reminders backed up to {folder}.",
+    "@snackbar_auto_backup_done": {
+        "description": "Shown after automatic backup was turned on, or its folder changed, and the first backup was saved.",
+        "placeholders": {
+            "folder": {
+                "type": "String",
+                "example": "Download"
+            }
+        }
+    },
+    "snackbar_auto_backup_failed": "Couldn't save the backup in that folder.",
     "page_settings_system_notificationSettings": "Notification settings",
     "page_settings_about_version_title": "Version",
     "page_settings_about_copyright_title": "Copyright & credits",

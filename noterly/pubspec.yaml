@@ -36,6 +36,8 @@ dependencies:
   dots_indicator: ^4.0.1
   noterly_wear:
     path: packages/noterly_wear
+  noterly_backup:
+    path: packages/noterly_backup
 
 dev_dependencies:
   flutter_test:

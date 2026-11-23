@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:noterly/managers/auto_backup.dart';
 import 'package:noterly/managers/file_manager.dart';
 import 'package:noterly/managers/lifecycle_event_handler.dart';
 import 'package:noterly/managers/notification_manager.dart';
@@ -104,8 +105,9 @@ class AppManager {
 
     await FileManager.save(data);
 
-    // Every save, from any isolate, sends the whole list to the watch app
+    // Every save, from any isolate, sends the whole list to the watch app and refreshes the automatic backup
     await WearSync.sendSnapshot(data);
+    await AutoBackup.write(data);
   }
 
   // #region List management

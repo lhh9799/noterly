@@ -6,6 +6,7 @@ import 'package:noterly/build_info.dart';
 import 'package:noterly/extensions/duration_extensions.dart';
 import 'package:noterly/l10n/localisations_util.dart';
 import 'package:noterly/managers/app_manager.dart';
+import 'package:noterly/managers/auto_backup.dart';
 import 'package:noterly/managers/backup_manager.dart';
 import 'package:noterly/managers/file_manager.dart';
 import 'package:noterly/managers/notification_manager.dart';
@@ -16,6 +17,7 @@ import 'package:noterly/models/repetition_data.dart';
 import 'package:noterly/widgets/duration_picker.dart';
 import 'package:noterly/widgets/first_launch_dialog.dart';
 import 'package:noterly/widgets/expressive.dart';
+import 'package:noterly_backup/noterly_backup.dart';
 import 'package:system_settings_2/system_settings_2.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
@@ -56,6 +58,15 @@ class _SettingsPageState extends State<SettingsPage> {
   int _lastTapTime = 0;
 
   bool _debugOptions = false;
+
+  /// False when automatic backup is on but its folder can no longer be written to.
+  bool _autoBackupWritable = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkAutoBackupFolder();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -156,6 +167,7 @@ class _SettingsPageState extends State<SettingsPage> {
             _getSpacer(),
             _getHeader(Strings.of(context).page_settings_header_backup),
             _getCard(context, [
+              _getAutoBackupTile(context),
               ListTile(
                 title: Text(Strings.of(context).page_settings_backup_export_title),
                 subtitle: Text(Strings.of(context).page_settings_backup_export_subtitle),
@@ -431,6 +443,80 @@ class _SettingsPageState extends State<SettingsPage> {
     ScaffoldMessenger.of(context)
       ..clearSnackBars()
       ..showSnackBar(SnackBar(content: Text(text)));
+  }
+
+  Widget _getAutoBackupTile(BuildContext context) {
+    final strings = Strings.of(context);
+    final data = AppManager.instance.data;
+    final isOn = data.autoBackupFolderUri != null;
+    final folderName = data.autoBackupFolderName ?? '';
+    final hasProblem = isOn && !_autoBackupWritable;
+
+    return ListTile(
+      title: Text(strings.page_settings_backup_auto_title),
+      subtitle: Text(
+        !isOn
+            ? strings.page_settings_backup_auto_subtitle_off
+            : hasProblem
+                ? strings.page_settings_backup_auto_subtitle_error(folderName)
+                : strings.page_settings_backup_auto_subtitle_on(AutoBackup.fileName, folderName),
+        style: hasProblem ? TextStyle(color: Theme.of(context).colorScheme.error) : null,
+      ),
+      leading: const Icon(Icons.backup),
+      trailing: Switch(
+        value: isOn,
+        onChanged: (value) => value ? _chooseAutoBackupFolder() : _turnOffAutoBackup(),
+      ),
+      minVerticalPadding: 12,
+      onTap: _chooseAutoBackupFolder,
+    );
+  }
+
+  /// The app loses access to the folder when it is reinstalled, while the setting can come back with the data.
+  Future<void> _checkAutoBackupFolder() async {
+    final folder = AppManager.instance.data.autoBackupFolderUri;
+    if (folder == null) return;
+    final writable = AutoBackup.lastWriteSucceeded != false && await NoterlyBackup.canWrite(folder);
+    if (mounted) setState(() => _autoBackupWritable = writable);
+  }
+
+  /// Turns automatic backup on, or moves it to another folder, and writes the first backup there.
+  Future<void> _chooseAutoBackupFolder() async {
+    final strings = Strings.of(context);
+
+    final BackupFolder? folder;
+    try {
+      folder = await NoterlyBackup.pickFolder();
+    } catch (e, s) {
+      Log.logger.e('Failed to pick a backup folder', error: e, stackTrace: s);
+      _showSnackBar(strings.snackbar_auto_backup_failed);
+      return;
+    }
+    if (folder == null) return;
+
+    final data = AppManager.instance.data;
+    final previous = data.autoBackupFolderUri;
+    data.autoBackupFolderUri = folder.uri;
+    data.autoBackupFolderName = folder.name;
+    await AppManager.instance.saveSettings(); // Writes the backup too
+    if (previous != null && previous != folder.uri) await NoterlyBackup.release(previous);
+
+    final succeeded = AutoBackup.lastWriteSucceeded == true;
+    if (!mounted) return;
+    setState(() => _autoBackupWritable = succeeded);
+    _showSnackBar(succeeded ? strings.snackbar_auto_backup_done(folder.name) : strings.snackbar_auto_backup_failed);
+  }
+
+  Future<void> _turnOffAutoBackup() async {
+    final data = AppManager.instance.data;
+    final folder = data.autoBackupFolderUri;
+    if (folder == null) return;
+
+    data.autoBackupFolderUri = null;
+    data.autoBackupFolderName = null;
+    await AppManager.instance.saveSettings();
+    await NoterlyBackup.release(folder);
+    if (mounted) setState(() => _autoBackupWritable = true);
   }
 
   Future<void> _exportReminders() async {
