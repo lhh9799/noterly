@@ -151,8 +151,9 @@ jobs:
           export KS_PASS="$(printf '%s' "$KS_PASS" | tr -d '\r\n')"
           apksigner="$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)/apksigner"
           out=noterly/build/app/outputs/flutter-apk
-          # The signing certificates' SHA-256 digests only: the lines' prefix names the signature scheme ("V2 Signer",
-          # "V3.0 Signer"), which differs between Gradle's signing of the oldest releases and apksigner's
+          # The signing certificates' SHA-256 digests only: the lines' prefix ("Signer #1", "V2 Signer", "V3.0 Signer")
+          # depends on the apksigner version and on the signature scheme, which differs between Gradle's signing of the
+          # oldest releases and apksigner's
           certs() { "$apksigner" verify --print-certs "$1" | grep -oE 'certificate SHA-256 digest: [0-9a-f]+' | sort -u; }
           rotate=true
           if [ -n "$REBUILD_TAG" ]; then
@@ -180,7 +181,7 @@ jobs:
             certs "$out/signed.apk" | diff "$RUNNER_TEMP/old-certs.txt" - \
               || { echo "::error::The rebuilt APK is not signed like the one it replaces"; exit 1; }
           else
-            grep -q "Signer #1 certificate SHA-256 digest: $RELEASE_CERT_SHA256" "$RUNNER_TEMP/certs.txt" \
+            certs "$out/signed.apk" | grep -qx "certificate SHA-256 digest: $RELEASE_CERT_SHA256" \
               || { echo "::error::The APK is not signed with the release key"; exit 1; }
           fi
 
