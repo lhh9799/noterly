@@ -16,22 +16,21 @@ Tom Chapman에게 있습니다. 달라진 점은 [이 포크에서 달라진 점
 
 ## 📸 스크린샷
 
-Galaxy S26 Ultra 사양 에뮬레이터(Android 17)의 릴리스 빌드입니다. v1.8.2 코드는 2026-11-06에, 설정·스와이프·
-가져오기 스크린샷은 v1.11.0으로 2026-11-21에 찍었습니다.
+Galaxy S26 Ultra 사양 에뮬레이터(Android 17)에서 v1.16.0 릴리스 빌드를 한국어로 설정해 2026-11-23에 찍었습니다.
 
-| 리마인더 목록 | 다크 테마 | 리마인더 편집 |
+| 리마인더 목록 | 다크 테마 | 리마인더 수정 |
 |:-:|:-:|:-:|
-| <img src="assets/screenshots/2026-10/main.png" width="250" alt="Shown immediately, Scheduled, Repeating으로 나뉜 메인 목록"> | <img src="assets/screenshots/2026-10/main_dark.png" width="250" alt="다크 테마의 메인 목록"> | <img src="assets/screenshots/2026-10/edit.png" width="250" alt="예약, 매주 반복, Send to watch 스위치가 있는 편집 화면"> |
+| <img src="assets/screenshots/2026-11-ko/main.png" width="250" alt="바로 표시, 예약됨, 반복으로 나뉜 메인 목록"> | <img src="assets/screenshots/2026-11-ko/main_dark.png" width="250" alt="다크 테마의 메인 목록"> | <img src="assets/screenshots/2026-11-ko/edit.png" width="250" alt="예약, 반복 주기, 워치로 보내기가 있는 알림 수정 화면"> |
 | **요일 반복** | **날짜와 시간** | **키패드로 시간 입력** |
-| <img src="assets/screenshots/2026-10/repeat_weekdays.png" width="250" alt="월·수·금을 고른 반복 대화상자"> | <img src="assets/screenshots/2026-10/date_time.png" width="250" alt="날짜와 시간 대화상자"> | <img src="assets/screenshots/2026-10/time_keypad.png" width="250" alt="키패드 입력 모드의 시간 선택기"> |
+| <img src="assets/screenshots/2026-11-ko/repeat_weekdays.png" width="250" alt="월·수·금을 선택한 반복 주기 선택 창"> | <img src="assets/screenshots/2026-11-ko/date_time.png" width="250" alt="날짜와 시간 선택 창"> | <img src="assets/screenshots/2026-11-ko/time_keypad.png" width="250" alt="키패드로 입력하는 시간 선택 창"> |
 | **색상** | **보관함** | **설정** |
-| <img src="assets/screenshots/2026-10/colour.png" width="250" alt="색상 선택기"> | <img src="assets/screenshots/2026-10/archive.png" width="250" alt="보관함 탭"> | <img src="assets/screenshots/2026-10/settings.png" width="250" alt="워치 스위치와 Swipe actions 섹션이 있는 설정 화면"> |
-| **스와이프로 보관·삭제** | **스와이프 동작 고르기** | **파일에서 리마인더 가져오기** |
-| <img src="assets/screenshots/2026-10/swipe.png" width="250" alt="왼쪽으로 스와이프해 삭제 아이콘이 보이는 리마인더"> | <img src="assets/screenshots/2026-10/swipe_actions.png" width="250" alt="Archive, Delete, Do nothing이 있는 왼쪽 스와이프 대화상자"> | <img src="assets/screenshots/2026-10/import.png" width="250" alt="병합할지 바꿀지 묻는 가져오기 대화상자"> |
+| <img src="assets/screenshots/2026-11-ko/colour.png" width="250" alt="색상 선택 창"> | <img src="assets/screenshots/2026-11-ko/archive.png" width="250" alt="보관함 탭"> | <img src="assets/screenshots/2026-11-ko/settings.png" width="250" alt="워치 알림과 밀기 동작이 있는 설정 화면"> |
+| **밀어서 보관·삭제** | **밀기 동작 선택** | **파일에서 리마인더 가져오기** |
+| <img src="assets/screenshots/2026-11-ko/swipe.png" width="250" alt="왼쪽으로 밀어 삭제 아이콘이 보이는 리마인더"> | <img src="assets/screenshots/2026-11-ko/swipe_actions.png" width="250" alt="보관, 삭제, 없음 중에서 선택하는 왼쪽으로 밀기 창"> | <img src="assets/screenshots/2026-11-ko/import.png" width="250" alt="병합할지 덮어쓸지 묻는 가져오기 창"> |
 
-<img src="assets/screenshots/2026-10/notification.png" width="400" alt="Mark as done과 Snooze 버튼이 있는 Noterly Dev 알림">
+<img src="assets/screenshots/2026-11-ko/notification.png" width="400" alt="완료와 다시 알림 버튼이 있는 Noterly Dev 알림">
 
-위 스크린샷은 영어 화면입니다. 휴대폰 언어가 한국어이거나, 휴대폰 설정에서 Noterly Dev의 앱 언어를 한국어로 선택하면(앱의 설정 > 언어에서 바로 열 수 있음) 앱 화면과 알림이 한국어로 나옵니다.
+휴대폰 언어가 한국어이거나, 휴대폰 설정에서 Noterly Dev의 앱 언어를 한국어로 선택하면(앱의 설정 > 언어에서 바로 열 수 있음) 앱 화면과 알림이 한국어로 나옵니다.
 
 
 ## 👇🏻 다운로드
