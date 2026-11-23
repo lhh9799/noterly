@@ -16,8 +16,8 @@ Tom Chapman에게 있습니다. 달라진 점은 [이 포크에서 달라진 점
 
 ## 📸 스크린샷
 
-Galaxy S26 Ultra 사양 에뮬레이터(Android 17)의 릴리스 빌드입니다. v2026.10.27-3 코드는 2026-11-06에, 설정·스와이프·
-가져오기 스크린샷은 v2026.11.21-1로 2026-11-21에 찍었습니다.
+Galaxy S26 Ultra 사양 에뮬레이터(Android 17)의 릴리스 빌드입니다. v1.8.2 코드는 2026-11-06에, 설정·스와이프·
+가져오기 스크린샷은 v1.11.0으로 2026-11-21에 찍었습니다.
 
 | 리마인더 목록 | 다크 테마 | 리마인더 편집 |
 |:-:|:-:|:-:|
@@ -38,8 +38,12 @@ Galaxy S26 Ultra 사양 에뮬레이터(Android 17)의 릴리스 빌드입니다
 
 이 포크의 APK는 [GitHub 릴리스 페이지](https://github.com/lhh9799/noterly/releases)에 있습니다. 개인용으로 만들어서
 **Android 16 이상, 64비트 ARM(arm64-v8a) 전용**입니다. 릴리스 APK는 `dev` 플레이버라 Play 스토어 앱과 별개인
-*Noterly Dev*로 설치됩니다. v2026.10.27-2부터 예전 디버그 키를 이어받은 릴리스 키(APK 키 순환)로 서명해서, 모든
-릴리스가 이전 버전 위에 그대로 업데이트 설치되고 리마인더가 유지됩니다.
+*Noterly Dev*로 설치됩니다. v1.8.1부터 예전 디버그 키를 이어받은 릴리스 키(APK 키 순환)로 서명해서, 모든 릴리스가
+이전 버전 위에 그대로 업데이트 설치되고 리마인더가 유지됩니다.
+
+릴리스 번호는 vMAJOR.MINOR.PATCH이고 APK도 같은 버전을 표시하므로, Obtainium 같은 앱이 업데이트가 나왔는지 알 수
+있습니다. 2026-11-21까지의 릴리스는 처음에 날짜로 태그를 붙였는데(v2026.10.19-1 ~ v2026.11.21-1), 원작의 마지막 버전(1.4.3)에
+이어 v1.5.0 ~ v1.11.0으로 이름을 바꾸고 그 버전명으로 다시 빌드했습니다. 각 릴리스 노트에 예전 태그가 적혀 있습니다.
 
 원작 앱은 [Play 스토어](https://play.google.com/store/apps/details?id=uk.co.tdsstudios.noterly)에서 받을 수 있습니다.
 
@@ -49,13 +53,13 @@ Noterly Watch는 Galaxy Watch용 별도 Wear OS 앱으로, 비공개 저장소�
 추가·완료·스누즈할 수 있으며, **Send to watch**가 켜진 리마인더는 워치에서 직접 알림을 울립니다. 두 앱은 같은 키로
 서명돼 있어야 서로 연결됩니다.
 
-최신 릴리스: 폰 앱 **v2026.11.21-1**, 워치 앱 **v1.0.1** (2026-11-21 기준).
+최신 릴리스: 폰 앱 **v1.11.0**, 워치 앱 **v1.0.1** (2026-11-23 기준).
 
 | 폰 앱 | 호환 워치 앱 |
 |---|---|
-| v2026.10.27-2, v2026.10.27-3, v2026.11.06-1, v2026.11.06-2, v2026.11.21-1 | v1.0.1 |
-| v2026.10.23-1, v2026.10.27-1 | v1.0.0 |
-| v2026.10.19-1, v2026.10.19-2 | 없음 (워치 동기화 이전) |
+| v1.8.1, v1.8.2, v1.9.0, v1.10.0, v1.11.0 | v1.0.1 |
+| v1.7.0, v1.8.0 | v1.0.0 |
+| v1.5.0, v1.6.0 | 없음 (워치 동기화 이전) |
 
 
 ## 📝 기능
@@ -139,13 +143,15 @@ Noterly는 Crowdin으로 번역합니다. [Crowdin 프로젝트](https://crowdin
 그다음 릴리스 키와 키 순환 lineage(예전 디버그 키에서 이어받음)로 다시 서명해서, 이전 릴리스 위에 업데이트 설치되고
 데이터가 유지됩니다. 저장소 루트에서 `.\scripts\sign-release.ps1`(PowerShell)을 실행하면
 `app-dev-release-signed.apk`가 만들어집니다. 키와 lineage는 git이 무시하는 `keys/`에 둡니다.
-`.\scripts\release.ps1`은 Android Gradle이 영문이 아닌 경로를 거부하므로 ASCII 드라이브 문자(`subst X:`)에서 dev
-릴리스를 빌드한 뒤 서명합니다. `.\scripts\sign-release.ps1 -SavePassword`를 한 번 실행하면 키 비밀번호가 Windows
+`.\scripts\release.ps1 -Version 1.11.1`은 Android Gradle이 영문이 아닌 경로를 거부하므로 ASCII 드라이브 문자
+(`subst X:`)에서 그 버전으로 dev 릴리스를 빌드한 뒤 서명합니다. `.\scripts\sign-release.ps1 -SavePassword`를 한 번 실행하면 키 비밀번호가 Windows
 사용자 계정에 저장되어(DPAPI 암호화, `%LOCALAPPDATA%\noterly\`) 두 스크립트가 다시 묻지 않습니다.
 APK는 `noterly/build/app/outputs/flutter-apk/`에 만들어집니다.
 
 릴리스는 GitHub Actions([.github/workflows/release.yml](.github/workflows/release.yml))가 만듭니다. 앱이 바뀐 커밋
 (문서나 테스트만 바뀐 것 제외)이 `main`에 푸시될 때마다 테스트, 빌드, 같은 방식의 서명을 거쳐 커밋 메시지로 노트를
-쓴 `vYYYY.MM.DD-N` 릴리스를 올립니다. 키, lineage, 비밀번호는 저장소 Secrets에서 가져오며,
+쓴 `vMAJOR.MINOR.PATCH` 릴리스를 올립니다. 번호는 지난 릴리스 이후의 커밋으로 정합니다. 호환이 깨지는 변경
+(`feat!:`이나 `BREAKING CHANGE:`)이 있으면 MAJOR, `feat`이 있으면 MINOR, 그 밖에는 PATCH를 올립니다. APK의 버전명은
+그 번호이고 버전 코드는 MAJOR×10000 + MINOR×100 + PATCH입니다. 키, lineage, 비밀번호는 저장소 Secrets에서 가져오며,
 `pwsh -File .\scripts\set-ci-secrets.ps1`로 한 번 올려 둡니다. `dry_run`으로 수동 실행하면 릴리스 없이 빌드와 서명만
-합니다.
+하고, `rebuild_tag`로 실행하면 기존 릴리스를 그 커밋에서 다시 빌드해 APK를 바꿉니다.
