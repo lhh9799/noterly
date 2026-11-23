@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:noterly/build_info.dart';
 import 'package:noterly/extensions/duration_extensions.dart';
 import 'package:noterly/l10n/localisations_util.dart';
@@ -67,6 +68,9 @@ class _SettingsPageState extends State<SettingsPage> {
 
   /// The phone's Google backup settings, opened by Google Play services.
   static final Uri _googleBackupSettings = Uri.parse('https://one.google.com/backupsettings');
+
+  /// MainActivity's channel to Android settings screens that system_settings_2 does not open.
+  static const _appSettings = MethodChannel('noterly/app_settings');
 
   @override
   void initState() {
@@ -166,7 +170,15 @@ class _SettingsPageState extends State<SettingsPage> {
                     }
                   }
                 },
-              )
+              ),
+              ListTile(
+                title: Text(Strings.of(context).page_settings_system_language_title),
+                subtitle: Text(Strings.of(context).page_settings_system_language_subtitle),
+                leading: const Icon(Icons.language),
+                trailing: const Icon(Icons.open_in_new),
+                minVerticalPadding: 12,
+                onTap: _openAppLanguage,
+              ),
             ]),
             _getSpacer(),
             _getHeader(Strings.of(context).page_settings_header_google_backup),
@@ -631,6 +643,16 @@ class _SettingsPageState extends State<SettingsPage> {
       Log.logger.e('Failed to import reminders', error: e, stackTrace: s);
       _showSnackBar(strings.snackbar_import_failed);
     }
+  }
+
+  /// Android's per-app language screen for Noterly, or the app's details screen if it does not open.
+  Future<void> _openAppLanguage() async {
+    try {
+      if (await _appSettings.invokeMethod<bool>('openAppLanguage') == true) return;
+    } on PlatformException catch (e) {
+      Log.logger.w('Failed to open the app language settings', error: e);
+    }
+    SystemSettings.app();
   }
 
   Future<void> _launchUrl(Uri uri) async {

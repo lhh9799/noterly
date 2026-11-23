@@ -66,6 +66,8 @@
     "snackbar_auto_backup_done": "{folder} 폴⁠더⁠에 리⁠마⁠인⁠더⁠를 백⁠업⁠했⁠습⁠니⁠다⁠.",
     "snackbar_auto_backup_failed": "선⁠택⁠한 폴⁠더⁠에 백⁠업⁠을 저⁠장⁠하⁠지 못⁠했⁠습⁠니⁠다⁠.",
     "page_settings_system_notificationSettings": "알⁠림 설⁠정",
+    "page_settings_system_language_title": "언⁠어",
+    "page_settings_system_language_subtitle": "휴⁠대⁠폰 설⁠정⁠에⁠서 이 앱⁠의 언⁠어⁠를 선⁠택⁠합⁠니⁠다⁠.",
     "page_settings_about_version_title": "버⁠전",
     "page_settings_about_copyright_title": "저⁠작⁠권 및 크⁠레⁠딧",
     "page_settings_about_copyright_text": "2023 Tom Chapman, TDS Studios.",
