@@ -77,6 +77,7 @@ Latest releases: phone app **v1.11.0**, watch app **v1.0.1** (as of 2026-11-23).
 - 👉 Swipe reminders in the list to archive or delete them (with Undo). In Settings, choose what a right and a left
   swipe do (Archive, Delete or Do nothing), or turn swiping off
 - 💾 Export all reminders, archived ones included, to a JSON file, and import them again with Merge or Replace
+- 🔁 Automatic backup: a copy of all reminders kept in a folder you choose (such as Documents) and updated after every change, also from notification buttons and the watch, so you can import it after reinstalling the app
 - 🏃🏻‍♀️ Create reminders from a quick settings tile, or share text to Noterly from other apps
 - 🎨 Material 3 Expressive UI with Material You colours and a dark theme
 - 🔒 No analytics or crash reporting: nothing leaves the device
