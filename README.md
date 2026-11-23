@@ -56,11 +56,11 @@ Noterly Watch is a separate Wear OS app for the Galaxy Watch, kept in a private 
 lets you add, finish and snooze them from the watch, and raises alarms on the watch for the reminders with
 **Send to watch** on. The two apps only connect when they are signed with the same key.
 
-Latest releases: phone app **v1.13.0**, watch app **v1.0.1** (as of 2026-11-23).
+Latest releases: phone app **v1.14.0**, watch app **v1.0.1** (as of 2026-11-23).
 
 | Phone app | Compatible watch app |
 |---|---|
-| v1.8.1, v1.8.2, v1.9.0, v1.10.0, v1.11.0, v1.12.0, v1.12.1, v1.13.0 | v1.0.1 |
+| v1.8.1, v1.8.2, v1.9.0, v1.10.0, v1.11.0, v1.12.0, v1.12.1, v1.13.0, v1.14.0 | v1.0.1 |
 | v1.7.0, v1.8.0 | v1.0.0 |
 | v1.5.0, v1.6.0 | none (no watch sync yet) |
 
@@ -83,7 +83,7 @@ Latest releases: phone app **v1.13.0**, watch app **v1.0.1** (as of 2026-11-23).
 - 🔁 Automatic backup: a copy of all reminders kept in a folder you choose (such as Documents) and updated after every change, also from notification buttons and the watch, so you can import it after reinstalling the app
 - ☁️ Google backup: choose whether the reminders and the settings go into the phone's Google backup (each on its own), so they come back when the app is reinstalled with the same Google account, and open the phone's Google backup settings from the app
 - 🏃🏻‍♀️ Create reminders from a quick settings tile, or share text to Noterly from other apps
-- 🌐 Korean translation: the screens and notifications follow the phone's language, and Korean lines only break between words
+- 🌐 Korean translation: the screens and notifications follow the phone's language, or the app language chosen for Noterly Dev in the phone's settings, and Korean lines only break between words
 - 🎨 Material 3 Expressive UI with Material You colours and a dark theme
 - 🔒 No analytics or crash reporting: nothing leaves the device
 
