@@ -30,7 +30,7 @@
         }
     },
     "page_archivedNotifications_label": "Архів",
-    "page_archivedNotifications_empty": "Архівні повідомлення з''являтимуться тут.",
+    "page_archivedNotifications_empty": "Архівні повідомлення з'являтимуться тут.",
     "page_archivedNotifications_button_deleteAll": "Видалити всі архівні повідомлення",
     "page_archivedNotifications_item_archived": "В архіві {dateTimeString}",
     "@page_archivedNotifications_item_archived": {
