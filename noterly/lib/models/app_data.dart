@@ -38,6 +38,11 @@ class AppData {
   /// The name of that folder, to show in the settings.
   String? autoBackupFolderName;
 
+  /// Whether Android's own backup (Google backup) includes the reminders and the settings. NoterlyBackupAgent
+  /// (packages/noterly_backup) reads these two keys from the save file when Android backs the app up.
+  bool googleBackupReminders;
+  bool googleBackupSettings;
+
   AppData({
     required this.notificationItems,
     required this.snoozeDuration,
@@ -52,6 +57,8 @@ class AppData {
     this.swipeLeftAction = SwipeAction.archive,
     this.autoBackupFolderUri,
     this.autoBackupFolderName,
+    this.googleBackupReminders = true,
+    this.googleBackupSettings = true,
   }) : appliedWearCommands = appliedWearCommands ?? [];
 
   Map<String, dynamic> toJson() {
@@ -69,6 +76,8 @@ class AppData {
       'swipeLeftAction': swipeLeftAction.name,
       'autoBackupFolderUri': autoBackupFolderUri,
       'autoBackupFolderName': autoBackupFolderName,
+      'googleBackupReminders': googleBackupReminders,
+      'googleBackupSettings': googleBackupSettings,
     };
   }
 
@@ -88,6 +97,8 @@ class AppData {
         swipeLeftAction: AppDataJsonParser<SwipeAction>('swipeLeftAction', SwipeAction.archive, parser: _parseSwipeAction).parse(json),
         autoBackupFolderUri: AppDataJsonParser<String?>('autoBackupFolderUri', null).parse(json),
         autoBackupFolderName: AppDataJsonParser<String?>('autoBackupFolderName', null).parse(json),
+        googleBackupReminders: AppDataJsonParser<bool>('googleBackupReminders', true).parse(json),
+        googleBackupSettings: AppDataJsonParser<bool>('googleBackupSettings', true).parse(json),
       );
 
   static SwipeAction _parseSwipeAction(dynamic value) => SwipeAction.values.asNameMap()[value] ?? SwipeAction.archive;

@@ -34,4 +34,8 @@ class NoterlyBackup {
 
   /// Gives up access to the folder.
   static Future<void> release(String folderUri) => _channel.invokeMethod('release', {'folder': folderUri});
+
+  /// Whether the phone has Google Play services, which runs Google backup and its settings screen.
+  static Future<bool> hasGooglePlayServices() async =>
+      await _channel.invokeMethod<bool>('hasGooglePlayServices') ?? false;
 }
