@@ -11,10 +11,10 @@ class FirstLaunchDialog extends Dialog {
   final bool isShownAfterUpdate;
 
   const FirstLaunchDialog({
-    Key? key,
+    super.key,
     required this.onComplete,
     this.isShownAfterUpdate = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

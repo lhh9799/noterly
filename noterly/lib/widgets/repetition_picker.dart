@@ -137,7 +137,7 @@ class _RepetitionPickerState extends State<RepetitionPicker> {
                   DropdownMenuItem(value: Repetition.monthly, child: Text(Strings.of(context).time_months(_repetitionData.number))),
                   DropdownMenuItem(value: Repetition.yearly, child: Text(Strings.of(context).time_years(_repetitionData.number))),
                 ],
-                value: _repetitionData.type,
+                initialValue: _repetitionData.type,
                 onChanged: (value) {
                   setState(() {
                     _repetitionData.type = value!;

@@ -72,7 +72,7 @@ class NotificationItem {
         'body': body,
         'dateTime': dateTime?.toIso8601String(),
         'repetitionData': repetitionData?.toJson(),
-        'colour': colour.value,
+        'colour': colour.toARGB32(),
         'archived': archived,
         'archivedDateTime': archivedDateTime?.toIso8601String(),
         'snoozeDateTime': snoozeDateTime?.toIso8601String(),

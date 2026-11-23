@@ -249,7 +249,7 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
 
           await AppManager.instance.editItem(_item);
 
-          if (mounted) {
+          if (context.mounted) {
             Navigator.of(context).pop();
           }
         },
