@@ -7,7 +7,6 @@ class AppData {
   List<NotificationItem> notificationItems;
 
   Duration snoozeDuration;
-  String snoozeToastText;
 
   int firstLaunchDialogLastShown;
 
@@ -46,7 +45,6 @@ class AppData {
   AppData({
     required this.notificationItems,
     required this.snoozeDuration,
-    required this.snoozeToastText,
     required this.firstLaunchDialogLastShown,
     required this.dismissibleNotificationsEnabled,
     this.dismissibleByDefault = false,
@@ -65,7 +63,6 @@ class AppData {
     return {
       'notificationItems': notificationItems.map((e) => e.toJson()).toList(),
       'snoozeDuration': snoozeDuration.inSeconds,
-      'snoozeToastText': snoozeToastText,
       'firstLaunchDialogLastShown': firstLaunchDialogLastShown,
       'dismissibleNotificationsEnabled': dismissibleNotificationsEnabled,
       'dismissibleByDefault': dismissibleByDefault,
@@ -86,7 +83,6 @@ class AppData {
   factory AppData.fromJson(Map<String, dynamic> json) => AppData(
         notificationItems: AppDataJsonParser<List<NotificationItem>>('notificationItems', [], parser: (value) => (value as List).map((item) => NotificationItem.fromJson(item)).toList()).parse(json),
         snoozeDuration: AppDataJsonParser<Duration>('snoozeDuration', const Duration(hours: 1), parser: (value) => Duration(seconds: value)).parse(json),
-        snoozeToastText: AppDataJsonParser<String>('snoozeToastText', 'Notification snoozed').parse(json),
         firstLaunchDialogLastShown: AppDataJsonParser<int>('firstLaunchDialogLastShown', -1).parse(json),
         dismissibleNotificationsEnabled: AppDataJsonParser<bool>('dismissibleNotificationsEnabled', true).parse(json),
         dismissibleByDefault: AppDataJsonParser<bool>('dismissibleByDefault', false).parse(json),
@@ -104,7 +100,7 @@ class AppData {
   static SwipeAction _parseSwipeAction(dynamic value) => SwipeAction.values.asNameMap()[value] ?? SwipeAction.archive;
 
   @override
-  String toString() => 'AppData(notificationItems: $notificationItems, snoozeDuration: $snoozeDuration, snoozeToastText: $snoozeToastText, firstLaunchDialogLastShown: $firstLaunchDialogLastShown, dismissibleNotificationsEnabled: $dismissibleNotificationsEnabled, dismissibleByDefault: $dismissibleByDefault, rev: $rev)';
+  String toString() => 'AppData(notificationItems: $notificationItems, snoozeDuration: $snoozeDuration, firstLaunchDialogLastShown: $firstLaunchDialogLastShown, dismissibleNotificationsEnabled: $dismissibleNotificationsEnabled, dismissibleByDefault: $dismissibleByDefault, rev: $rev)';
 }
 
 class AppDataJsonParser<T> {

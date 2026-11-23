@@ -10,6 +10,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:noterly/l10n/app_localisations.dart';
+import 'package:noterly/l10n/localisations_util.dart';
 import 'package:logger/logger.dart';
 import 'package:noterly/managers/app_manager.dart';
 import 'package:noterly/managers/isolate_manager.dart';
@@ -78,6 +79,9 @@ Future<void> main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
 
   Log.logger.d("Starting app with args: $args");
+
+  // Dates and relative times in the phone's language from the first frame
+  await Strings.useForDates(Strings.currentLocale());
 
   // Log all uncaught errors from the framework
   FlutterError.onError = (details) {
@@ -287,6 +291,11 @@ class _MyAppState extends State<MyApp> {
         title: 'Noterly',
         localizationsDelegates: AppLocalisations.localizationsDelegates,
         supportedLocales: AppLocalisations.supportedLocales,
+        builder: (context, child) {
+          // Follow a language change while the app runs
+          Strings.useForDates(Localizations.localeOf(context));
+          return child!;
+        },
         theme: AppTheme.build(lightColorScheme),
         darkTheme: AppTheme.build(darkColorScheme),
         themeMode: ThemeMode.system,

@@ -101,10 +101,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     initialDuration: AppManager.instance.data.snoozeDuration,
                   ).then((value) {
                     if (value == null) return;
-                    setState(() {
-                      AppManager.instance.data.snoozeDuration = value;
-                      AppManager.instance.data.snoozeToastText = Strings.of(context).toast_notificationSnoozed(value.toRelativeDurationString());
-                    });
+                    setState(() => AppManager.instance.data.snoozeDuration = value);
                     AppManager.instance.saveSettings();
                   });
                 },
