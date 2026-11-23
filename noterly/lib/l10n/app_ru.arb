@@ -186,6 +186,8 @@
     },
     "snackbar_auto_backup_failed": "Couldn't save the backup in that folder.",
     "page_settings_system_notificationSettings": "Настройки уведомлений",
+    "page_settings_system_language_title": "Language",
+    "page_settings_system_language_subtitle": "Choose the app's language in the phone's settings.",
     "page_settings_about_version_title": "Версия",
     "page_settings_about_copyright_title": "Авторские права",
     "page_settings_about_copyright_text": "2023 Tom Chapman, TDS Studios.",
