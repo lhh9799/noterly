@@ -2,13 +2,14 @@
 #
 # Runs on pushes to main that change the app (not docs, screenshots or tests), or by hand from the Actions tab.
 # Releases are numbered vMAJOR.MINOR.PATCH from the commit messages since the previous release (Conventional Commits):
-# a breaking change raises MAJOR, a feat raises MINOR, anything else raises PATCH. The APK carries the same number as its
+# a breaking change raises MAJOR, a feat raises MINOR, anything else raises PATCH. Each release has one APK per ABI
+# (armeabi-v7a, arm64-v8a, x86_64), named noterly-phone-X.Y.Z-<abi>.apk. Every APK carries the release's number as its
 # versionName, and MAJOR*10000 + MINOR*100 + PATCH as its versionCode, so Android and Obtainium see the release's version.
-# A manual run with rebuild_tag builds the code of an existing release with its version and replaces that release's APK.
-# The APK is signed like scripts/sign-release.ps1: debug key -> release key with the rotation lineage, so it installs
+# A manual run with rebuild_tag builds the code of an existing release with its version and replaces that release's APKs.
+# The APKs are signed like scripts/sign-release.ps1: debug key -> release key with the rotation lineage, so they install
 # over every earlier release. A rebuilt APK is signed like the one it replaces (v1.8.0 and earlier used the debug key
 # only). The keys come from repository secrets, set with scripts/set-ci-secrets.ps1.
-# The APK goes straight to the Release, not to an Actions artifact, so it uses none of the Actions storage quota.
+# The APKs go straight to the Release, not to an Actions artifact, so they use none of the Actions storage quota.
 name: Release
 
 on:
@@ -34,7 +35,9 @@ on:
         default: ''
 
 concurrency:
-  group: release
+  # New releases run one at a time, so two never pick the same tag. A rebuild only touches its own release, so each
+  # has its own group and several can run side by side.
+  group: ${{ inputs.rebuild_tag && format('rebuild-{0}', inputs.rebuild_tag) || 'release' }}
   cancel-in-progress: false
 
 permissions:
@@ -52,6 +55,8 @@ jobs:
       RELEASE_CERT_SHA256: 1e7a919cd9e5fd10015cc8170c03648f765a7521c832e35cd8fad1a3559c2658
       REBUILD_TAG: ${{ inputs.rebuild_tag }}
       GH_REPO: ${{ github.repository }}
+      # Every Android ABI Flutter builds for, one APK each
+      ABIS: armeabi-v7a arm64-v8a x86_64
     steps:
       - uses: actions/checkout@v5
         with:
@@ -133,14 +138,24 @@ jobs:
           NAME: ${{ steps.version.outputs.name }}
           CODE: ${{ steps.version.outputs.code }}
         run: |
-          # Code from before the vX.Y.Z versions added "-dev" to the version name; drop it so the name matches the tag
-          sed -i '/versionNameSuffix/d' android/app/build.gradle
-          flutter build apk --release --flavor dev --build-name "$NAME" --build-number "$CODE"
+          # Older code added "-dev" to the version name and limited the build to arm64-v8a; drop both, so the name
+          # matches the tag and every ABI gets its APK
+          sed -i -e '/versionNameSuffix/d' -e '/abiFilters/d' android/app/build.gradle
+          # One APK per ABI, all with the release's versionCode: without force-version-code-ignoring-abi Flutter adds
+          # 1000, 2000 or 4000 per ABI, which only the Play Store needs
+          flutter build apk --release --flavor dev --split-per-abi -P force-version-code-ignoring-abi=true \
+            --build-name "$NAME" --build-number "$CODE"
           aapt2="$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)/aapt2"
-          badging="$("$aapt2" dump badging build/app/outputs/flutter-apk/app-dev-release.apk)"
-          grep -m1 '^package:' <<<"$badging"
-          grep -q "^package: .* versionCode='$CODE' versionName='$NAME'" <<<"$badging" \
-            || { echo "::error::The APK does not carry version $NAME ($CODE)"; exit 1; }
+          for abi in $ABIS; do
+            apk="build/app/outputs/flutter-apk/app-$abi-dev-release.apk"
+            [ -f "$apk" ] || { echo "::error::No APK for $abi"; ls build/app/outputs/flutter-apk; exit 1; }
+            badging="$("$aapt2" dump badging "$apk")"
+            grep -m1 '^package:' <<<"$badging"
+            grep -q "^package: .* versionCode='$CODE' versionName='$NAME'" <<<"$badging" \
+              || { echo "::error::The $abi APK does not carry version $NAME ($CODE)"; exit 1; }
+            grep -qx "native-code: '$abi'" <<<"$badging" \
+              || { echo "::error::The $abi APK holds other native code: $(grep '^native-code' <<<"$badging")"; exit 1; }
+          done
 
       - name: Sign
         env:
@@ -157,33 +172,38 @@ jobs:
           certs() { "$apksigner" verify --print-certs "$1" | grep -oE 'certificate SHA-256 digest: [0-9a-f]+' | sort -u; }
           rotate=true
           if [ -n "$REBUILD_TAG" ]; then
-            # Sign like the APK being replaced: releases before v1.8.1 were signed with the debug key only
+            # Sign like the APKs being replaced (they are all signed alike): releases before v1.8.1 were signed with the
+            # debug key only
             mkdir -p "$RUNNER_TEMP/old"
             gh release download "$REBUILD_TAG" --pattern '*.apk' --dir "$RUNNER_TEMP/old"
             old=("$RUNNER_TEMP"/old/*.apk)
-            [ "${#old[@]}" = 1 ] || { echo "::error::$REBUILD_TAG should have exactly one APK"; exit 1; }
+            [ -f "${old[0]}" ] || { echo "::error::$REBUILD_TAG has no APK"; exit 1; }
             certs "${old[0]}" | tee "$RUNNER_TEMP/old-certs.txt"
             grep -q "$RELEASE_CERT_SHA256" "$RUNNER_TEMP/old-certs.txt" || rotate=false
           fi
-          if $rotate; then
-            "$apksigner" sign \
-              --ks ~/.android/debug.keystore --ks-key-alias androiddebugkey --ks-pass pass:android --key-pass pass:android \
-              --next-signer --ks "$RUNNER_TEMP/keys/release.jks" --ks-key-alias noterly --ks-pass env:KS_PASS \
-              --lineage "$RUNNER_TEMP/keys/noterly.lineage" \
-              --out "$out/signed.apk" "$out/app-dev-release.apk"
-          else
-            "$apksigner" sign \
-              --ks ~/.android/debug.keystore --ks-key-alias androiddebugkey --ks-pass pass:android --key-pass pass:android \
-              --out "$out/signed.apk" "$out/app-dev-release.apk"
-          fi
-          "$apksigner" verify --print-certs "$out/signed.apk" | tee "$RUNNER_TEMP/certs.txt"
-          if [ -n "$REBUILD_TAG" ]; then
-            certs "$out/signed.apk" | diff "$RUNNER_TEMP/old-certs.txt" - \
-              || { echo "::error::The rebuilt APK is not signed like the one it replaces"; exit 1; }
-          else
-            certs "$out/signed.apk" | grep -qx "certificate SHA-256 digest: $RELEASE_CERT_SHA256" \
-              || { echo "::error::The APK is not signed with the release key"; exit 1; }
-          fi
+          for abi in $ABIS; do
+            unsigned="$out/app-$abi-dev-release.apk"
+            signed="$out/signed-$abi.apk"
+            if $rotate; then
+              "$apksigner" sign \
+                --ks ~/.android/debug.keystore --ks-key-alias androiddebugkey --ks-pass pass:android --key-pass pass:android \
+                --next-signer --ks "$RUNNER_TEMP/keys/release.jks" --ks-key-alias noterly --ks-pass env:KS_PASS \
+                --lineage "$RUNNER_TEMP/keys/noterly.lineage" \
+                --out "$signed" "$unsigned"
+            else
+              "$apksigner" sign \
+                --ks ~/.android/debug.keystore --ks-key-alias androiddebugkey --ks-pass pass:android --key-pass pass:android \
+                --out "$signed" "$unsigned"
+            fi
+            "$apksigner" verify --print-certs "$signed"
+            if [ -n "$REBUILD_TAG" ]; then
+              certs "$signed" | diff "$RUNNER_TEMP/old-certs.txt" - \
+                || { echo "::error::The rebuilt $abi APK is not signed like the one it replaces"; exit 1; }
+            else
+              certs "$signed" | grep -qx "certificate SHA-256 digest: $RELEASE_CERT_SHA256" \
+                || { echo "::error::The $abi APK is not signed with the release key"; exit 1; }
+            fi
+          done
 
       - name: Remove signing keys
         if: always()
@@ -210,6 +230,7 @@ jobs:
             echo
             echo "## 참고"
             echo
+            echo "- APK는 CPU 아키텍처별로 3개입니다. 대부분의 휴대폰은 \`arm64-v8a\`, 32비트 ARM 기기는 \`armeabi-v7a\`, 에뮬레이터와 크롬북은 \`x86_64\`를 받으세요. Obtainium에서는 앱 설정의 \"Attempt to filter APKs by CPU architecture if possible\"을 켜면 알맞은 파일을 고릅니다."
             echo "- v1.8.1 이후와 같은 릴리스 키로 서명되어 이전 버전 위에 그대로 업데이트 설치되며 데이터가 유지됩니다."
             echo "- 현재 서명 인증서 SHA-256: \`$RELEASE_CERT_SHA256\`"
             echo "- GitHub Actions에서 자동으로 빌드·서명했습니다 (커밋 ${GITHUB_SHA::7})."
@@ -227,14 +248,18 @@ jobs:
           TAG: ${{ steps.version.outputs.tag }}
           NAME: ${{ steps.version.outputs.name }}
         run: |
-          apk="$RUNNER_TEMP/noterly-phone-$NAME.apk"
-          mv noterly/build/app/outputs/flutter-apk/signed.apk "$apk"
+          apks=()
+          for abi in $ABIS; do
+            apks+=("$RUNNER_TEMP/noterly-phone-$NAME-$abi.apk")
+            mv "noterly/build/app/outputs/flutter-apk/signed-$abi.apk" "${apks[-1]}"
+          done
           if [ -n "$REBUILD_TAG" ]; then
-            gh release upload "$TAG" "$apk" --clobber
-            # Remove the APK this one replaces when it had another name
-            for name in $(gh release view "$TAG" --json assets --jq '.assets[].name' | grep '\.apk$' | grep -vxF "noterly-phone-$NAME.apk" || true); do
+            gh release upload "$TAG" "${apks[@]}" --clobber
+            # Remove the APKs these replace when they had other names (older releases had one APK for every ABI)
+            keep="$(for apk in "${apks[@]}"; do basename "$apk"; done)"
+            for name in $(gh release view "$TAG" --json assets --jq '.assets[].name' | grep '\.apk$' | grep -vxF "$keep" || true); do
               gh release delete-asset "$TAG" "$name" --yes
             done
           else
-            gh release create "$TAG" "$apk" --target "$GITHUB_SHA" --title "$TAG" --notes-file "$RUNNER_TEMP/notes.md"
+            gh release create "$TAG" "${apks[@]}" --target "$GITHUB_SHA" --title "$TAG" --notes-file "$RUNNER_TEMP/notes.md"
           fi
