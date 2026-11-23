@@ -326,7 +326,10 @@ class _SettingsPageState extends State<SettingsPage> {
                               Text(Strings.of(context).dialog_about_translations_title, style: Theme.of(context).textTheme.titleMedium),
                               const Text(_copyrightText),
                               const SizedBox(height: 16),
-                              ButtonBar(
+                              OverflowBar(
+                                alignment: MainAxisAlignment.end,
+                                spacing: 8,
+                                overflowAlignment: OverflowBarAlignment.end,
                                 children: [
                                   TextButton(
                                     onPressed: () {

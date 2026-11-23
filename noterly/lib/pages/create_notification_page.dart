@@ -221,7 +221,7 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
             ),
           );
 
-          if (mounted) {
+          if (context.mounted) {
             Navigator.of(context).pop();
           }
         },

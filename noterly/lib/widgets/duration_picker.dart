@@ -134,7 +134,7 @@ class _DurationPickerState extends State<DurationPicker> {
                   DropdownMenuItem(value: 'hour', child: Text(Strings.of(context).time_hours(_value))),
                   DropdownMenuItem(value: 'minute', child: Text(Strings.of(context).time_minutes(_value))),
                 ],
-                value: _duration.inHours > 0 ? 'hour' : 'minute',
+                initialValue: _duration.inHours > 0 ? 'hour' : 'minute',
                 onChanged: (value) {
                   setState(() {
                     _duration = value == 'hour' ? Duration(hours: _value) : Duration(minutes: _value);
