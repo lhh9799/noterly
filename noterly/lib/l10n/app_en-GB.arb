@@ -231,6 +231,11 @@
     "item_colour": "Colour",
     "notification_action_markAsDone": "Mark as done",
     "notification_action_snooze": "Snooze",
+    "notification_channel_immediate_name": "Immediate notifications",
+    "notification_channel_immediate_description": "Notifications that are shown immediately",
+    "notification_channel_scheduled_name": "Scheduled notifications",
+    "notification_channel_scheduled_description": "Notifications that are scheduled for a future time",
+    "toast_notificationFailed": "Failed to send notification, check notification permissions",
     "notification_action_snoozeFor": "Snooze for {durationString}",
     "@notification_action_snoozeFor": {
         "description": "Snooze action with duration.",

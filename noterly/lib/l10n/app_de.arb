@@ -231,6 +231,11 @@
     "item_colour": "Farbe",
     "notification_action_markAsDone": "Als erledigt markieren",
     "notification_action_snooze": "Schlummern",
+    "notification_channel_immediate_name": "Immediate notifications",
+    "notification_channel_immediate_description": "Notifications that are shown immediately",
+    "notification_channel_scheduled_name": "Scheduled notifications",
+    "notification_channel_scheduled_description": "Notifications that are scheduled for a future time",
+    "toast_notificationFailed": "Failed to send notification, check notification permissions",
     "notification_action_snoozeFor": "Schlummern für {durationString}",
     "@notification_action_snoozeFor": {
         "description": "Snooze action with duration.",

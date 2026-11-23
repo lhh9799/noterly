@@ -231,6 +231,11 @@
     "item_colour": "Color",
     "notification_action_markAsDone": "Marcar hecho",
     "notification_action_snooze": "Siesta",
+    "notification_channel_immediate_name": "Immediate notifications",
+    "notification_channel_immediate_description": "Notifications that are shown immediately",
+    "notification_channel_scheduled_name": "Scheduled notifications",
+    "notification_channel_scheduled_description": "Notifications that are scheduled for a future time",
+    "toast_notificationFailed": "Failed to send notification, check notification permissions",
     "notification_action_snoozeFor": "Posponer durante {durationString}",
     "@notification_action_snoozeFor": {
         "description": "Snooze action with duration.",

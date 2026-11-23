@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:noterly/extensions/date_time_extensions.dart';
+import 'package:noterly/extensions/duration_extensions.dart';
+import 'package:noterly/l10n/localisations_util.dart';
 import 'package:noterly/main.dart';
 import 'package:noterly/managers/app_manager.dart';
 import 'package:noterly/managers/isolate_manager.dart';
@@ -117,9 +119,10 @@ class NotificationManager {
       await AppManager.instance.editItem(item, deferNotificationManagerCall: true);
       await _instance.showOrUpdateNotification(item);
 
-      // Show the toast
+      // Show the toast, in the phone's current language
+      final strings = Strings.current();
       await Fluttertoast.showToast(
-        msg: AppManager.instance.data.snoozeToastText,
+        msg: strings.toast_notificationSnoozed(AppManager.instance.data.snoozeDuration.toRelativeDurationString(strings)),
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
       );
@@ -298,7 +301,7 @@ class NotificationManager {
     } on Exception catch (e) {
       Log.logger.e('Failed to show notification "${item.title}" at ${item.dateTime}', error: e);
       try {
-        Fluttertoast.showToast(msg: 'Failed to send notification, check notification permissions');
+        Fluttertoast.showToast(msg: Strings.current().toast_notificationFailed);
       } catch (e) {
         Log.logger.w('Failed to show toast', error: e);
       }
@@ -332,20 +335,27 @@ class NotificationManager {
     } on Exception catch (e) {
       Log.logger.e('Failed to schedule notification "${item.title}" at ${item.dateTime}', error: e);
       try {
-        Fluttertoast.showToast(msg: 'Failed to send notification, check notification permissions');
+        Fluttertoast.showToast(msg: Strings.current().toast_notificationFailed);
       } catch (e) {
         Log.logger.w('Failed to show toast', error: e);
       }
     }
   }
 
-  AndroidNotificationDetails _getNotificationDetails(NotificationItem item) => AndroidNotificationDetails(
+  AndroidNotificationDetails _getNotificationDetails(NotificationItem item) {
+    // Notifications are also built in background isolates, so the strings come without a BuildContext
+    final strings = Strings.current();
+    return AndroidNotificationDetails(
         item.isImmediate ? 'immediate_notifications' : 'scheduled_notifications',
-        item.isImmediate ? 'Immediate notifications' : 'Scheduled notifications',
-        channelDescription: item.isImmediate ? 'Notifications that are shown immediately' : 'Notifications that are scheduled for a future time',
+        item.isImmediate ? strings.notification_channel_immediate_name : strings.notification_channel_scheduled_name,
+        channelDescription: item.isImmediate
+            ? strings.notification_channel_immediate_description
+            : strings.notification_channel_scheduled_description,
+        // Renames a channel made earlier, so its name follows the phone's language
+        channelAction: AndroidNotificationChannelAction.update,
         actions: <AndroidNotificationAction>[
-          const AndroidNotificationAction('done', 'Mark as done'),
-          const AndroidNotificationAction('snooze', 'Snooze'),
+          AndroidNotificationAction('done', strings.notification_action_markAsDone),
+          AndroidNotificationAction('snooze', strings.notification_action_snooze),
         ],
         category: AndroidNotificationCategory.reminder,
         importance: Importance.max,
@@ -356,4 +366,5 @@ class NotificationManager {
         when: item.isImmediate ? null : item.dateTime!.millisecondsSinceEpoch,
         autoCancel: false,
       );
+  }
 }
