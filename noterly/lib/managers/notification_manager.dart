@@ -287,6 +287,7 @@ class NotificationManager {
 
   Future _showNotification(NotificationItem item) async {
     await _initialised;
+    await _createChannels();
     var androidDetails = _getNotificationDetails(item);
     var details = NotificationDetails(android: androidDetails);
 
@@ -319,6 +320,7 @@ class NotificationManager {
       return;
     }
 
+    await _createChannels();
     var androidDetails = _getNotificationDetails(item);
     var details = NotificationDetails(android: androidDetails);
 
@@ -342,17 +344,44 @@ class NotificationManager {
     }
   }
 
+  static const _immediateChannelId = 'immediate_notifications';
+  static const _scheduledChannelId = 'scheduled_notifications';
+
+  /// Creates both channels, or gives existing ones the name and description in the phone's current language.
+  /// Android keeps the user's settings of an existing channel. Done before every notification, because a channel that
+  /// does not exist makes Android drop the notification ("No Channel found"), e.g. right after a fresh install.
+  Future<void> _createChannels() async {
+    final android = _plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+    if (android == null) return;
+    // Notifications are also built in background isolates, so the strings come without a BuildContext
+    final strings = Strings.current();
+    try {
+      await android.createNotificationChannel(AndroidNotificationChannel(
+        _immediateChannelId,
+        strings.notification_channel_immediate_name,
+        description: strings.notification_channel_immediate_description,
+        importance: Importance.max,
+      ));
+      await android.createNotificationChannel(AndroidNotificationChannel(
+        _scheduledChannelId,
+        strings.notification_channel_scheduled_name,
+        description: strings.notification_channel_scheduled_description,
+        importance: Importance.max,
+      ));
+    } on Exception catch (e) {
+      Log.logger.e('Failed to create the notification channels', error: e);
+    }
+  }
+
   AndroidNotificationDetails _getNotificationDetails(NotificationItem item) {
     // Notifications are also built in background isolates, so the strings come without a BuildContext
     final strings = Strings.current();
     return AndroidNotificationDetails(
-        item.isImmediate ? 'immediate_notifications' : 'scheduled_notifications',
+        item.isImmediate ? _immediateChannelId : _scheduledChannelId,
         item.isImmediate ? strings.notification_channel_immediate_name : strings.notification_channel_scheduled_name,
         channelDescription: item.isImmediate
             ? strings.notification_channel_immediate_description
             : strings.notification_channel_scheduled_description,
-        // Renames a channel made earlier, so its name follows the phone's language
-        channelAction: AndroidNotificationChannelAction.update,
         actions: <AndroidNotificationAction>[
           AndroidNotificationAction('done', strings.notification_action_markAsDone),
           AndroidNotificationAction('snooze', strings.notification_action_snooze),
