@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The languages offered in Android's per-app language setting (Settings > Apps > Noterly > Language).
+     Keep in step with the app_*.arb files in lib/l10n. Plain "en" (app.arb) is left out: it reads the same as en-GB. -->
+<locale-config xmlns:android="http://schemas.android.com/apk/res/android">
+    <locale android:name="en-US"/>
+    <locale android:name="en-GB"/>
+    <locale android:name="de"/>
+    <locale android:name="el"/>
+    <locale android:name="es"/>
+    <locale android:name="fr"/>
+    <locale android:name="it"/>
+    <locale android:name="ko"/>
+    <locale android:name="pl"/>
+    <locale android:name="ru"/>
+    <locale android:name="uk"/>
+</locale-config>

@@ -20,7 +20,13 @@ void main() {
   test('durations, such as the snooze toast, read as Korean', () {
     expect(plain(const Duration(hours: 1).toRelativeDurationString(ko)), '1시간');
     expect(plain(const Duration(days: 1, minutes: 30).toRelativeDurationString(ko)), '1일, 30분');
-    expect(plain(ko.toast_notificationSnoozed(const Duration(hours: 2).toRelativeDurationString(ko))), '2시간 뒤에 다시 알려 드립니다.');
+    expect(plain(ko.toast_notificationSnoozed(const Duration(hours: 2).toRelativeDurationString(ko))), '2시간 후에 다시 알려 드립니다.');
+  });
+
+  test('a snoozed reminder says when it comes back', () {
+    // As built by toSnoozedUntilDateTimeString for tomorrow
+    final until = ko.time_snooze_until(ko.time_tomorrowAndTime('오전 6:36'));
+    expect(plain(ko.page_activeNotifications_item_snoozed(until)), '내일 오전 6:36에 다시 알림');
   });
 
   test('repeat descriptions read as Korean', () {
