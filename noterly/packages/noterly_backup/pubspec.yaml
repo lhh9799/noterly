@@ -1,0 +1,21 @@
+name: noterly_backup
+description: Writes the automatic backup file into a folder the user picked with the system folder picker. Local plugin
+  so it is registered on every Flutter engine, including the background ones used by notification actions and the watch
+  command handler.
+publish_to: 'none'
+version: 0.0.1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.3.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: uk.co.tdsstudios.noterly.backup
+        pluginClass: AutoBackupPlugin
