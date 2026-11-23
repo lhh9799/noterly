@@ -1,5 +1,5 @@
 # Builds the release APK and signs it with the release key, in one go:
-#   .\scripts\release.ps1 -Version 1.6.1
+#   .\scripts\release.ps1 -Version 1.11.1
 #
 # -Version is the release's vMAJOR.MINOR.PATCH tag without the "v". The APK gets it as its versionName and
 # MAJOR*10000 + MINOR*100 + PATCH as its versionCode, the same as .github/workflows/release.yml.

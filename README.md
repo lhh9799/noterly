@@ -16,8 +16,8 @@ All credit for the original app goes to Tom Chapman; see [What's different in th
 
 ## 📸 Screenshots
 
-Release builds on a Galaxy S26 Ultra spec emulator (Android 17): v1.3.2 code, taken 2026-11-06; settings, swipe and
-import screenshots from v1.6.0, taken 2026-11-21.
+Release builds on a Galaxy S26 Ultra spec emulator (Android 17): v1.8.2 code, taken 2026-11-06; settings, swipe and
+import screenshots from v1.11.0, taken 2026-11-21.
 
 | Reminders | Dark theme | Edit a reminder |
 |:-:|:-:|:-:|
@@ -36,13 +36,14 @@ import screenshots from v1.6.0, taken 2026-11-21.
 
 APKs of this fork are on the [GitHub releases page](https://github.com/lhh9799/noterly/releases). They are built for
 personal use: **Android 16 or newer, 64-bit ARM (arm64-v8a) only**. The release APKs are the `dev` flavour
-(installed as *Noterly Dev*, alongside the Play Store app). Since v1.3.1 they are signed with a release key that takes
+(installed as *Noterly Dev*, alongside the Play Store app). Since v1.8.1 they are signed with a release key that takes
 over from the earlier debug key (APK key rotation), so every release installs over the earlier ones and keeps your
 reminders.
 
 Releases are numbered vMAJOR.MINOR.PATCH, and the APK reports the same version, so apps such as Obtainium can tell
 whether an update is out. The releases up to 2026-11-21 were first tagged by date (v2026.10.19-1 to v2026.11.21-1);
-they were renamed v1.0.0 to v1.6.0 and rebuilt with those version names, and each release's notes give its old tag.
+they were renamed v1.5.0 to v1.11.0, carrying on from the original app's last version (1.4.3), and rebuilt with those
+version names. Each release's notes give its old tag.
 
 The original app is available on the [Play Store](https://play.google.com/store/apps/details?id=uk.co.tdsstudios.noterly).
 
@@ -52,13 +53,13 @@ Noterly Watch is a separate Wear OS app for the Galaxy Watch, kept in a private 
 lets you add, finish and snooze them from the watch, and raises alarms on the watch for the reminders with
 **Send to watch** on. The two apps only connect when they are signed with the same key.
 
-Latest releases: phone app **v1.6.0**, watch app **v1.0.1** (as of 2026-11-23).
+Latest releases: phone app **v1.11.0**, watch app **v1.0.1** (as of 2026-11-23).
 
 | Phone app | Compatible watch app |
 |---|---|
-| v1.3.1, v1.3.2, v1.4.0, v1.5.0, v1.6.0 | v1.0.1 |
-| v1.2.0, v1.3.0 | v1.0.0 |
-| v1.0.0, v1.1.0 | none (no watch sync yet) |
+| v1.8.1, v1.8.2, v1.9.0, v1.10.0, v1.11.0 | v1.0.1 |
+| v1.7.0, v1.8.0 | v1.0.0 |
+| v1.5.0, v1.6.0 | none (no watch sync yet) |
 
 
 ## 📝 Features
@@ -143,7 +144,7 @@ Release builds use `android/key.properties` for signing when it exists, and othe
 The fork's own release APKs are then re-signed with the release key and its rotation lineage (from the old debug
 key), so they install over earlier releases and keep their data: `.\scripts\sign-release.ps1` (PowerShell, from the
 repository root) writes `app-dev-release-signed.apk`. The key and lineage are kept in `keys/`, which git ignores.
-`.\scripts\release.ps1 -Version 1.6.1` builds the dev release with that version from an ASCII drive letter
+`.\scripts\release.ps1 -Version 1.11.1` builds the dev release with that version from an ASCII drive letter
 (`subst X:`, as Android Gradle refuses the non-ASCII path) and then signs it. Run `.\scripts\sign-release.ps1 -SavePassword` once to store the keystore password
 for your Windows user (DPAPI-encrypted, in `%LOCALAPPDATA%\noterly\`), so neither script asks for it again.
 The APK is written to `noterly/build/app/outputs/flutter-apk/`.
