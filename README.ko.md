@@ -37,9 +37,13 @@ Galaxy S26 Ultra 사양 에뮬레이터(Android 17)의 릴리스 빌드입니다
 ## 👇🏻 다운로드
 
 이 포크의 APK는 [GitHub 릴리스 페이지](https://github.com/lhh9799/noterly/releases)에 있습니다. 개인용으로 만들어서
-**Android 16 이상, 64비트 ARM(arm64-v8a) 전용**입니다. 릴리스 APK는 `dev` 플레이버라 Play 스토어 앱과 별개인
-*Noterly Dev*로 설치됩니다. v1.8.1부터 예전 디버그 키를 이어받은 릴리스 키(APK 키 순환)로 서명해서, 모든 릴리스가
-이전 버전 위에 그대로 업데이트 설치되고 리마인더가 유지됩니다.
+**Android 16 이상**용입니다. 릴리스 APK는 `dev` 플레이버라 Play 스토어 앱과 별개인 *Noterly Dev*로 설치됩니다.
+v1.8.1부터 예전 디버그 키를 이어받은 릴리스 키(APK 키 순환)로 서명해서, 모든 릴리스가 이전 버전 위에 그대로 업데이트
+설치되고 리마인더가 유지됩니다.
+
+릴리스마다 CPU 아키텍처별 APK가 하나씩 있습니다. 대부분의 휴대폰은 `arm64-v8a`, 32비트 ARM 기기는 `armeabi-v7a`,
+에뮬레이터와 크롬북은 `x86_64`를 받으세요. Obtainium에서는 앱 설정의 "Attempt to filter APKs by CPU architecture if
+possible"을 켜면 알맞은 파일을 고릅니다.
 
 릴리스 번호는 vMAJOR.MINOR.PATCH이고 APK도 같은 버전을 표시하므로, Obtainium 같은 앱이 업데이트가 나왔는지 알 수
 있습니다. 2026-11-21까지의 릴리스는 처음에 날짜로 태그를 붙였는데(v2026.10.19-1 ~ v2026.11.21-1), 원작의 마지막 버전(1.4.3)에
@@ -87,7 +91,7 @@ Noterly Watch는 Galaxy Watch용 별도 Wear OS 앱으로, 비공개 저장소�
 
 원작 1.4.3 베타와 비교하면:
 
-- **빌드 도구:** Flutter 3.47.7, Gradle 9.5.1, AGP 8.13.0, Kotlin 2.3.20, minSdk 36(Android 16), arm64 전용
+- **빌드 도구:** Flutter 3.47.7, Gradle 9.5.1, AGP 8.13.0, Kotlin 2.3.20, minSdk 36(Android 16), arm64-v8a·armeabi-v7a·x86_64용 APK
 - **Firebase 제거**(Analytics, Crashlytics), Inter 글꼴을 실행 중에 내려받지 않고 앱에 포함
 - **새 기능:** 요일 반복, 키패드 시간 입력, Send to watch 옵션(예전 이름 Dismissible)과 설정 스위치(#35), Galaxy Watch
   앱 동기화, 리마인더 내보내기·가져오기, Gmail 방식의 스와이프 설정
@@ -151,7 +155,7 @@ APK는 `noterly/build/app/outputs/flutter-apk/`에 만들어집니다.
 
 릴리스는 GitHub Actions([.github/workflows/release.yml](.github/workflows/release.yml))가 만듭니다. 앱이 바뀐 커밋
 (문서나 테스트만 바뀐 것 제외)이 `main`에 푸시될 때마다 테스트, 빌드, 같은 방식의 서명을 거쳐 커밋 메시지로 노트를
-쓴 `vMAJOR.MINOR.PATCH` 릴리스를 올립니다. 번호는 지난 릴리스 이후의 커밋으로 정합니다. 호환이 깨지는 변경
+쓴 `vMAJOR.MINOR.PATCH` 릴리스를 아키텍처별 APK와 함께 올립니다. 번호는 지난 릴리스 이후의 커밋으로 정합니다. 호환이 깨지는 변경
 (`feat!:`이나 `BREAKING CHANGE:`)이 있으면 MAJOR, `feat`이 있으면 MINOR, 그 밖에는 PATCH를 올립니다. APK의 버전명은
 그 번호이고 버전 코드는 MAJOR×10000 + MINOR×100 + PATCH입니다. 키, lineage, 비밀번호는 저장소 Secrets에서 가져오며,
 `pwsh -File .\scripts\set-ci-secrets.ps1`로 한 번 올려 둡니다. `dry_run`으로 수동 실행하면 릴리스 없이 빌드와 서명만

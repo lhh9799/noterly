@@ -35,10 +35,13 @@ import screenshots from v1.11.0, taken 2026-11-21.
 ## 👇🏻 Download
 
 APKs of this fork are on the [GitHub releases page](https://github.com/lhh9799/noterly/releases). They are built for
-personal use: **Android 16 or newer, 64-bit ARM (arm64-v8a) only**. The release APKs are the `dev` flavour
-(installed as *Noterly Dev*, alongside the Play Store app). Since v1.8.1 they are signed with a release key that takes
-over from the earlier debug key (APK key rotation), so every release installs over the earlier ones and keeps your
-reminders.
+personal use: **Android 16 or newer**. The release APKs are the `dev` flavour (installed as *Noterly Dev*, alongside
+the Play Store app). Since v1.8.1 they are signed with a release key that takes over from the earlier debug key (APK
+key rotation), so every release installs over the earlier ones and keeps your reminders.
+
+Each release has one APK per CPU architecture: `arm64-v8a` for almost every phone, `armeabi-v7a` for 32-bit ARM
+devices and `x86_64` for emulators and Chromebooks. In Obtainium, turn on "Attempt to filter APKs by CPU architecture
+if possible" in the app's settings so it picks the right one.
 
 Releases are numbered vMAJOR.MINOR.PATCH, and the APK reports the same version, so apps such as Obtainium can tell
 whether an update is out. The releases up to 2026-11-21 were first tagged by date (v2026.10.19-1 to v2026.11.21-1);
@@ -87,7 +90,7 @@ Latest releases: phone app **v1.11.0**, watch app **v1.0.1** (as of 2026-11-23).
 
 Compared with the original 1.4.3 beta:
 
-- **Toolchain:** Flutter 3.47.7, Gradle 9.5.1, AGP 8.13.0, Kotlin 2.3.20; minSdk 36 (Android 16), arm64 only
+- **Toolchain:** Flutter 3.47.7, Gradle 9.5.1, AGP 8.13.0, Kotlin 2.3.20; minSdk 36 (Android 16); APKs for arm64-v8a, armeabi-v7a and x86_64
 - **Firebase removed** (Analytics and Crashlytics), and the Inter font is bundled instead of downloaded at run time
 - **New:** weekday repeats, keypad time entry, the Send to watch option (formerly Dismissible) and its Settings switches
   (#35), sync with the Galaxy Watch app, export and import of reminders, and Gmail-style swipe settings
@@ -152,7 +155,7 @@ The APK is written to `noterly/build/app/outputs/flutter-apk/`.
 
 Releases are made by GitHub Actions ([.github/workflows/release.yml](.github/workflows/release.yml)): every push to
 `main` that changes the app (not only docs or tests) is tested, built, signed the same way and published as a
-`vMAJOR.MINOR.PATCH` release with notes from the commit messages. The number comes from the commits since the last
+`vMAJOR.MINOR.PATCH` release, one APK per ABI, with notes from the commit messages. The number comes from the commits since the last
 release: a breaking change (`feat!:` or `BREAKING CHANGE:`) raises MAJOR, a `feat` raises MINOR and anything else
 PATCH. The APK's version name is that number and its version code MAJOR×10000 + MINOR×100 + PATCH. The key, lineage
 and password come from repository secrets, uploaded once with `pwsh -File .\scripts\set-ci-secrets.ps1`. A manual run
