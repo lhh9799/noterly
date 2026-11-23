@@ -1,1 +1,6 @@
-<manifest />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- To tell whether the phone has Google Play services, which runs Google backup -->
+    <queries>
+        <package android:name="com.google.android.gms" />
+    </queries>
+</manifest>

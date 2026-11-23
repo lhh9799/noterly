@@ -12,10 +12,15 @@ INFO: xmlns:tools and tools:replace added for background_fetch plugin
     <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
+    <!-- Google backup goes through NoterlyBackupAgent, which leaves out reminders or settings when the user turns
+         them off. fullBackupOnly keeps it Auto Backup (onFullBackup) instead of key/value backup. -->
     <application
             android:name="${applicationName}"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
+            android:allowBackup="true"
+            android:backupAgent="uk.co.tdsstudios.noterly.backup.NoterlyBackupAgent"
+            android:fullBackupOnly="true"
             tools:replace="android:label">
 
         <!-- INFO: launchMode changed from singleTop to singleTask for share intent. -->

@@ -62,10 +62,17 @@ class _SettingsPageState extends State<SettingsPage> {
   /// False when automatic backup is on but its folder can no longer be written to.
   bool _autoBackupWritable = true;
 
+  /// Whether the phone has Google Play services, which runs Google backup and opens its settings.
+  bool _hasGooglePlayServices = false;
+
+  /// The phone's Google backup settings, opened by Google Play services.
+  static final Uri _googleBackupSettings = Uri.parse('https://one.google.com/backupsettings');
+
   @override
   void initState() {
     super.initState();
     _checkAutoBackupFolder();
+    _checkGooglePlayServices();
   }
 
   @override
@@ -163,6 +170,39 @@ class _SettingsPageState extends State<SettingsPage> {
                   }
                 },
               )
+            ]),
+            _getSpacer(),
+            _getHeader(Strings.of(context).page_settings_header_google_backup),
+            _getCard(context, [
+              SwitchListTile(
+                value: AppManager.instance.data.googleBackupReminders,
+                title: Text(Strings.of(context).page_settings_google_backup_reminders_title),
+                subtitle: Text(Strings.of(context).page_settings_google_backup_reminders_subtitle),
+                secondary: const Icon(Icons.cloud_upload),
+                onChanged: (value) {
+                  setState(() => AppManager.instance.data.googleBackupReminders = value);
+                  AppManager.instance.saveSettings();
+                },
+              ),
+              SwitchListTile(
+                value: AppManager.instance.data.googleBackupSettings,
+                title: Text(Strings.of(context).page_settings_google_backup_settings_title),
+                subtitle: Text(Strings.of(context).page_settings_google_backup_settings_subtitle),
+                secondary: const Icon(Icons.settings_backup_restore),
+                onChanged: (value) {
+                  setState(() => AppManager.instance.data.googleBackupSettings = value);
+                  AppManager.instance.saveSettings();
+                },
+              ),
+              if (_hasGooglePlayServices)
+                ListTile(
+                  title: Text(Strings.of(context).page_settings_google_backup_open_title),
+                  subtitle: Text(Strings.of(context).page_settings_google_backup_open_subtitle),
+                  leading: const Icon(Icons.backup),
+                  trailing: const Icon(Icons.open_in_new),
+                  minVerticalPadding: 12,
+                  onTap: () => _launchUrl(_googleBackupSettings),
+                ),
             ]),
             _getSpacer(),
             _getHeader(Strings.of(context).page_settings_header_backup),
@@ -443,6 +483,16 @@ class _SettingsPageState extends State<SettingsPage> {
     ScaffoldMessenger.of(context)
       ..clearSnackBars()
       ..showSnackBar(SnackBar(content: Text(text)));
+  }
+
+  /// Without Google Play services the link would only open Google One in the browser, so the item is left out.
+  Future<void> _checkGooglePlayServices() async {
+    try {
+      final has = await NoterlyBackup.hasGooglePlayServices();
+      if (mounted) setState(() => _hasGooglePlayServices = has);
+    } catch (e, s) {
+      Log.logger.w('Could not check for Google Play services', error: e, stackTrace: s);
+    }
   }
 
   Widget _getAutoBackupTile(BuildContext context) {

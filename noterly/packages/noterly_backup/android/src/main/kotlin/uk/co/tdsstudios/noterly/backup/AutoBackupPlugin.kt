@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
@@ -81,6 +82,7 @@ class AutoBackupPlugin : FlutterPlugin, MethodChannel.MethodCallHandler, Activit
                 release(call.argument<String>("folder")!!)
                 result.success(null)
             }
+            "hasGooglePlayServices" -> result.success(hasGooglePlayServices())
             else -> result.notImplemented()
         }
     }
@@ -122,6 +124,13 @@ class AutoBackupPlugin : FlutterPlugin, MethodChannel.MethodCallHandler, Activit
             if (it.moveToFirst()) it.getString(0)?.let { name -> return name }
         }
         return tree.lastPathSegment ?: tree.toString()
+    }
+
+    /** Google Play services runs Google backup; the manifest's <queries> lets the app see it. */
+    private fun hasGooglePlayServices() = try {
+        context.packageManager.getPackageInfo(GOOGLE_PLAY_SERVICES, 0).applicationInfo?.enabled == true
+    } catch (e: PackageManager.NameNotFoundException) {
+        false
     }
 
     /** Whether the app still holds write access to the folder (it loses it when the app is reinstalled). */
@@ -175,6 +184,7 @@ class AutoBackupPlugin : FlutterPlugin, MethodChannel.MethodCallHandler, Activit
         private const val TAG = "AutoBackupPlugin"
         private const val CHANNEL = "noterly/backup"
         private const val MIME_TYPE = "application/json"
+        private const val GOOGLE_PLAY_SERVICES = "com.google.android.gms"
         private const val REQUEST_PICK_FOLDER = 0x4E42
         private const val READ_WRITE = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
 
