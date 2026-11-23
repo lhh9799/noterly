@@ -1,10 +1,13 @@
 # Builds the release APK and signs it with the release key, in one go:
-#   .\scripts\release.ps1
+#   .\scripts\release.ps1 -Version 1.6.1
 #
+# -Version is the release's vMAJOR.MINOR.PATCH tag without the "v". The APK gets it as its versionName and
+# MAJOR*10000 + MINOR*100 + PATCH as its versionCode, the same as .github/workflows/release.yml.
 # Android Gradle refuses a project path with non-ASCII characters, so the build runs from a drive letter mapped to
 # the repository with subst (created here if it is missing). Signing uses scripts\sign-release.ps1, which asks for the
 # keystore password unless it was saved once with: .\scripts\sign-release.ps1 -SavePassword
 param(
+    [Parameter(Mandatory)][ValidatePattern('^\d+\.\d{1,2}\.\d{1,2}$')][string]$Version,
     [string]$Flavor = 'dev',
     [string]$Drive = 'X:',
     [string]$JavaHome = 'C:\Program Files\Java\jdk-17'
@@ -26,9 +29,12 @@ if (-not (Test-Path $mappedScript) -or (Get-FileHash $mappedScript).Hash -ne (Ge
 
 $env:JAVA_HOME = $JavaHome
 
+$major, $minor, $patch = $Version.Split('.') | ForEach-Object { [int]$_ }
+$versionCode = $major * 10000 + $minor * 100 + $patch
+
 Push-Location "$Drive\noterly"
 try {
-    flutter build apk --release --flavor $Flavor
+    flutter build apk --release --flavor $Flavor --build-name $Version --build-number $versionCode
     if ($LASTEXITCODE -ne 0) { throw "flutter build failed ($LASTEXITCODE)" }
 } finally {
     Pop-Location

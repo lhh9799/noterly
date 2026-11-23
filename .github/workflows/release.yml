@@ -1,8 +1,13 @@
 # Builds, signs and publishes a GitHub Release whenever app code lands on main.
 #
 # Runs on pushes to main that change the app (not docs, screenshots or tests), or by hand from the Actions tab.
+# Releases are numbered vMAJOR.MINOR.PATCH from the commit messages since the previous release (Conventional Commits):
+# a breaking change raises MAJOR, a feat raises MINOR, anything else raises PATCH. The APK carries the same number as its
+# versionName, and MAJOR*10000 + MINOR*100 + PATCH as its versionCode, so Android and Obtainium see the release's version.
+# A manual run with rebuild_tag builds the code of an existing release with its version and replaces that release's APK.
 # The APK is signed like scripts/sign-release.ps1: debug key -> release key with the rotation lineage, so it installs
-# over every earlier release. The keys come from repository secrets, set with scripts/set-ci-secrets.ps1.
+# over every earlier release. A rebuilt APK is signed like the one it replaces (v1.3.0 and earlier used the debug key
+# only). The keys come from repository secrets, set with scripts/set-ci-secrets.ps1.
 # The APK goes straight to the Release, not to an Actions artifact, so it uses none of the Actions storage quota.
 name: Release
 
@@ -20,9 +25,13 @@ on:
   workflow_dispatch:
     inputs:
       dry_run:
-        description: 'Build and sign only, without creating a Release'
+        description: 'Build and sign only, without creating or changing a Release'
         type: boolean
         default: false
+      rebuild_tag:
+        description: 'Existing release to rebuild from its own commit and replace its APK (for example v1.2.0)'
+        type: string
+        default: ''
 
 concurrency:
   group: release
@@ -41,11 +50,48 @@ jobs:
     env:
       # SHA-256 of the release key certificate; the job fails rather than publish an APK signed with anything else
       RELEASE_CERT_SHA256: 1e7a919cd9e5fd10015cc8170c03648f765a7521c832e35cd8fad1a3559c2658
+      REBUILD_TAG: ${{ inputs.rebuild_tag }}
+      GH_REPO: ${{ github.repository }}
     steps:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           fetch-tags: true
+
+      - name: Pick the version
+        id: version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          semver='^v([0-9]+)\.([0-9]+)\.([0-9]+)$'
+          if [ -n "$REBUILD_TAG" ]; then
+            [[ "$REBUILD_TAG" =~ $semver ]] || { echo "::error::rebuild_tag must look like v1.2.3"; exit 1; }
+            gh release view "$REBUILD_TAG" >/dev/null || { echo "::error::There is no release $REBUILD_TAG"; exit 1; }
+            tag="$REBUILD_TAG"
+            # Build that release's code; the steps that follow are still this workflow's
+            git checkout --detach "refs/tags/$tag"
+          else
+            prev="$(git tag -l 'v*' | grep -E "$semver" | sort -V | tail -1 || true)"
+            [ -n "$prev" ] || { echo "::error::No earlier vX.Y.Z tag to count from"; exit 1; }
+            [[ "$prev" =~ $semver ]]
+            major=${BASH_REMATCH[1]} minor=${BASH_REMATCH[2]} patch=${BASH_REMATCH[3]}
+            log="$(git log --no-merges --format='%s%n%b' "$prev..HEAD")"
+            if grep -qE '^[a-z]+(\([^)]*\))?!:|^BREAKING CHANGE:' <<<"$log"; then
+              major=$((major + 1)) minor=0 patch=0
+            elif grep -qE '^feat(\([^)]*\))?:' <<<"$log"; then
+              minor=$((minor + 1)) patch=0
+            else
+              patch=$((patch + 1))
+            fi
+            tag="v$major.$minor.$patch"
+            echo "prev=$prev" >> "$GITHUB_OUTPUT"
+          fi
+          [[ "$tag" =~ $semver ]]
+          # The versionCode keeps two digits each for MINOR and PATCH
+          (( BASH_REMATCH[2] < 100 && BASH_REMATCH[3] < 100 )) || { echo "::error::$tag does not fit the versionCode"; exit 1; }
+          code=$(( BASH_REMATCH[1] * 10000 + BASH_REMATCH[2] * 100 + BASH_REMATCH[3] ))
+          { echo "tag=$tag"; echo "name=${tag#v}"; echo "code=$code"; } >> "$GITHUB_OUTPUT"
+          echo "Version $tag, versionCode $code"
 
       - uses: actions/setup-java@v5
         with:
@@ -60,6 +106,7 @@ jobs:
           cache: true
 
       - name: Test
+        if: ${{ !inputs.rebuild_tag }}
         working-directory: noterly
         run: |
           flutter pub get
@@ -82,46 +129,71 @@ jobs:
 
       - name: Build
         working-directory: noterly
-        run: flutter build apk --release --flavor dev
+        env:
+          NAME: ${{ steps.version.outputs.name }}
+          CODE: ${{ steps.version.outputs.code }}
+        run: |
+          # Code from before the vX.Y.Z versions added "-dev" to the version name; drop it so the name matches the tag
+          sed -i '/versionNameSuffix/d' android/app/build.gradle
+          flutter build apk --release --flavor dev --build-name "$NAME" --build-number "$CODE"
+          aapt2="$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)/aapt2"
+          badging="$("$aapt2" dump badging build/app/outputs/flutter-apk/app-dev-release.apk)"
+          grep -m1 '^package:' <<<"$badging"
+          grep -q "^package: .* versionCode='$CODE' versionName='$NAME'" <<<"$badging" \
+            || { echo "::error::The APK does not carry version $NAME ($CODE)"; exit 1; }
 
       - name: Sign
         env:
           KS_PASS: ${{ secrets.NOTERLY_KEYSTORE_PASSWORD }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           [ -n "$KS_PASS" ] || { echo "::error::NOTERLY_KEYSTORE_PASSWORD is missing. Run scripts/set-ci-secrets.ps1."; exit 1; }
           export KS_PASS="$(printf '%s' "$KS_PASS" | tr -d '\r\n')"
           apksigner="$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)/apksigner"
           out=noterly/build/app/outputs/flutter-apk
-          "$apksigner" sign \
-            --ks ~/.android/debug.keystore --ks-key-alias androiddebugkey --ks-pass pass:android --key-pass pass:android \
-            --next-signer --ks "$RUNNER_TEMP/keys/release.jks" --ks-key-alias noterly --ks-pass env:KS_PASS \
-            --lineage "$RUNNER_TEMP/keys/noterly.lineage" \
-            --out "$out/signed.apk" "$out/app-dev-release.apk"
+          certs() { "$apksigner" verify --print-certs "$1" | grep 'certificate SHA-256 digest' | sort -u; }
+          rotate=true
+          if [ -n "$REBUILD_TAG" ]; then
+            # Sign like the APK being replaced: releases before v1.3.1 were signed with the debug key only
+            mkdir -p "$RUNNER_TEMP/old"
+            gh release download "$REBUILD_TAG" --pattern '*.apk' --dir "$RUNNER_TEMP/old"
+            old=("$RUNNER_TEMP"/old/*.apk)
+            [ "${#old[@]}" = 1 ] || { echo "::error::$REBUILD_TAG should have exactly one APK"; exit 1; }
+            certs "${old[0]}" | tee "$RUNNER_TEMP/old-certs.txt"
+            grep -q "$RELEASE_CERT_SHA256" "$RUNNER_TEMP/old-certs.txt" || rotate=false
+          fi
+          if $rotate; then
+            "$apksigner" sign \
+              --ks ~/.android/debug.keystore --ks-key-alias androiddebugkey --ks-pass pass:android --key-pass pass:android \
+              --next-signer --ks "$RUNNER_TEMP/keys/release.jks" --ks-key-alias noterly --ks-pass env:KS_PASS \
+              --lineage "$RUNNER_TEMP/keys/noterly.lineage" \
+              --out "$out/signed.apk" "$out/app-dev-release.apk"
+          else
+            "$apksigner" sign \
+              --ks ~/.android/debug.keystore --ks-key-alias androiddebugkey --ks-pass pass:android --key-pass pass:android \
+              --out "$out/signed.apk" "$out/app-dev-release.apk"
+          fi
           "$apksigner" verify --print-certs "$out/signed.apk" | tee "$RUNNER_TEMP/certs.txt"
-          grep -q "Signer #1 certificate SHA-256 digest: $RELEASE_CERT_SHA256" "$RUNNER_TEMP/certs.txt" \
-            || { echo "::error::The APK is not signed with the release key"; exit 1; }
+          if [ -n "$REBUILD_TAG" ]; then
+            certs "$out/signed.apk" | diff "$RUNNER_TEMP/old-certs.txt" - \
+              || { echo "::error::The rebuilt APK is not signed like the one it replaces"; exit 1; }
+          else
+            grep -q "Signer #1 certificate SHA-256 digest: $RELEASE_CERT_SHA256" "$RUNNER_TEMP/certs.txt" \
+              || { echo "::error::The APK is not signed with the release key"; exit 1; }
+          fi
 
       - name: Remove signing keys
         if: always()
         run: rm -rf "$RUNNER_TEMP/keys" ~/.android/debug.keystore
 
-      - name: Pick the tag and write the notes
-        id: meta
+      - name: Write the notes
+        if: ${{ !inputs.rebuild_tag }}
+        env:
+          PREV: ${{ steps.version.outputs.prev }}
         run: |
-          # vYYYY.MM.DD-N in Korean time, N counting up from 1 for releases on the same day
-          day="$(TZ=Asia/Seoul date +%Y.%m.%d)"
-          n=1
-          while git rev-parse -q --verify "refs/tags/v$day-$n" >/dev/null; do n=$((n + 1)); done
-          tag="v$day-$n"
-          echo "tag=$tag" >> "$GITHUB_OUTPUT"
-          mv noterly/build/app/outputs/flutter-apk/signed.apk "$RUNNER_TEMP/noterly-phone-${tag#v}.apk"
-          echo "apk=$RUNNER_TEMP/noterly-phone-${tag#v}.apk" >> "$GITHUB_OUTPUT"
-
-          prev="$(git describe --tags --abbrev=0 --match 'v[0-9]*.[0-9]*.[0-9]*-[0-9]*' 2>/dev/null || true)"
-          range="${prev:+$prev..}HEAD"
           section() { # $1 = heading, $2 = regex for the commit types it takes
             local lines
-            lines="$(git log --no-merges --format='%s (%h)' "$range" | grep -E "^($2)(\(|!|:)" || true)"
+            lines="$(git log --no-merges --format='%s (%h)' "$PREV..HEAD" | grep -E "^($2)(\(|!|:)" || true)"
             [ -n "$lines" ] && printf '### %s\n\n%s\n\n' "$1" "$(echo "$lines" | sed 's/^/- /')"
             return 0
           }
@@ -131,10 +203,11 @@ jobs:
             section "새 기능" "feat"
             section "버그 수정" "fix"
             section "기타" "perf|refactor|build|revert"
-            [ -n "$prev" ] && echo "이전 릴리스: [$prev](https://github.com/${GITHUB_REPOSITORY}/releases/tag/$prev)" && echo
+            echo "이전 릴리스: [$PREV](https://github.com/${GITHUB_REPOSITORY}/releases/tag/$PREV)"
+            echo
             echo "## 참고"
             echo
-            echo "- v2026.10.27-2 이후와 같은 릴리스 키로 서명되어 이전 버전 위에 그대로 업데이트 설치되며 데이터가 유지됩니다."
+            echo "- v1.3.1 이후와 같은 릴리스 키로 서명되어 이전 버전 위에 그대로 업데이트 설치되며 데이터가 유지됩니다."
             echo "- 현재 서명 인증서 SHA-256: \`$RELEASE_CERT_SHA256\`"
             echo "- GitHub Actions에서 자동으로 빌드·서명했습니다 (커밋 ${GITHUB_SHA::7})."
             echo
@@ -144,10 +217,21 @@ jobs:
           } > "$RUNNER_TEMP/notes.md"
           cat "$RUNNER_TEMP/notes.md"
 
-      - name: Create the Release
+      - name: Publish
         if: ${{ !inputs.dry_run }}
         env:
           GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+          NAME: ${{ steps.version.outputs.name }}
         run: |
-          gh release create "${{ steps.meta.outputs.tag }}" "${{ steps.meta.outputs.apk }}" \
-            --target "$GITHUB_SHA" --title "${{ steps.meta.outputs.tag }}" --notes-file "$RUNNER_TEMP/notes.md"
+          apk="$RUNNER_TEMP/noterly-phone-$NAME.apk"
+          mv noterly/build/app/outputs/flutter-apk/signed.apk "$apk"
+          if [ -n "$REBUILD_TAG" ]; then
+            gh release upload "$TAG" "$apk" --clobber
+            # Remove the APK this one replaces when it had another name
+            for name in $(gh release view "$TAG" --json assets --jq '.assets[].name' | grep '\.apk$' | grep -vxF "noterly-phone-$NAME.apk" || true); do
+              gh release delete-asset "$TAG" "$name" --yes
+            done
+          else
+            gh release create "$TAG" "$apk" --target "$GITHUB_SHA" --title "$TAG" --notes-file "$RUNNER_TEMP/notes.md"
+          fi
