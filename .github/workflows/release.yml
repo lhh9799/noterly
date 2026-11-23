@@ -35,7 +35,9 @@ on:
         default: ''
 
 concurrency:
-  group: release
+  # New releases run one at a time, so two never pick the same tag. A rebuild only touches its own release, so each
+  # has its own group and several can run side by side.
+  group: ${{ inputs.rebuild_tag && format('rebuild-{0}', inputs.rebuild_tag) || 'release' }}
   cancel-in-progress: false
 
 permissions:
