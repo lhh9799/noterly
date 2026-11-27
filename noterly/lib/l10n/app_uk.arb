@@ -4,12 +4,12 @@
     "main_action_create": "Створити",
     "main_action_save": "Зберегти",
     "main_action_reactivate": "Відновити",
-    "page_activeNotifications_label": "Активно",
+    "page_activeNotifications_label": "Активні",
     "page_activeNotifications_header_immediate": "Миттєві",
     "page_activeNotifications_header_scheduled": "Заплановані",
     "page_activeNotifications_header_repeating": "Повторювані",
     "page_activeNotifications_empty": "Немає активних сповіщень.",
-    "page_activeNotifications_item_repeats": "Повторювати {durationString}",
+    "page_activeNotifications_item_repeats": "Повторюється {durationString}",
     "@page_activeNotifications_item_repeats": {
         "description": "Under a notification item specifying repeat duration.",
         "placeholders": {
@@ -19,7 +19,7 @@
             }
         }
     },
-    "page_activeNotifications_item_snoozed": "Відкладено {dateTimeString}",
+    "page_activeNotifications_item_snoozed": "Відкладено до: {dateTimeString}",
     "@page_activeNotifications_item_snoozed": {
         "description": "Under a notification item specifying snooze duration.",
         "placeholders": {
@@ -30,9 +30,9 @@
         }
     },
     "page_archivedNotifications_label": "Архів",
-    "page_archivedNotifications_empty": "Архівні повідомлення з'являтимуться тут.",
-    "page_archivedNotifications_button_deleteAll": "Видалити всі архівні повідомлення",
-    "page_archivedNotifications_item_archived": "В архіві {dateTimeString}",
+    "page_archivedNotifications_empty": "Архівні сповіщення з'являтимуться тут.",
+    "page_archivedNotifications_button_deleteAll": "Видалити всі архівні сповіщення",
+    "page_archivedNotifications_item_archived": "Архівовано: {dateTimeString}",
     "@page_archivedNotifications_item_archived": {
         "description": "Under a notification item specifying when it was archived.",
         "placeholders": {
@@ -42,7 +42,7 @@
             }
         }
     },
-    "snackbar_notificationDeleted": "Повідомлення \"{title}\" видалено.",
+    "snackbar_notificationDeleted": "Сповіщення «{title}» видалено.",
     "@snackbar_notificationDeleted": {
         "description": "Snackbar message when a notification is deleted.",
         "placeholders": {
@@ -52,7 +52,7 @@
             }
         }
     },
-    "snackbar_notificationArchived": "Повідомлення \"{title}\" в архіві.",
+    "snackbar_notificationArchived": "Сповіщення «{title}» в архіві.",
     "@snackbar_notificationArchived": {
         "description": "Snackbar message when a notification is archived.",
         "placeholders": {
@@ -62,7 +62,7 @@
             }
         }
     },
-    "snackbar_allArchivedNotificationsDeleted": "Усі архівні повідомлення видалені.",
+    "snackbar_allArchivedNotificationsDeleted": "Усі архівні сповіщення видалено.",
     "toast_notificationSnoozed": "Сповіщення відкладено на {durationString}",
     "@toast_notificationSnoozed": {
         "description": "Toast message when a notification is snoozed.",
@@ -79,26 +79,26 @@
     "page_settings_header_about": "Про додаток",
     "page_settings_header_debug": "Параметри налагодження",
     "page_settings_header_debug_disclaimer": "Ці параметри не підтримуються і можуть спричинити проблеми. Використовуйте на свій страх і ризик.",
-    "page_settings_notifications_snoozeDuration": "Інтервал повторення",
-    "page_settings_notifications_dismissible_title": "Watch notifications",
-    "page_settings_notifications_dismissible_subtitle": "Show the Send to watch option on reminders. When off, no reminder is sent to the watch and every notification is ongoing.",
-    "page_settings_notifications_dismissibleByDefault_title": "Send to watch by default",
-    "page_settings_notifications_dismissibleByDefault_subtitle": "Turn on Send to watch for new reminders.",
-    "page_settings_header_backup": "Backup",
-    "page_settings_header_google_backup": "Google backup",
-    "page_settings_google_backup_reminders_title": "Back up reminders",
-    "page_settings_google_backup_reminders_subtitle": "Bring the reminders back when the app is reinstalled with the same Google account. When turned off, the next backup leaves them out, so they are gone from Google too.",
-    "page_settings_google_backup_settings_title": "Back up settings",
-    "page_settings_google_backup_settings_subtitle": "Bring the snooze, watch, swipe and backup settings back the same way. When turned off, the next backup leaves them out.",
-    "page_settings_google_backup_open_title": "Open Google backup settings",
-    "page_settings_google_backup_open_subtitle": "Nothing is backed up unless Google backup is on there. Its App data list shows Noterly Dev with the size of its backup, and Back up now backs up the whole phone. Deleting Noterly Dev there stops its backup on this phone until Google backup is turned off and on again.",
-    "page_settings_backup_export_title": "Export reminders",
-    "page_settings_backup_export_subtitle": "Save all reminders, including archived ones, to a file.",
-    "page_settings_backup_import_title": "Import reminders",
-    "page_settings_backup_import_subtitle": "Load reminders from an exported file.",
-    "page_settings_backup_auto_title": "Automatic backup",
-    "page_settings_backup_auto_subtitle_off": "Keep a copy of all reminders in a folder you choose, such as Documents, updated after every change. After reinstalling the app, bring it back with Import reminders.",
-    "page_settings_backup_auto_subtitle_on": "Saved as {file} in {folder} after every change. Tap to choose another folder.",
+    "page_settings_notifications_snoozeDuration": "Відкладати на",
+    "page_settings_notifications_dismissible_title": "Сповіщення на годиннику",
+    "page_settings_notifications_dismissible_subtitle": "Показувати в нагадуваннях параметр «Надсилати на годинник». Якщо вимкнути, нагадування не надсилатимуться на годинник, а жодне сповіщення не можна буде змахнути.",
+    "page_settings_notifications_dismissibleByDefault_title": "Надсилати на годинник за умовчанням",
+    "page_settings_notifications_dismissibleByDefault_subtitle": "Вмикати «Надсилати на годинник» для нових нагадувань.",
+    "page_settings_header_backup": "Резервне копіювання",
+    "page_settings_header_google_backup": "Резервне копіювання Google",
+    "page_settings_google_backup_reminders_title": "Резервне копіювання нагадувань",
+    "page_settings_google_backup_reminders_subtitle": "Нагадування повернуться, якщо перевстановити додаток із тим самим обліковим записом Google. Якщо вимкнути, наступна резервна копія їх не міститиме, тож із Google вони теж зникнуть.",
+    "page_settings_google_backup_settings_title": "Резервне копіювання налаштувань",
+    "page_settings_google_backup_settings_subtitle": "Так само повертаються налаштування відкладення, годинника, змахування та резервного копіювання. Якщо вимкнути, наступна резервна копія їх не міститиме.",
+    "page_settings_google_backup_open_title": "Відкрити налаштування резервного копіювання Google",
+    "page_settings_google_backup_open_subtitle": "Резервні копії не створюються, якщо там не ввімкнено резервне копіювання Google. У списку «Дані додатків» показано Noterly Dev і розмір його резервної копії, а кнопка «Створити резервну копію зараз» створює копію всього телефона. Якщо видалити там Noterly Dev, його резервне копіювання на цьому телефоні припиниться, доки резервне копіювання Google не буде вимкнено й знову ввімкнено.",
+    "page_settings_backup_export_title": "Експортувати нагадування",
+    "page_settings_backup_export_subtitle": "Зберегти всі нагадування, зокрема архівні, у файл.",
+    "page_settings_backup_import_title": "Імпортувати нагадування",
+    "page_settings_backup_import_subtitle": "Завантажити нагадування з експортованого файлу.",
+    "page_settings_backup_auto_title": "Автоматичне резервне копіювання",
+    "page_settings_backup_auto_subtitle_off": "Зберігати копію всіх нагадувань у вибраній папці (наприклад, Documents) і оновлювати її після кожної зміни. Після перевстановлення додатка нагадування можна повернути через «Імпортувати нагадування».",
+    "page_settings_backup_auto_subtitle_on": "Після кожної зміни копія зберігається як {file} у папці {folder}. Торкніться, щоб вибрати іншу папку.",
     "@page_settings_backup_auto_subtitle_on": {
         "description": "Subtitle of the automatic backup switch while it is on.",
         "placeholders": {
@@ -112,7 +112,7 @@
             }
         }
     },
-    "page_settings_backup_auto_subtitle_error": "Can't save to {folder}, for example after the app was reinstalled. Tap to choose the folder again.",
+    "page_settings_backup_auto_subtitle_error": "Не вдається зберегти копію в папці {folder}. Так буває, наприклад, після перевстановлення додатка. Торкніться, щоб вибрати папку знову.",
     "@page_settings_backup_auto_subtitle_error": {
         "description": "Subtitle of the automatic backup switch when the app can no longer write to the folder.",
         "placeholders": {
@@ -122,16 +122,16 @@
             }
         }
     },
-    "page_settings_header_swipe": "Swipe actions",
-    "page_settings_swipe_enabled_title": "Swipe reminders",
-    "page_settings_swipe_enabled_subtitle": "Archive or delete a reminder by swiping it in a list.",
-    "page_settings_swipe_right": "Swipe right",
-    "page_settings_swipe_left": "Swipe left",
-    "swipeAction_archive": "Archive",
-    "swipeAction_delete": "Delete",
-    "swipeAction_none": "Do nothing",
-    "dialog_import_title": "Import reminders",
-    "dialog_import_text": "The file has {count} reminder(s). Merge adds new reminders and updates the ones that were changed more recently in the file. Replace removes your current reminders and keeps only the ones in the file.",
+    "page_settings_header_swipe": "Дії змахуванням",
+    "page_settings_swipe_enabled_title": "Змахування нагадувань",
+    "page_settings_swipe_enabled_subtitle": "Архівуйте або видаляйте нагадування, змахуючи їх у списку.",
+    "page_settings_swipe_right": "Змахування вправо",
+    "page_settings_swipe_left": "Змахування вліво",
+    "swipeAction_archive": "Архівувати",
+    "swipeAction_delete": "Видалити",
+    "swipeAction_none": "Нічого не робити",
+    "dialog_import_title": "Імпортувати нагадування",
+    "dialog_import_text": "У файлі {count, plural, one{{count} нагадування} few{{count} нагадування} many{{count} нагадувань} other{{count} нагадування}}. «Об'єднати» додає нові нагадування й оновлює ті, що у файлі новіші. «Замінити» видаляє ваші поточні нагадування й залишає лише ті, що є у файлі.",
     "@dialog_import_text": {
         "description": "Asks whether to merge or replace when importing reminders.",
         "placeholders": {
@@ -141,9 +141,9 @@
             }
         }
     },
-    "dialog_import_action_merge": "Merge",
-    "dialog_import_action_replace": "Replace",
-    "snackbar_export_done": "Exported {count} reminder(s).",
+    "dialog_import_action_merge": "Об'єднати",
+    "dialog_import_action_replace": "Замінити",
+    "snackbar_export_done": "Експортовано {count, plural, one{{count} нагадування} few{{count} нагадування} many{{count} нагадувань} other{{count} нагадування}}.",
     "@snackbar_export_done": {
         "description": "Shown after reminders were exported to a file.",
         "placeholders": {
@@ -153,8 +153,8 @@
             }
         }
     },
-    "snackbar_export_failed": "Couldn't export reminders.",
-    "snackbar_import_done": "Import complete: {added} added, {updated} updated, {removed} removed.",
+    "snackbar_export_failed": "Не вдалося експортувати нагадування.",
+    "snackbar_import_done": "Імпорт завершено. Додано: {added}, оновлено: {updated}, видалено: {removed}.",
     "@snackbar_import_done": {
         "description": "Shown after reminders were imported from a file.",
         "placeholders": {
@@ -172,9 +172,9 @@
             }
         }
     },
-    "snackbar_import_empty": "The file has no reminders.",
-    "snackbar_import_failed": "This file couldn't be read as a Noterly reminders file.",
-    "snackbar_auto_backup_done": "Reminders backed up to {folder}.",
+    "snackbar_import_empty": "У файлі немає нагадувань.",
+    "snackbar_import_failed": "Цей файл не вдалося прочитати як файл нагадувань Noterly.",
+    "snackbar_auto_backup_done": "Резервну копію нагадувань збережено в папці {folder}.",
     "@snackbar_auto_backup_done": {
         "description": "Shown after automatic backup was turned on, or its folder changed, and the first backup was saved.",
         "placeholders": {
@@ -184,46 +184,46 @@
             }
         }
     },
-    "snackbar_auto_backup_failed": "Couldn't save the backup in that folder.",
+    "snackbar_auto_backup_failed": "Не вдалося зберегти резервну копію у вибраній папці.",
     "page_settings_system_notificationSettings": "Налаштування сповіщень",
-    "page_settings_system_language_title": "Language",
-    "page_settings_system_language_subtitle": "Choose the app's language in the phone's settings.",
+    "page_settings_system_language_title": "Мова",
+    "page_settings_system_language_subtitle": "Вибрати мову додатка в налаштуваннях телефона.",
     "page_settings_about_version_title": "Версія",
     "page_settings_about_copyright_title": "Авторські права",
     "page_settings_about_copyright_text": "2023 Tom Chapman, TDS Studios.",
     "page_settings_about_tutorial_title": "Інструкція",
     "page_settings_about_licenses_title": "Ліцензії",
     "page_settings_about_licenses_page_legalese": "Copyright © 2023 Tom Chapman, TDS Studios.",
-    "page_settings_about_licenses_page_openSourceSoftware": "Noterly is open-source software. The source code is available on GitHub.",
+    "page_settings_about_licenses_page_openSourceSoftware": "Noterly — програмне забезпечення з відкритим кодом. Вихідний код доступний на GitHub.",
     "page_settings_about_privacyPolicy_title": "Політика конфіденційності",
     "page_settings_about_feedback_title": "Надіслати відгук",
     "page_settings_about_translate_title": "Допомога у перекладі Noterly",
     "page_settings_about_donation_title": "Пригостити мене кавою",
-    "page_settings_about_github_title": "Open-source on GitHub",
-    "page_createNotification_title": "Створити повідомлення",
+    "page_settings_about_github_title": "Відкритий код на GitHub",
+    "page_createNotification_title": "Створити сповіщення",
     "page_createNotification_header_details": "Деталі сповіщення",
-    "page_createNotification_header_timing": "Терміни",
+    "page_createNotification_header_timing": "Час",
     "page_createNotification_timing_schedule_title": "Розклад",
     "page_createNotification_timing_schedule_subtitle": "Надіслати",
-    "page_createNotification_timing_repeat_title": "Повторення",
+    "page_createNotification_timing_repeat_title": "Повтор",
     "page_createNotification_timing_repeat_subtitle": "Повторювати",
-    "page_createNotification_timing_repeat_info": "Повторювані сповіщення повторюватимуться, доки не будуть позначені як виконані.",
-    "page_createNotification_timing_dismissible_title": "Send to watch",
-    "page_createNotification_timing_dismissible_subtitle": "Notify on the watch too. The notification can also be swiped away; the reminder stays in the list.",
+    "page_createNotification_timing_repeat_info": "Повторюване сповіщення з'явиться знову лише після того, як ви натиснете в ньому «Позначити як виконане».",
+    "page_createNotification_timing_dismissible_title": "Надсилати на годинник",
+    "page_createNotification_timing_dismissible_subtitle": "Показувати сповіщення й на годиннику. Сповіщення на телефоні також можна змахнути, а нагадування залишиться в списку.",
     "page_createNotification_details_field_title_label": "Назва",
     "page_createNotification_details_field_title_error": "Будь ласка, введіть назву",
     "page_createNotification_details_field_body_label": "Введіть текст",
     "page_createNotification_details_field_colour_label": "Колір",
-    "page_editNotification_title": "Редагування повідомлення",
-    "page_editNotification_header_details": "Деталі повідомлення",
-    "page_editNotification_header_timing": "Терміни",
+    "page_editNotification_title": "Редагування сповіщення",
+    "page_editNotification_header_details": "Деталі сповіщення",
+    "page_editNotification_header_timing": "Час",
     "page_editNotification_timing_schedule_title": "Розклад",
     "page_editNotification_timing_schedule_subtitle": "Надіслати",
     "page_editNotification_timing_repeat_title": "Повтор",
-    "page_editNotification_timing_repeat_subtitle": "Повторити",
-    "page_editNotification_timing_repeat_info": "Повторювані сповіщення повторюватимуться, доки не будуть позначені як виконані.",
-    "page_editNotification_timing_dismissible_title": "Send to watch",
-    "page_editNotification_timing_dismissible_subtitle": "Notify on the watch too. The notification can also be swiped away; the reminder stays in the list.",
+    "page_editNotification_timing_repeat_subtitle": "Повторювати",
+    "page_editNotification_timing_repeat_info": "Повторюване сповіщення з'явиться знову лише після того, як ви натиснете в ньому «Позначити як виконане».",
+    "page_editNotification_timing_dismissible_title": "Надсилати на годинник",
+    "page_editNotification_timing_dismissible_subtitle": "Показувати сповіщення й на годиннику. Сповіщення на телефоні також можна змахнути, а нагадування залишиться в списку.",
     "page_editNotification_details_field_title_label": "Назва",
     "page_editNotification_details_field_title_error": "Будь ласка, введіть назву",
     "page_editNotification_details_field_body_label": "Введіть текст",
@@ -233,11 +233,11 @@
     "item_colour": "Колір",
     "notification_action_markAsDone": "Позначити як виконане",
     "notification_action_snooze": "Відкласти",
-    "notification_channel_immediate_name": "Immediate notifications",
-    "notification_channel_immediate_description": "Notifications that are shown immediately",
-    "notification_channel_scheduled_name": "Scheduled notifications",
-    "notification_channel_scheduled_description": "Notifications that are scheduled for a future time",
-    "toast_notificationFailed": "Failed to send notification, check notification permissions",
+    "notification_channel_immediate_name": "Миттєві сповіщення",
+    "notification_channel_immediate_description": "Сповіщення, які з'являються одразу",
+    "notification_channel_scheduled_name": "Заплановані сповіщення",
+    "notification_channel_scheduled_description": "Сповіщення, заплановані на певний час у майбутньому",
+    "toast_notificationFailed": "Не вдалося надіслати сповіщення. Перевірте дозволи на сповіщення",
     "notification_action_snoozeFor": "Відкласти на {durationString}",
     "@notification_action_snoozeFor": {
         "description": "Snooze action with duration.",
@@ -253,7 +253,7 @@
     "dialog_picker_dateTime_header_time": "Час",
     "dialog_picker_dateTime_button_selectDate": "Обрати дату",
     "dialog_picker_dateTime_button_selectTime": "Обрати час",
-    "dialog_picker_repetition_title": "Оберіть тривалість повтору",
+    "dialog_picker_repetition_title": "Обрати інтервал повтору",
     "dialog_picker_repetition_subtitle": "повторювати {durationString}",
     "@dialog_picker_repetition_subtitle": {
         "description": "Subtitle for dialog with repeat duration.",
@@ -267,7 +267,7 @@
     "dialog_picker_repetition_field_number_label": "Кількість",
     "dialog_picker_repetition_field_period_label": "Строк",
     "dialog_picker_duration_title": "Обрати тривалість",
-    "dialog_picker_duration_subtitle": "{durationString}",
+    "dialog_picker_duration_subtitle": "на {durationString}",
     "@dialog_picker_duration_subtitle": {
         "description": "Subtitle for dialog with duration.",
         "placeholders": {
@@ -280,13 +280,13 @@
     "dialog_picker_duration_field_number_label": "Кількість",
     "dialog_picker_duration_field_period_label": "Строк",
     "dialog_picker_colour_title": "Обрати колір",
-    "dialog_easterEgg_title": "Закладка!",
-    "dialog_easterEgg_text": "Вітаємо, ви знайшли закладку! Тепер ви можете увімкнути параметри налагодження. Зверніть увагу, що ці опції не підтримуються і можуть спричинити проблеми.",
+    "dialog_easterEgg_title": "Пасхалка!",
+    "dialog_easterEgg_text": "Вітаємо, ви знайшли пасхалку! Тепер ви можете увімкнути параметри налагодження. Зверніть увагу, що ці параметри не підтримуються і можуть спричинити проблеми.",
     "dialog_easterEgg_action_showDebugOptions": "Показати параметри налагодження",
     "dialog_about_translations_title": "Переклади",
     "dialog_about_action_showLicenses": "Ліцензії",
     "tutorial_page_0_title": "Ласкаво просимо до Noterly",
-    "tutorial_page_0_subtitle": "Прості нагадування про повідомлення",
+    "tutorial_page_0_subtitle": "Прості нагадування у сповіщеннях",
     "tutorial_page_0_content": "Ось деяка основна інформація для початку.",
     "tutorial_page_1_title": "Нагадування",
     "tutorial_page_1_content": "Noterly призначений для швидких і простих нагадувань. Можливо, для більш складних завдань вам більше підійде додаток зі списком справ або календарем.",
@@ -297,7 +297,7 @@
     "tutorial_page_3_content": "Виконали завдання? Змахніть сповіщення. Щоб видалити сповіщення, перейдіть на сторінку архіву та проведіть по ньому пальцем.",
     "tutorial_page_3_example": "Проведіть пальцем по екрану для додавання до архіву або видалення",
     "tutorial_page_4_title": "Відкладення нагадувань",
-    "tutorial_page_4_content": "Ви можете відкласти нагадування, натиснувши кнопку в сповіщенні. Налаштуйте тривалість нагадування в налаштуваннях.",
+    "tutorial_page_4_content": "Ви можете відкласти нагадування, натиснувши кнопку в сповіщенні. У налаштуваннях можна вибрати, на скільки його відкладати.",
     "tutorial_page_5_title": "От і все!",
     "tutorial_page_5_content": "Ви готові почати користуватися Noterly. Ви завжди можете повернутися до цієї інструкції в налаштуваннях.",
     "tutorial_updatedExperienceText": "Ви бачите це, тому що ця інструкція була оновлена.",
@@ -309,7 +309,7 @@
     "general_cancel": "Скасувати",
     "general_undo": "Скасувати",
     "general_close": "Закрити",
-    "time_seconds": "{value, plural, =0{секунд} =1{секунда} other{секунди}}",
+    "time_seconds": "{value, plural, =0{секунд} one{секунду} few{секунди} many{секунд} other{секунди}}",
     "@time_seconds": {
         "description": "Used to pluralise second.",
         "placeholders": {
@@ -320,7 +320,7 @@
             }
         }
     },
-    "time_seconds_value": "{value} секунд",
+    "time_seconds_value": "{value, plural, =0{0 секунд} one{{value} секунду} few{{value} секунди} many{{value} секунд} other{{value} секунди}}",
     "@time_seconds_value": {
         "description": "Used to display a number of seconds.",
         "placeholders": {
@@ -331,7 +331,7 @@
             }
         }
     },
-    "time_minutes": "{value, plural, =0{хвилин} =1{хвилина} other{хвилини}}",
+    "time_minutes": "{value, plural, =0{хвилин} one{хвилину} few{хвилини} many{хвилин} other{хвилини}}",
     "@time_minutes": {
         "description": "Used to pluralise minute.",
         "placeholders": {
@@ -342,7 +342,7 @@
             }
         }
     },
-    "time_minutes_value": "{value} хвилин",
+    "time_minutes_value": "{value, plural, =0{0 хвилин} one{{value} хвилину} few{{value} хвилини} many{{value} хвилин} other{{value} хвилини}}",
     "@time_minutes_value": {
         "description": "Used to display a number of minutes.",
         "placeholders": {
@@ -353,7 +353,7 @@
             }
         }
     },
-    "time_hours": "{value, plural, =0{годин} =1{година} other{години}}",
+    "time_hours": "{value, plural, =0{годин} one{годину} few{години} many{годин} other{години}}",
     "@time_hours": {
         "description": "Used to pluralise hour.",
         "placeholders": {
@@ -364,7 +364,7 @@
             }
         }
     },
-    "time_hours_value": "{value} години",
+    "time_hours_value": "{value, plural, =0{0 годин} one{{value} годину} few{{value} години} many{{value} годин} other{{value} години}}",
     "@time_hours_value": {
         "description": "Used to display a number of hours.",
         "placeholders": {
@@ -375,7 +375,7 @@
             }
         }
     },
-    "time_days": "{value, plural, =0{днів} =1{день} other{дні}}",
+    "time_days": "{value, plural, =0{днів} one{день} few{дні} many{днів} other{дня}}",
     "@time_days": {
         "description": "Used to pluralise day.",
         "placeholders": {
@@ -386,7 +386,7 @@
             }
         }
     },
-    "time_days_value": "{value} дня",
+    "time_days_value": "{value, plural, =0{0 днів} one{{value} день} few{{value} дні} many{{value} днів} other{{value} дня}}",
     "@time_days_value": {
         "description": "Used to display a number of days.",
         "placeholders": {
@@ -397,7 +397,7 @@
             }
         }
     },
-    "time_weeks": "{value, plural, =0{тижнів} =1{тиждень} other{тижні}}",
+    "time_weeks": "{value, plural, =0{тижнів} one{тиждень} few{тижні} many{тижнів} other{тижня}}",
     "@time_weeks": {
         "description": "Used to pluralise week.",
         "placeholders": {
@@ -408,7 +408,7 @@
             }
         }
     },
-    "time_weeks_value": "{value} тижні",
+    "time_weeks_value": "{value, plural, =0{0 тижнів} one{{value} тиждень} few{{value} тижні} many{{value} тижнів} other{{value} тижня}}",
     "@time_weeks_value": {
         "description": "Used to display a number of weeks.",
         "placeholders": {
@@ -419,7 +419,7 @@
             }
         }
     },
-    "time_months": "{value, plural, =0{місяців} =1{місяць} other{місяці}}",
+    "time_months": "{value, plural, =0{місяців} one{місяць} few{місяці} many{місяців} other{місяця}}",
     "@time_months": {
         "description": "Used to pluralise month.",
         "placeholders": {
@@ -430,7 +430,7 @@
             }
         }
     },
-    "time_months_value": "{value} місяці",
+    "time_months_value": "{value, plural, =0{0 місяців} one{{value} місяць} few{{value} місяці} many{{value} місяців} other{{value} місяця}}",
     "@time_months_value": {
         "description": "Used to display a number of months.",
         "placeholders": {
@@ -441,7 +441,7 @@
             }
         }
     },
-    "time_years": "{value, plural, =0{років} =1{рік} other{роки}}",
+    "time_years": "{value, plural, =0{років} one{рік} few{роки} many{років} other{року}}",
     "@time_years": {
         "description": "Used to pluralise year.",
         "placeholders": {
@@ -452,7 +452,7 @@
             }
         }
     },
-    "time_years_value": "{value} роки",
+    "time_years_value": "{value, plural, =0{0 років} one{{value} рік} few{{value} роки} many{{value} років} other{{value} року}}",
     "@time_years_value": {
         "description": "Used to display a number of years.",
         "placeholders": {
@@ -463,11 +463,11 @@
             }
         }
     },
-    "time_hourly": "кожну годину",
-    "time_daily": "кожного дня",
-    "time_weekly": "кожного тижня",
-    "time_monthly": "кожного місяця",
-    "time_yearly": "кожного року",
+    "time_hourly": "щогодини",
+    "time_daily": "щодня",
+    "time_weekly": "щотижня",
+    "time_monthly": "щомісяця",
+    "time_yearly": "щороку",
     "time_repetition_every_value": "кожні {number} {type}",
     "@time_repetition_every_value": {
         "description": "Used to display a repeat duration.",
@@ -483,7 +483,7 @@
             }
         }
     },
-    "time_snooze_until": "до {dateTimeString}",
+    "time_snooze_until": "{dateTimeString}",
     "@time_snooze_until": {
         "description": "Used to display a snooze duration.",
         "placeholders": {

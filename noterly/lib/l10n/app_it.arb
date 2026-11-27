@@ -4,12 +4,12 @@
     "main_action_create": "Crea",
     "main_action_save": "Salva",
     "main_action_reactivate": "Riattiva",
-    "page_activeNotifications_label": "Attiva",
+    "page_activeNotifications_label": "Attivi",
     "page_activeNotifications_header_immediate": "Visualizzazione immediata",
-    "page_activeNotifications_header_scheduled": "Programmata",
-    "page_activeNotifications_header_repeating": "Ripetizione",
+    "page_activeNotifications_header_scheduled": "Programmati",
+    "page_activeNotifications_header_repeating": "Ricorrenti",
     "page_activeNotifications_empty": "Nessuna notifica attiva",
-    "page_activeNotifications_item_repeats": "Ripeti {durationString}",
+    "page_activeNotifications_item_repeats": "Ripetizione: {durationString}",
     "@page_activeNotifications_item_repeats": {
         "description": "Under a notification item specifying repeat duration.",
         "placeholders": {
@@ -19,7 +19,7 @@
             }
         }
     },
-    "page_activeNotifications_item_snoozed": "Posticipata {dateTimeString}",
+    "page_activeNotifications_item_snoozed": "Posticipato {dateTimeString}",
     "@page_activeNotifications_item_snoozed": {
         "description": "Under a notification item specifying snooze duration.",
         "placeholders": {
@@ -29,10 +29,10 @@
             }
         }
     },
-    "page_archivedNotifications_label": "Archivia",
+    "page_archivedNotifications_label": "Archivio",
     "page_archivedNotifications_empty": "Le notifiche archiviate compariranno qui.",
     "page_archivedNotifications_button_deleteAll": "Elimina tutte le notifiche archiviate",
-    "page_archivedNotifications_item_archived": "Archiviate {dateTimeString}",
+    "page_archivedNotifications_item_archived": "Archiviato {dateTimeString}",
     "@page_archivedNotifications_item_archived": {
         "description": "Under a notification item specifying when it was archived.",
         "placeholders": {
@@ -63,7 +63,7 @@
         }
     },
     "snackbar_allArchivedNotificationsDeleted": "Tutte le notifiche archiviate sono state eliminate.",
-    "toast_notificationSnoozed": "Notifica posticipata per {durationString}",
+    "toast_notificationSnoozed": "Notifica posticipata di {durationString}",
     "@toast_notificationSnoozed": {
         "description": "Toast message when a notification is snoozed.",
         "placeholders": {
@@ -80,25 +80,25 @@
     "page_settings_header_debug": "Opzioni di debug",
     "page_settings_header_debug_disclaimer": "Queste opzioni non sono supportate e potrebbero causare dei problemi. Usale a tuo rischio.",
     "page_settings_notifications_snoozeDuration": "Durata posticipo",
-    "page_settings_notifications_dismissible_title": "Watch notifications",
-    "page_settings_notifications_dismissible_subtitle": "Show the Send to watch option on reminders. When off, no reminder is sent to the watch and every notification is ongoing.",
-    "page_settings_notifications_dismissibleByDefault_title": "Send to watch by default",
-    "page_settings_notifications_dismissibleByDefault_subtitle": "Turn on Send to watch for new reminders.",
+    "page_settings_notifications_dismissible_title": "Notifiche sull'orologio",
+    "page_settings_notifications_dismissible_subtitle": "Mostra l'opzione «Invia all'orologio» nei promemoria. Se disattivi questa impostazione, nessun promemoria viene inviato all'orologio e nessuna notifica si può scorrere via.",
+    "page_settings_notifications_dismissibleByDefault_title": "Invia all'orologio per impostazione predefinita",
+    "page_settings_notifications_dismissibleByDefault_subtitle": "Attiva «Invia all'orologio» per i nuovi promemoria.",
     "page_settings_header_backup": "Backup",
-    "page_settings_header_google_backup": "Google backup",
-    "page_settings_google_backup_reminders_title": "Back up reminders",
-    "page_settings_google_backup_reminders_subtitle": "Bring the reminders back when the app is reinstalled with the same Google account. When turned off, the next backup leaves them out, so they are gone from Google too.",
-    "page_settings_google_backup_settings_title": "Back up settings",
-    "page_settings_google_backup_settings_subtitle": "Bring the snooze, watch, swipe and backup settings back the same way. When turned off, the next backup leaves them out.",
-    "page_settings_google_backup_open_title": "Open Google backup settings",
-    "page_settings_google_backup_open_subtitle": "Nothing is backed up unless Google backup is on there. Its App data list shows Noterly Dev with the size of its backup, and Back up now backs up the whole phone. Deleting Noterly Dev there stops its backup on this phone until Google backup is turned off and on again.",
-    "page_settings_backup_export_title": "Export reminders",
-    "page_settings_backup_export_subtitle": "Save all reminders, including archived ones, to a file.",
-    "page_settings_backup_import_title": "Import reminders",
-    "page_settings_backup_import_subtitle": "Load reminders from an exported file.",
-    "page_settings_backup_auto_title": "Automatic backup",
-    "page_settings_backup_auto_subtitle_off": "Keep a copy of all reminders in a folder you choose, such as Documents, updated after every change. After reinstalling the app, bring it back with Import reminders.",
-    "page_settings_backup_auto_subtitle_on": "Saved as {file} in {folder} after every change. Tap to choose another folder.",
+    "page_settings_header_google_backup": "Backup di Google",
+    "page_settings_google_backup_reminders_title": "Backup dei promemoria",
+    "page_settings_google_backup_reminders_subtitle": "Ripristina i promemoria quando reinstalli l'app con lo stesso account Google. Se disattivi questa opzione, il backup successivo non li include, quindi vengono rimossi anche da Google.",
+    "page_settings_google_backup_settings_title": "Backup delle impostazioni",
+    "page_settings_google_backup_settings_subtitle": "Ripristina allo stesso modo le impostazioni di posticipo, orologio, scorrimento e backup. Se disattivi questa opzione, il backup successivo non le include.",
+    "page_settings_google_backup_open_title": "Apri le impostazioni del backup di Google",
+    "page_settings_google_backup_open_subtitle": "Nulla viene salvato se lì il backup di Google non è attivo. Nell'elenco «Dati delle app» compare Noterly Dev con le dimensioni del suo backup, mentre «Esegui backup ora» esegue il backup dell'intero telefono. Se lì elimini Noterly Dev, il suo backup su questo telefono si interrompe finché non disattivi e riattivi il backup di Google.",
+    "page_settings_backup_export_title": "Esporta promemoria",
+    "page_settings_backup_export_subtitle": "Salva in un file tutti i promemoria, compresi quelli archiviati.",
+    "page_settings_backup_import_title": "Importa promemoria",
+    "page_settings_backup_import_subtitle": "Carica i promemoria da un file esportato.",
+    "page_settings_backup_auto_title": "Backup automatico",
+    "page_settings_backup_auto_subtitle_off": "Conserva una copia di tutti i promemoria, aggiornata dopo ogni modifica, in una cartella a tua scelta, ad esempio Documents. Dopo aver reinstallato l'app, ripristinala con «Importa promemoria».",
+    "page_settings_backup_auto_subtitle_on": "Salvato come {file} nella cartella {folder} dopo ogni modifica. Tocca per scegliere un'altra cartella.",
     "@page_settings_backup_auto_subtitle_on": {
         "description": "Subtitle of the automatic backup switch while it is on.",
         "placeholders": {
@@ -112,7 +112,7 @@
             }
         }
     },
-    "page_settings_backup_auto_subtitle_error": "Can't save to {folder}, for example after the app was reinstalled. Tap to choose the folder again.",
+    "page_settings_backup_auto_subtitle_error": "Impossibile salvare nella cartella {folder}, ad esempio perché l'app è stata reinstallata. Tocca per scegliere di nuovo la cartella.",
     "@page_settings_backup_auto_subtitle_error": {
         "description": "Subtitle of the automatic backup switch when the app can no longer write to the folder.",
         "placeholders": {
@@ -122,16 +122,16 @@
             }
         }
     },
-    "page_settings_header_swipe": "Swipe actions",
-    "page_settings_swipe_enabled_title": "Swipe reminders",
-    "page_settings_swipe_enabled_subtitle": "Archive or delete a reminder by swiping it in a list.",
-    "page_settings_swipe_right": "Swipe right",
-    "page_settings_swipe_left": "Swipe left",
-    "swipeAction_archive": "Archive",
-    "swipeAction_delete": "Delete",
-    "swipeAction_none": "Do nothing",
-    "dialog_import_title": "Import reminders",
-    "dialog_import_text": "The file has {count} reminder(s). Merge adds new reminders and updates the ones that were changed more recently in the file. Replace removes your current reminders and keeps only the ones in the file.",
+    "page_settings_header_swipe": "Azioni di scorrimento",
+    "page_settings_swipe_enabled_title": "Scorrimento dei promemoria",
+    "page_settings_swipe_enabled_subtitle": "Archivia o elimina un promemoria scorrendolo in un elenco.",
+    "page_settings_swipe_right": "Scorrimento verso destra",
+    "page_settings_swipe_left": "Scorrimento verso sinistra",
+    "swipeAction_archive": "Archivia",
+    "swipeAction_delete": "Elimina",
+    "swipeAction_none": "Nessuna azione",
+    "dialog_import_title": "Importa promemoria",
+    "dialog_import_text": "Il file contiene {count} promemoria. «Unisci» aggiunge i nuovi promemoria e aggiorna quelli che nel file risultano modificati più di recente. «Sostituisci» rimuove i promemoria attuali e mantiene solo quelli presenti nel file.",
     "@dialog_import_text": {
         "description": "Asks whether to merge or replace when importing reminders.",
         "placeholders": {
@@ -141,9 +141,9 @@
             }
         }
     },
-    "dialog_import_action_merge": "Merge",
-    "dialog_import_action_replace": "Replace",
-    "snackbar_export_done": "Exported {count} reminder(s).",
+    "dialog_import_action_merge": "Unisci",
+    "dialog_import_action_replace": "Sostituisci",
+    "snackbar_export_done": "Esportazione completata: {count} promemoria.",
     "@snackbar_export_done": {
         "description": "Shown after reminders were exported to a file.",
         "placeholders": {
@@ -153,8 +153,8 @@
             }
         }
     },
-    "snackbar_export_failed": "Couldn't export reminders.",
-    "snackbar_import_done": "Import complete: {added} added, {updated} updated, {removed} removed.",
+    "snackbar_export_failed": "Impossibile esportare i promemoria.",
+    "snackbar_import_done": "Importazione completata. Aggiunti: {added}, aggiornati: {updated}, rimossi: {removed}.",
     "@snackbar_import_done": {
         "description": "Shown after reminders were imported from a file.",
         "placeholders": {
@@ -172,9 +172,9 @@
             }
         }
     },
-    "snackbar_import_empty": "The file has no reminders.",
-    "snackbar_import_failed": "This file couldn't be read as a Noterly reminders file.",
-    "snackbar_auto_backup_done": "Reminders backed up to {folder}.",
+    "snackbar_import_empty": "Il file non contiene promemoria.",
+    "snackbar_import_failed": "Impossibile leggere questo file come file di promemoria di Noterly.",
+    "snackbar_auto_backup_done": "Backup dei promemoria salvato nella cartella {folder}.",
     "@snackbar_auto_backup_done": {
         "description": "Shown after automatic backup was turned on, or its folder changed, and the first backup was saved.",
         "placeholders": {
@@ -184,22 +184,22 @@
             }
         }
     },
-    "snackbar_auto_backup_failed": "Couldn't save the backup in that folder.",
+    "snackbar_auto_backup_failed": "Impossibile salvare il backup in quella cartella.",
     "page_settings_system_notificationSettings": "Impostazioni notifiche",
-    "page_settings_system_language_title": "Language",
-    "page_settings_system_language_subtitle": "Choose the app's language in the phone's settings.",
+    "page_settings_system_language_title": "Lingua",
+    "page_settings_system_language_subtitle": "Scegli la lingua dell'app nelle impostazioni del telefono.",
     "page_settings_about_version_title": "Versione",
     "page_settings_about_copyright_title": "Copyright & crediti",
     "page_settings_about_copyright_text": "2023, Tom Chapman, TDS Studios",
     "page_settings_about_tutorial_title": "Tutorial",
     "page_settings_about_licenses_title": "Licenze",
     "page_settings_about_licenses_page_legalese": "Copyright © 2023 Tom Chapman, TDS Studios",
-    "page_settings_about_licenses_page_openSourceSoftware": "Noterly is open-source software. The source code is available on GitHub.",
-    "page_settings_about_privacyPolicy_title": "Privacy policy",
+    "page_settings_about_licenses_page_openSourceSoftware": "Noterly è un software open source. Il codice sorgente è disponibile su GitHub.",
+    "page_settings_about_privacyPolicy_title": "Informativa sulla privacy",
     "page_settings_about_feedback_title": "Invia un feedback",
     "page_settings_about_translate_title": "Aiuta a tradurre Noterly",
     "page_settings_about_donation_title": "Offrimi un caffè",
-    "page_settings_about_github_title": "Open-source on GitHub",
+    "page_settings_about_github_title": "Open source su GitHub",
     "page_createNotification_title": "Crea Notifica",
     "page_createNotification_header_details": "Dettagli notifica",
     "page_createNotification_header_timing": "Orario",
@@ -207,9 +207,9 @@
     "page_createNotification_timing_schedule_subtitle": "Invia",
     "page_createNotification_timing_repeat_title": "Ripetizione",
     "page_createNotification_timing_repeat_subtitle": "Ripeti",
-    "page_createNotification_timing_repeat_info": "Ripetere le notifiche le farà ripetere solamente dopo che verranno segnate come completate dalla notifica",
-    "page_createNotification_timing_dismissible_title": "Send to watch",
-    "page_createNotification_timing_dismissible_subtitle": "Notify on the watch too. The notification can also be swiped away; the reminder stays in the list.",
+    "page_createNotification_timing_repeat_info": "Le notifiche ricorrenti si ripetono solo dopo essere state segnate come completate dalla notifica.",
+    "page_createNotification_timing_dismissible_title": "Invia all'orologio",
+    "page_createNotification_timing_dismissible_subtitle": "Mostra la notifica anche sull'orologio. Inoltre la notifica si può scorrere via, ma il promemoria resta nell'elenco.",
     "page_createNotification_details_field_title_label": "Titolo",
     "page_createNotification_details_field_title_error": "Per favore inserisci un titolo",
     "page_createNotification_details_field_body_label": "Descrizione",
@@ -221,9 +221,9 @@
     "page_editNotification_timing_schedule_subtitle": "Invia",
     "page_editNotification_timing_repeat_title": "Ripetizione",
     "page_editNotification_timing_repeat_subtitle": "Ripeti",
-    "page_editNotification_timing_repeat_info": "Ripetere le notifiche le farà ripetere solamente dopo che verranno segnate come completate dalla notifica",
-    "page_editNotification_timing_dismissible_title": "Send to watch",
-    "page_editNotification_timing_dismissible_subtitle": "Notify on the watch too. The notification can also be swiped away; the reminder stays in the list.",
+    "page_editNotification_timing_repeat_info": "Le notifiche ricorrenti si ripetono solo dopo essere state segnate come completate dalla notifica.",
+    "page_editNotification_timing_dismissible_title": "Invia all'orologio",
+    "page_editNotification_timing_dismissible_subtitle": "Mostra la notifica anche sull'orologio. Inoltre la notifica si può scorrere via, ma il promemoria resta nell'elenco.",
     "page_editNotification_details_field_title_label": "Titolo",
     "page_editNotification_details_field_title_error": "Per favore inserisci un titolo",
     "page_editNotification_details_field_body_label": "Descrizione",
@@ -233,12 +233,12 @@
     "item_colour": "Colore",
     "notification_action_markAsDone": "Segna come completato",
     "notification_action_snooze": "Posticipa",
-    "notification_channel_immediate_name": "Immediate notifications",
-    "notification_channel_immediate_description": "Notifications that are shown immediately",
-    "notification_channel_scheduled_name": "Scheduled notifications",
-    "notification_channel_scheduled_description": "Notifications that are scheduled for a future time",
-    "toast_notificationFailed": "Failed to send notification, check notification permissions",
-    "notification_action_snoozeFor": "Posticipa per {durationString}",
+    "notification_channel_immediate_name": "Notifiche immediate",
+    "notification_channel_immediate_description": "Notifiche mostrate immediatamente",
+    "notification_channel_scheduled_name": "Notifiche programmate",
+    "notification_channel_scheduled_description": "Notifiche programmate per un orario futuro",
+    "toast_notificationFailed": "Impossibile inviare la notifica. Controlla le autorizzazioni per le notifiche.",
+    "notification_action_snoozeFor": "Posticipa di {durationString}",
     "@notification_action_snoozeFor": {
         "description": "Snooze action with duration.",
         "placeholders": {
@@ -253,8 +253,8 @@
     "dialog_picker_dateTime_header_time": "Orario",
     "dialog_picker_dateTime_button_selectDate": "Seleziona data",
     "dialog_picker_dateTime_button_selectTime": "Seleziona orario",
-    "dialog_picker_repetition_title": "Seleziona ripeti durata",
-    "dialog_picker_repetition_subtitle": "ripeti {durationString}",
+    "dialog_picker_repetition_title": "Seleziona intervallo di ripetizione",
+    "dialog_picker_repetition_subtitle": "si ripete {durationString}",
     "@dialog_picker_repetition_subtitle": {
         "description": "Subtitle for dialog with repeat duration.",
         "placeholders": {
@@ -278,7 +278,7 @@
         }
     },
     "dialog_picker_duration_field_number_label": "Numero",
-    "dialog_picker_duration_field_period_label": "Orario",
+    "dialog_picker_duration_field_period_label": "Periodo",
     "dialog_picker_colour_title": "Seleziona colore",
     "dialog_easterEgg_title": "Easter egg!",
     "dialog_easterEgg_text": "Congratulazioni, hai trovato l'easter egg! Ora puoi abilitare le opzioni di debug. Nota che queste opzioni non sono attualmente supportate e potrebbero causare problemi.",
@@ -292,21 +292,21 @@
     "tutorial_page_1_content": "Noterly è progettato per creare dei promemoria semplici e veloci. Potresti trovare più adatte delle liste o dei calendari per dei compiti più complessi",
     "tutorial_page_2_title": "Crea una notifica",
     "tutorial_page_2_content": "Tocca il pulsante evidenziato per creare una nuova notifica.",
-    "tutorial_page_2_confirmations": "Giusto!|Ben fatto!|Ce l'hai!|Ottimo lavoro!|Grande successo!",
+    "tutorial_page_2_confirmations": "Giusto!|Ben fatto!|Ce l'hai fatta!|Ottimo lavoro!|Grande successo!",
     "tutorial_page_3_title": "Gestisci notifiche",
-    "tutorial_page_3_content": "Compito completato? Scorri via la notifica. Per eliminare una notifica, vai nella pagina Archiviate e scorrila via.",
+    "tutorial_page_3_content": "Compito completato? Scorri via la notifica. Per eliminare una notifica, vai nell'archivio e scorrila via.",
     "tutorial_page_3_example": "Scorri per archiviare o eliminare",
     "tutorial_page_4_title": "Posticipare i promemoria",
     "tutorial_page_4_content": "Puoi posticipare un promemoria premendo sul pulsante nella notifica. Personalizza la durata nelle impostazioni.",
-    "tutorial_page_5_title": "E' tutto!",
+    "tutorial_page_5_title": "È tutto!",
     "tutorial_page_5_content": "Sei pronto per iniziare a usare Noterly. Puoi sempre tornare a questo tutorial dalle impostazioni.",
-    "tutorial_updatedExperienceText": "Stai leggendo questo messaggio perchè questo tutorial è stato aggiornato",
+    "tutorial_updatedExperienceText": "Stai leggendo questo messaggio perché questo tutorial è stato aggiornato",
     "tutorial_action_back": "Precedente",
     "tutorial_action_next": "Successivo",
     "tutorial_action_done": "Completato",
     "tutorial_action_skip": "Salta",
     "general_ok": "OK",
-    "general_cancel": "Cancella",
+    "general_cancel": "Annulla",
     "general_undo": "Annulla",
     "general_close": "Chiudi",
     "time_seconds": "{value, plural, =0{secondi} =1{secondo} other{secondi}}",
@@ -320,7 +320,7 @@
             }
         }
     },
-    "time_seconds_value": "{value} secondi",
+    "time_seconds_value": "{value, plural, =0{0 secondi} =1{1 secondo} other{{value} secondi}}",
     "@time_seconds_value": {
         "description": "Used to display a number of seconds.",
         "placeholders": {
@@ -342,7 +342,7 @@
             }
         }
     },
-    "time_minutes_value": "{value} minuti",
+    "time_minutes_value": "{value, plural, =0{0 minuti} =1{1 minuto} other{{value} minuti}}",
     "@time_minutes_value": {
         "description": "Used to display a number of minutes.",
         "placeholders": {
@@ -364,7 +364,7 @@
             }
         }
     },
-    "time_hours_value": "{value} ore",
+    "time_hours_value": "{value, plural, =0{0 ore} =1{1 ora} other{{value} ore}}",
     "@time_hours_value": {
         "description": "Used to display a number of hours.",
         "placeholders": {
@@ -386,7 +386,7 @@
             }
         }
     },
-    "time_days_value": "{value} giorni",
+    "time_days_value": "{value, plural, =0{0 giorni} =1{1 giorno} other{{value} giorni}}",
     "@time_days_value": {
         "description": "Used to display a number of days.",
         "placeholders": {
@@ -408,7 +408,7 @@
             }
         }
     },
-    "time_weeks_value": "{value} settimane",
+    "time_weeks_value": "{value, plural, =0{0 settimane} =1{1 settimana} other{{value} settimane}}",
     "@time_weeks_value": {
         "description": "Used to display a number of weeks.",
         "placeholders": {
@@ -430,7 +430,7 @@
             }
         }
     },
-    "time_months_value": "{value} mesi",
+    "time_months_value": "{value, plural, =0{0 mesi} =1{1 mese} other{{value} mesi}}",
     "@time_months_value": {
         "description": "Used to display a number of months.",
         "placeholders": {
@@ -452,7 +452,7 @@
             }
         }
     },
-    "time_years_value": "{value} anni",
+    "time_years_value": "{value, plural, =0{0 anni} =1{1 anno} other{{value} anni}}",
     "@time_years_value": {
         "description": "Used to display a number of years.",
         "placeholders": {
@@ -463,11 +463,11 @@
             }
         }
     },
-    "time_hourly": "oraria",
-    "time_daily": "quotidiana",
-    "time_weekly": "settimanale",
-    "time_monthly": "mensile",
-    "time_yearly": "annuale",
+    "time_hourly": "ogni ora",
+    "time_daily": "ogni giorno",
+    "time_weekly": "ogni settimana",
+    "time_monthly": "ogni mese",
+    "time_yearly": "ogni anno",
     "time_repetition_every_value": "ogni {number} {type}",
     "@time_repetition_every_value": {
         "description": "Used to display a repeat duration.",
@@ -493,7 +493,7 @@
             }
         }
     },
-    "time_todayAndTime": "Oggi, {timeString}",
+    "time_todayAndTime": "oggi alle {timeString}",
     "@time_todayAndTime": {
         "description": "Used to display a time today.",
         "placeholders": {
@@ -503,7 +503,7 @@
             }
         }
     },
-    "time_yesterdayAndTime": "Ieri, {timeString}",
+    "time_yesterdayAndTime": "ieri alle {timeString}",
     "@time_yesterdayAndTime": {
         "description": "Used to display a time yesterday.",
         "placeholders": {
@@ -513,7 +513,7 @@
             }
         }
     },
-    "time_tomorrowAndTime": "Domani, {timeString}",
+    "time_tomorrowAndTime": "domani alle {timeString}",
     "@time_tomorrowAndTime": {
         "description": "Used to display a time tomorrow.",
         "placeholders": {
@@ -523,7 +523,7 @@
             }
         }
     },
-    "time_dateAndTime": "{dateTimeString}, {timeString}",
+    "time_dateAndTime": "{dateTimeString} alle {timeString}",
     "@time_dateAndTime": {
         "description": "Used to display a date and time.",
         "placeholders": {

@@ -21,15 +21,24 @@ extension DateTimeExtensions on DateTime {
     bool isToday() => now.year == year && now.month == month && now.day == day;
     bool isYesterday() => now.year == year && now.month == month && now.day - day == 1;
     bool isTomorrow() => now.year == year && now.month == month && now.day - day == -1;
-    bool isBeforeNextWeek() => isBefore(now.add(const Duration(days: 7)));
+    // Within a week either way the day of the week is enough; older (archived) dates need the date
+    bool isWithinAWeek() => isBefore(now.add(const Duration(days: 7))) && isAfter(now.subtract(const Duration(days: 7)));
 
-    if (isToday()) return alwaysShowDay ? Strings.of(context).time_todayAndTime(toTimeOnlyString()) : Jiffy.parseFromDateTime(this).fromNow();
+    if (isToday()) {
+      if (alwaysShowDay) return Strings.of(context).time_todayAndTime(toTimeOnlyString());
+      try {
+        return Jiffy.parseFromDateTime(this).fromNow();
+      } on Exception {
+        // Jiffy has no words for some of the app's languages, such as Greek, and throws a JiffyException (not exported)
+        return Strings.of(context).time_todayAndTime(toTimeOnlyString());
+      }
+    }
 
     if (isYesterday()) return Strings.of(context).time_yesterdayAndTime(toTimeOnlyString());
 
     if (isTomorrow()) return Strings.of(context).time_tomorrowAndTime(toTimeOnlyString());
 
-    if (isBeforeNextWeek()) return Strings.of(context).time_dateAndTime(DateFormat.EEEE().format(this), toTimeOnlyString());
+    if (isWithinAWeek()) return Strings.of(context).time_dateAndTime(DateFormat.EEEE().format(this), toTimeOnlyString());
 
     if (year == now.year) return toDateTimeString();
 

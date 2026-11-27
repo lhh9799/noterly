@@ -1,6 +1,6 @@
 {
     "@@locale": "el",
-    "main_action_new": "Υπενθύμιση",
+    "main_action_new": "Νέα υπενθύμιση",
     "main_action_create": "Δημιουργία",
     "main_action_save": "Αποθήκευση",
     "main_action_reactivate": "Επανενεργοποίηση",
@@ -19,7 +19,7 @@
             }
         }
     },
-    "page_activeNotifications_item_snoozed": "Αναβλήθηκε μέχρι {dateTimeString}",
+    "page_activeNotifications_item_snoozed": "Σε αναβολή έως: {dateTimeString}",
     "@page_activeNotifications_item_snoozed": {
         "description": "Under a notification item specifying snooze duration.",
         "placeholders": {
@@ -29,10 +29,10 @@
             }
         }
     },
-    "page_archivedNotifications_label": "Αρχειοθέτηση",
+    "page_archivedNotifications_label": "Αρχείο",
     "page_archivedNotifications_empty": "Οι αρχειοθετημένες υπενθυμίσεις εμφανίζονται εδώ.",
     "page_archivedNotifications_button_deleteAll": "Διαγραφή όλων των αρχειοθετημένων υπενθυμίσεων",
-    "page_archivedNotifications_item_archived": "Αρχειοθετήθηκε {dateTimeString}",
+    "page_archivedNotifications_item_archived": "Αρχειοθετήθηκε: {dateTimeString}",
     "@page_archivedNotifications_item_archived": {
         "description": "Under a notification item specifying when it was archived.",
         "placeholders": {
@@ -52,7 +52,7 @@
             }
         }
     },
-    "snackbar_notificationArchived": "Η υπεθύμιση \"{title}\" αρχειοθετήθηκε.",
+    "snackbar_notificationArchived": "Η υπενθύμιση \"{title}\" αρχειοθετήθηκε.",
     "@snackbar_notificationArchived": {
         "description": "Snackbar message when a notification is archived.",
         "placeholders": {
@@ -80,25 +80,25 @@
     "page_settings_header_debug": "Επιλογές αποσφαλμάτωσης",
     "page_settings_header_debug_disclaimer": "Αυτές οι επιλογές δεν υποστηρίζονται και μπορεί να προκαλέσουν προβλήματα. Χρησιμοποιήστε τις με δική σας ευθύνη.",
     "page_settings_notifications_snoozeDuration": "Διάρκεια αναβολής",
-    "page_settings_notifications_dismissible_title": "Watch notifications",
-    "page_settings_notifications_dismissible_subtitle": "Show the Send to watch option on reminders. When off, no reminder is sent to the watch and every notification is ongoing.",
-    "page_settings_notifications_dismissibleByDefault_title": "Send to watch by default",
-    "page_settings_notifications_dismissibleByDefault_subtitle": "Turn on Send to watch for new reminders.",
-    "page_settings_header_backup": "Backup",
-    "page_settings_header_google_backup": "Google backup",
-    "page_settings_google_backup_reminders_title": "Back up reminders",
-    "page_settings_google_backup_reminders_subtitle": "Bring the reminders back when the app is reinstalled with the same Google account. When turned off, the next backup leaves them out, so they are gone from Google too.",
-    "page_settings_google_backup_settings_title": "Back up settings",
-    "page_settings_google_backup_settings_subtitle": "Bring the snooze, watch, swipe and backup settings back the same way. When turned off, the next backup leaves them out.",
-    "page_settings_google_backup_open_title": "Open Google backup settings",
-    "page_settings_google_backup_open_subtitle": "Nothing is backed up unless Google backup is on there. Its App data list shows Noterly Dev with the size of its backup, and Back up now backs up the whole phone. Deleting Noterly Dev there stops its backup on this phone until Google backup is turned off and on again.",
-    "page_settings_backup_export_title": "Export reminders",
-    "page_settings_backup_export_subtitle": "Save all reminders, including archived ones, to a file.",
-    "page_settings_backup_import_title": "Import reminders",
-    "page_settings_backup_import_subtitle": "Load reminders from an exported file.",
-    "page_settings_backup_auto_title": "Automatic backup",
-    "page_settings_backup_auto_subtitle_off": "Keep a copy of all reminders in a folder you choose, such as Documents, updated after every change. After reinstalling the app, bring it back with Import reminders.",
-    "page_settings_backup_auto_subtitle_on": "Saved as {file} in {folder} after every change. Tap to choose another folder.",
+    "page_settings_notifications_dismissible_title": "Ειδοποιήσεις στο ρολόι",
+    "page_settings_notifications_dismissible_subtitle": "Εμφάνιση της επιλογής «Αποστολή στο ρολόι» στις υπενθυμίσεις. Όταν η ρύθμιση είναι απενεργοποιημένη, καμία υπενθύμιση δεν αποστέλλεται στο ρολόι και όλες οι ειδοποιήσεις είναι μόνιμες.",
+    "page_settings_notifications_dismissibleByDefault_title": "Αποστολή στο ρολόι από προεπιλογή",
+    "page_settings_notifications_dismissibleByDefault_subtitle": "Ενεργοποίηση της επιλογής «Αποστολή στο ρολόι» στις νέες υπενθυμίσεις.",
+    "page_settings_header_backup": "Αντίγραφα ασφαλείας",
+    "page_settings_header_google_backup": "Αντίγραφα ασφαλείας Google",
+    "page_settings_google_backup_reminders_title": "Αντίγραφο ασφαλείας υπενθυμίσεων",
+    "page_settings_google_backup_reminders_subtitle": "Επαναφορά των υπενθυμίσεων όταν η εφαρμογή εγκαθίσταται ξανά με τον ίδιο λογαριασμό Google. Αν απενεργοποιηθεί, το επόμενο αντίγραφο ασφαλείας δεν θα τις περιλαμβάνει, οπότε θα διαγραφούν και από την Google.",
+    "page_settings_google_backup_settings_title": "Αντίγραφο ασφαλείας ρυθμίσεων",
+    "page_settings_google_backup_settings_subtitle": "Επαναφορά των ρυθμίσεων αναβολής, ρολογιού, ολίσθησης και αντιγράφων ασφαλείας με τον ίδιο τρόπο. Αν απενεργοποιηθεί, το επόμενο αντίγραφο ασφαλείας δεν θα τις περιλαμβάνει.",
+    "page_settings_google_backup_open_title": "Άνοιγμα ρυθμίσεων αντιγράφων ασφαλείας Google",
+    "page_settings_google_backup_open_subtitle": "Για να δημιουργούνται αντίγραφα ασφαλείας, πρέπει να είναι ενεργοποιημένα εκεί τα αντίγραφα ασφαλείας Google. Στη λίστα «Δεδομένα εφαρμογών» εμφανίζεται το Noterly Dev με το μέγεθος του αντιγράφου του, ενώ το κουμπί «Δημιουργία αντιγράφων ασφαλείας τώρα» δημιουργεί αντίγραφο ασφαλείας ολόκληρου του τηλεφώνου. Αν διαγράψετε εκεί το Noterly Dev, η δημιουργία αντιγράφων ασφαλείας του σε αυτό το τηλέφωνο σταματά μέχρι να απενεργοποιήσετε και να ενεργοποιήσετε ξανά τα αντίγραφα ασφαλείας Google.",
+    "page_settings_backup_export_title": "Εξαγωγή υπενθυμίσεων",
+    "page_settings_backup_export_subtitle": "Αποθήκευση όλων των υπενθυμίσεων, μαζί με τις αρχειοθετημένες, σε αρχείο.",
+    "page_settings_backup_import_title": "Εισαγωγή υπενθυμίσεων",
+    "page_settings_backup_import_subtitle": "Φόρτωση υπενθυμίσεων από αρχείο εξαγωγής.",
+    "page_settings_backup_auto_title": "Αυτόματο αντίγραφο ασφαλείας",
+    "page_settings_backup_auto_subtitle_off": "Διατήρηση αντιγράφου όλων των υπενθυμίσεων σε φάκελο της επιλογής σας (π.χ. Documents), με ενημέρωση μετά από κάθε αλλαγή. Μετά από επανεγκατάσταση της εφαρμογής, επαναφέρετέ τις με την «Εισαγωγή υπενθυμίσεων».",
+    "page_settings_backup_auto_subtitle_on": "Αποθηκεύεται ως {file} στον φάκελο {folder} μετά από κάθε αλλαγή. Πατήστε για να επιλέξετε άλλο φάκελο.",
     "@page_settings_backup_auto_subtitle_on": {
         "description": "Subtitle of the automatic backup switch while it is on.",
         "placeholders": {
@@ -112,7 +112,7 @@
             }
         }
     },
-    "page_settings_backup_auto_subtitle_error": "Can't save to {folder}, for example after the app was reinstalled. Tap to choose the folder again.",
+    "page_settings_backup_auto_subtitle_error": "Δεν είναι δυνατή η αποθήκευση στον φάκελο {folder}, για παράδειγμα μετά από επανεγκατάσταση της εφαρμογής. Πατήστε για να επιλέξετε ξανά τον φάκελο.",
     "@page_settings_backup_auto_subtitle_error": {
         "description": "Subtitle of the automatic backup switch when the app can no longer write to the folder.",
         "placeholders": {
@@ -122,16 +122,16 @@
             }
         }
     },
-    "page_settings_header_swipe": "Swipe actions",
-    "page_settings_swipe_enabled_title": "Swipe reminders",
-    "page_settings_swipe_enabled_subtitle": "Archive or delete a reminder by swiping it in a list.",
-    "page_settings_swipe_right": "Swipe right",
-    "page_settings_swipe_left": "Swipe left",
-    "swipeAction_archive": "Archive",
-    "swipeAction_delete": "Delete",
-    "swipeAction_none": "Do nothing",
-    "dialog_import_title": "Import reminders",
-    "dialog_import_text": "The file has {count} reminder(s). Merge adds new reminders and updates the ones that were changed more recently in the file. Replace removes your current reminders and keeps only the ones in the file.",
+    "page_settings_header_swipe": "Ενέργειες ολίσθησης",
+    "page_settings_swipe_enabled_title": "Ολίσθηση υπενθυμίσεων",
+    "page_settings_swipe_enabled_subtitle": "Αρχειοθέτηση ή διαγραφή μιας υπενθύμισης με ολίσθηση στη λίστα.",
+    "page_settings_swipe_right": "Ολίσθηση δεξιά",
+    "page_settings_swipe_left": "Ολίσθηση αριστερά",
+    "swipeAction_archive": "Αρχειοθέτηση",
+    "swipeAction_delete": "Διαγραφή",
+    "swipeAction_none": "Καμία ενέργεια",
+    "dialog_import_title": "Εισαγωγή υπενθυμίσεων",
+    "dialog_import_text": "Υπενθυμίσεις στο αρχείο: {count}. Η «Συγχώνευση» προσθέτει τις νέες υπενθυμίσεις και ενημερώνει όσες έχουν αλλάξει πιο πρόσφατα στο αρχείο. Η «Αντικατάσταση» διαγράφει τις τρέχουσες υπενθυμίσεις σας και κρατά μόνο όσες περιέχει το αρχείο.",
     "@dialog_import_text": {
         "description": "Asks whether to merge or replace when importing reminders.",
         "placeholders": {
@@ -141,9 +141,9 @@
             }
         }
     },
-    "dialog_import_action_merge": "Merge",
-    "dialog_import_action_replace": "Replace",
-    "snackbar_export_done": "Exported {count} reminder(s).",
+    "dialog_import_action_merge": "Συγχώνευση",
+    "dialog_import_action_replace": "Αντικατάσταση",
+    "snackbar_export_done": "Η εξαγωγή ολοκληρώθηκε. Υπενθυμίσεις: {count}.",
     "@snackbar_export_done": {
         "description": "Shown after reminders were exported to a file.",
         "placeholders": {
@@ -153,8 +153,8 @@
             }
         }
     },
-    "snackbar_export_failed": "Couldn't export reminders.",
-    "snackbar_import_done": "Import complete: {added} added, {updated} updated, {removed} removed.",
+    "snackbar_export_failed": "Δεν ήταν δυνατή η εξαγωγή των υπενθυμίσεων.",
+    "snackbar_import_done": "Η εισαγωγή ολοκληρώθηκε. Προσθήκες: {added}, ενημερώσεις: {updated}, διαγραφές: {removed}.",
     "@snackbar_import_done": {
         "description": "Shown after reminders were imported from a file.",
         "placeholders": {
@@ -172,9 +172,9 @@
             }
         }
     },
-    "snackbar_import_empty": "The file has no reminders.",
-    "snackbar_import_failed": "This file couldn't be read as a Noterly reminders file.",
-    "snackbar_auto_backup_done": "Reminders backed up to {folder}.",
+    "snackbar_import_empty": "Το αρχείο δεν περιέχει υπενθυμίσεις.",
+    "snackbar_import_failed": "Δεν ήταν δυνατή η ανάγνωση αυτού του αρχείου ως αρχείου υπενθυμίσεων του Noterly.",
+    "snackbar_auto_backup_done": "Δημιουργήθηκε αντίγραφο ασφαλείας των υπενθυμίσεων στον φάκελο {folder}.",
     "@snackbar_auto_backup_done": {
         "description": "Shown after automatic backup was turned on, or its folder changed, and the first backup was saved.",
         "placeholders": {
@@ -184,10 +184,10 @@
             }
         }
     },
-    "snackbar_auto_backup_failed": "Couldn't save the backup in that folder.",
+    "snackbar_auto_backup_failed": "Δεν ήταν δυνατή η αποθήκευση του αντιγράφου ασφαλείας σε αυτόν τον φάκελο.",
     "page_settings_system_notificationSettings": "Ρυθμίσεις ειδοποιήσεων",
-    "page_settings_system_language_title": "Language",
-    "page_settings_system_language_subtitle": "Choose the app's language in the phone's settings.",
+    "page_settings_system_language_title": "Γλώσσα",
+    "page_settings_system_language_subtitle": "Επιλέξτε τη γλώσσα της εφαρμογής στις ρυθμίσεις του τηλεφώνου.",
     "page_settings_about_version_title": "Έκδοση",
     "page_settings_about_copyright_title": "Πνευματικά δικαιώματα & ευχαριστίες",
     "page_settings_about_copyright_text": "2023 Tom Chapman, TDS Studios.",
@@ -200,30 +200,30 @@
     "page_settings_about_translate_title": "Βοηθήστε στη μετάφραση",
     "page_settings_about_donation_title": "Κεράστε με έναν καφέ",
     "page_settings_about_github_title": "Ανοικτός κώδικας στο GitHub",
-    "page_createNotification_title": "Δημιουργία Υπενθύμισης",
+    "page_createNotification_title": "Δημιουργία υπενθύμισης",
     "page_createNotification_header_details": "Λεπτομέρειες υπενθύμισης",
     "page_createNotification_header_timing": "Χρόνος",
     "page_createNotification_timing_schedule_title": "Προγραμματισμός",
     "page_createNotification_timing_schedule_subtitle": "Ειδοποίηση",
     "page_createNotification_timing_repeat_title": "Επαναλαμβανόμενη",
     "page_createNotification_timing_repeat_subtitle": "Επανάληψη",
-    "page_createNotification_timing_repeat_info": "Οι επαναλαμβανόμενες ειδοποιήσεις θα επαναλαμβάνονται μόνο όταν σημειώνονται ως ολοκληρωμένες στην ειδοποίηση.",
-    "page_createNotification_timing_dismissible_title": "Send to watch",
-    "page_createNotification_timing_dismissible_subtitle": "Notify on the watch too. The notification can also be swiped away; the reminder stays in the list.",
+    "page_createNotification_timing_repeat_info": "Οι επαναλαμβανόμενες υπενθυμίσεις θα επαναλαμβάνονται μόνο όταν σημειώνονται ως ολοκληρωμένες στην ειδοποίηση.",
+    "page_createNotification_timing_dismissible_title": "Αποστολή στο ρολόι",
+    "page_createNotification_timing_dismissible_subtitle": "Ειδοποίηση και στο ρολόι. Μπορείτε επίσης να απομακρύνετε την ειδοποίηση στο τηλέφωνο σύροντάς την, ενώ η υπενθύμιση παραμένει στη λίστα.",
     "page_createNotification_details_field_title_label": "Τίτλος",
     "page_createNotification_details_field_title_error": "Παρακαλώ εισάγετε έναν τίτλο",
     "page_createNotification_details_field_body_label": "Κείμενο",
     "page_createNotification_details_field_colour_label": "Χρώμα",
-    "page_editNotification_title": "Επεξεργασία Υπενθύμισης",
+    "page_editNotification_title": "Επεξεργασία υπενθύμισης",
     "page_editNotification_header_details": "Λεπτομέρειες υπενθύμισης",
     "page_editNotification_header_timing": "Χρόνος",
     "page_editNotification_timing_schedule_title": "Προγραμματισμός",
     "page_editNotification_timing_schedule_subtitle": "Ειδοποίηση",
     "page_editNotification_timing_repeat_title": "Επαναλαμβανόμενη",
     "page_editNotification_timing_repeat_subtitle": "Επανάληψη",
-    "page_editNotification_timing_repeat_info": "Οι επαναλαμβανόμενες ειδοποιήσεις θα επαναλαμβάνονται μόνο όταν σημειώνονται ως ολοκληρωμένες στην ειδοποίηση.",
-    "page_editNotification_timing_dismissible_title": "Send to watch",
-    "page_editNotification_timing_dismissible_subtitle": "Notify on the watch too. The notification can also be swiped away; the reminder stays in the list.",
+    "page_editNotification_timing_repeat_info": "Οι επαναλαμβανόμενες υπενθυμίσεις θα επαναλαμβάνονται μόνο όταν σημειώνονται ως ολοκληρωμένες στην ειδοποίηση.",
+    "page_editNotification_timing_dismissible_title": "Αποστολή στο ρολόι",
+    "page_editNotification_timing_dismissible_subtitle": "Ειδοποίηση και στο ρολόι. Μπορείτε επίσης να απομακρύνετε την ειδοποίηση στο τηλέφωνο σύροντάς την, ενώ η υπενθύμιση παραμένει στη λίστα.",
     "page_editNotification_details_field_title_label": "Τίτλος",
     "page_editNotification_details_field_title_error": "Παρακαλώ εισάγετε έναν τίτλο",
     "page_editNotification_details_field_body_label": "Κείμενο",
@@ -233,11 +233,11 @@
     "item_colour": "Χρώμα",
     "notification_action_markAsDone": "Ολοκλήρωση",
     "notification_action_snooze": "Αναβολή",
-    "notification_channel_immediate_name": "Immediate notifications",
-    "notification_channel_immediate_description": "Notifications that are shown immediately",
-    "notification_channel_scheduled_name": "Scheduled notifications",
-    "notification_channel_scheduled_description": "Notifications that are scheduled for a future time",
-    "toast_notificationFailed": "Failed to send notification, check notification permissions",
+    "notification_channel_immediate_name": "Άμεσες ειδοποιήσεις",
+    "notification_channel_immediate_description": "Ειδοποιήσεις που εμφανίζονται αμέσως",
+    "notification_channel_scheduled_name": "Προγραμματισμένες ειδοποιήσεις",
+    "notification_channel_scheduled_description": "Ειδοποιήσεις που έχουν προγραμματιστεί για μελλοντική ώρα",
+    "toast_notificationFailed": "Η αποστολή της ειδοποίησης απέτυχε, ελέγξτε τις άδειες ειδοποιήσεων",
     "notification_action_snoozeFor": "Αναβολή για {durationString}",
     "@notification_action_snoozeFor": {
         "description": "Snooze action with duration.",
@@ -286,15 +286,15 @@
     "dialog_about_translations_title": "Μεταφράσεις",
     "dialog_about_action_showLicenses": "Άδειες",
     "tutorial_page_0_title": "Καλώς ήρθατε στο Noterly",
-    "tutorial_page_0_subtitle": "Απλές υπενθυμίσεις ειδοποιήσεων",
+    "tutorial_page_0_subtitle": "Απλές υπενθυμίσεις μέσω ειδοποιήσεων",
     "tutorial_page_0_content": "Εδώ είναι μερικές βασικές πληροφορίες για να ξεκινήσετε.",
     "tutorial_page_1_title": "Υπενθυμίσεις",
-    "tutorial_page_1_content": "Το Noterly έχει σχεδιαστεί για γρήγορες, απλές υπενθυμίσεις. Μπορείτε να βρείτε μια εφαρμογή πιο κατάλληλη για πιο σύνθετες εργασίες.",
+    "tutorial_page_1_content": "Το Noterly έχει σχεδιαστεί για γρήγορες, απλές υπενθυμίσεις. Για πιο σύνθετες εργασίες, μια εφαρμογή λίστας εργασιών ή ημερολογίου ίσως σας εξυπηρετήσει καλύτερα.",
     "tutorial_page_2_title": "Δημιουργία υπενθύμισης",
     "tutorial_page_2_content": "Πατήστε το αιωρούμενο κουμπί για να δημιουργήσετε μια νέα υπενθύμιση.",
     "tutorial_page_2_confirmations": "Πολύ σωστά!|Μπράβο!|Το πιάσατε!|Πολύ ωραία!|Επιτυχία!",
     "tutorial_page_3_title": "Διαχείριση υπενθυμίσεων",
-    "tutorial_page_3_content": "Ολοκληρώθηκε η εργασία σας; Σύρετε την ειδοποίηση μακριά. Για να διαγράψετε μια ειδοποίηση, μεταβείτε στη σελίδα αρχειοθέτησης και σαρώστε την μακριά.",
+    "tutorial_page_3_content": "Ολοκληρώθηκε η εργασία σας; Σύρετε την υπενθύμιση στο πλάι. Για να διαγράψετε μια υπενθύμιση, μεταβείτε στο Αρχείο και σύρετέ την ξανά στο πλάι.",
     "tutorial_page_3_example": "Σύρετε για αρχειοθέτηση ή διαγραφή",
     "tutorial_page_4_title": "Αναβολή υπενθυμίσεων",
     "tutorial_page_4_content": "Μπορείτε να αναβάλετε μια υπενθύμιση πατώντας το κουμπί στην ειδοποίηση. Προσαρμόστε τη διάρκεια αναβολής στις ρυθμίσεις.",
@@ -305,8 +305,8 @@
     "tutorial_action_next": "Επόμενο",
     "tutorial_action_done": "Τέλος",
     "tutorial_action_skip": "Παράλειψη",
-    "general_ok": "OΚ",
-    "general_cancel": "Άκυρο",
+    "general_ok": "OK",
+    "general_cancel": "Ακύρωση",
     "general_undo": "Αναίρεση",
     "general_close": "Κλείσιμο",
     "time_seconds": "{value, plural, =0{δευτερόλεπτα} =1{δευτερόλεπτο} other{δευτερόλεπτα}}",
@@ -463,11 +463,11 @@
             }
         }
     },
-    "time_hourly": "ωριαία",
-    "time_daily": "ημερήσια",
-    "time_weekly": "εβδομαδιαία",
-    "time_monthly": "μηνιαία",
-    "time_yearly": "ετησίως",
+    "time_hourly": "κάθε ώρα",
+    "time_daily": "κάθε ημέρα",
+    "time_weekly": "κάθε εβδομάδα",
+    "time_monthly": "κάθε μήνα",
+    "time_yearly": "κάθε χρόνο",
     "time_repetition_every_value": "κάθε {number} {type}",
     "@time_repetition_every_value": {
         "description": "Used to display a repeat duration.",
@@ -483,7 +483,7 @@
             }
         }
     },
-    "time_snooze_until": "έως {dateTimeString}",
+    "time_snooze_until": "{dateTimeString}",
     "@time_snooze_until": {
         "description": "Used to display a snooze duration.",
         "placeholders": {
