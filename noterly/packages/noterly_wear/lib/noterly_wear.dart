@@ -16,6 +16,10 @@ class NoterlyWear {
   /// Replaces the snapshot DataItem the watch reads.
   static Future<void> sendSnapshot(String json) => _channel.invokeMethod('sendSnapshot', {'json': json});
 
+  /// The language picked for the app in Android's settings (Settings > Apps > Noterly > Language) as BCP 47 tags, or an
+  /// empty string when the app follows the phone's language.
+  static Future<String> appLanguage() async => await _channel.invokeMethod<String>('appLanguage') ?? '';
+
   /// Commands the watch has queued and the phone has not deleted yet.
   static Future<List<QueuedWearCommand>> fetchCommands() async {
     final result = await _channel.invokeListMethod<Map>('fetchCommands') ?? [];

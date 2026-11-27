@@ -159,13 +159,14 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   StreamSubscription? _shareIntentDataStreamSubscription;
   StreamSubscription? _intentDataStreamSubscription;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     initPlatformState();
 
     if (widget.launchMessage == 'launchFromQuickTile') {
@@ -227,10 +228,15 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _shareIntentDataStreamSubscription?.cancel();
     _intentDataStreamSubscription?.cancel();
     super.dispose();
   }
+
+  // The watch app shows this app's language and the repeat descriptions in it, so send them again when it changes
+  @override
+  void didChangeLocales(List<Locale>? locales) => WearSync.sendSnapshot(AppManager.instance.data);
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {

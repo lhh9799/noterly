@@ -1,5 +1,6 @@
 package uk.co.tdsstudios.noterly.wear_sync
 
+import android.app.LocaleManager
 import android.app.Notification
 import android.app.NotificationManager
 import android.content.Context
@@ -37,6 +38,7 @@ class WearSyncPlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
         try {
             when (call.method) {
                 "sendSnapshot" -> sendSnapshot(call.argument<String>("json")!!, result)
+                "appLanguage" -> result.success(appLanguage())
                 "fetchCommands" -> fetchCommands(result)
                 "deleteCommand" -> deleteCommand(call.argument<String>("uri")!!, result)
                 "applyBridgeTags" -> {
@@ -57,6 +59,10 @@ class WearSyncPlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
     }
 
     private val dataClient: DataClient get() = Wearable.getDataClient(context)
+
+    /** The language picked for this app in Android's settings, or "" when it follows the phone's language. */
+    private fun appLanguage(): String =
+        context.getSystemService(LocaleManager::class.java)?.applicationLocales?.toLanguageTags().orEmpty()
 
     private fun sendSnapshot(json: String, result: MethodChannel.Result) {
         val request = PutDataMapRequest.create(SNAPSHOT_PATH).apply {
