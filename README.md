@@ -52,15 +52,15 @@ The original app is available on the [Play Store](https://play.google.com/store/
 
 ### ⌚ Galaxy Watch app
 
-Noterly Watch is a separate Wear OS app for the Galaxy Watch, kept in a private repository. It shows your reminders,
+Noterly Watch is a separate Wear OS app for the Galaxy Watch, in its own repository, [lhh9799/noterly-watch](https://github.com/lhh9799/noterly-watch). It shows your reminders,
 lets you add, finish and snooze them from the watch, and raises alarms on the watch for the reminders with
 **Send to watch** on. The two apps only connect when they are signed with the same key.
 
-Latest releases: phone app **v1.15.2**, watch app **v1.0.1** (as of 2026-11-23).
+Latest releases: phone app **v1.16.1**, watch app **v1.1.0** (as of 2026-11-24).
 
 | Phone app | Compatible watch app |
 |---|---|
-| v1.8.1, v1.8.2, v1.9.0, v1.10.0, v1.11.0, v1.12.0, v1.12.1, v1.13.0, v1.14.0, v1.15.0, v1.15.1, v1.15.2 | v1.0.1 |
+| v1.8.1, v1.8.2, v1.9.0, v1.10.0, v1.11.0, v1.12.0, v1.12.1, v1.13.0, v1.14.0, v1.15.0, v1.15.1, v1.15.2, v1.16.0, v1.16.1 | v1.0.1, v1.1.0 |
 | v1.7.0, v1.8.0 | v1.0.0 |
 | v1.5.0, v1.6.0 | none (no watch sync yet) |
 
