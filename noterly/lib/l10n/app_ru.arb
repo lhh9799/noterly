@@ -4,12 +4,12 @@
     "main_action_create": "Создать",
     "main_action_save": "Сохранить",
     "main_action_reactivate": "Восстановить",
-    "page_activeNotifications_label": "Активно",
+    "page_activeNotifications_label": "Активные",
     "page_activeNotifications_header_immediate": "Мгновенные",
     "page_activeNotifications_header_scheduled": "Запланированные",
     "page_activeNotifications_header_repeating": "Повторяющиеся",
     "page_activeNotifications_empty": "Нет активных уведомлений.",
-    "page_activeNotifications_item_repeats": "Повторять {durationString}",
+    "page_activeNotifications_item_repeats": "Повторяется {durationString}",
     "@page_activeNotifications_item_repeats": {
         "description": "Under a notification item specifying repeat duration.",
         "placeholders": {
@@ -19,7 +19,7 @@
             }
         }
     },
-    "page_activeNotifications_item_snoozed": "Отложено {dateTimeString}",
+    "page_activeNotifications_item_snoozed": "Отложено до: {dateTimeString}",
     "@page_activeNotifications_item_snoozed": {
         "description": "Under a notification item specifying snooze duration.",
         "placeholders": {
@@ -32,7 +32,7 @@
     "page_archivedNotifications_label": "Архив",
     "page_archivedNotifications_empty": "Архивные уведомления будут отображаться здесь.",
     "page_archivedNotifications_button_deleteAll": "Удалить все архивные уведомления",
-    "page_archivedNotifications_item_archived": "В архиве {dateTimeString}",
+    "page_archivedNotifications_item_archived": "В архиве: {dateTimeString}",
     "@page_archivedNotifications_item_archived": {
         "description": "Under a notification item specifying when it was archived.",
         "placeholders": {
@@ -63,7 +63,7 @@
         }
     },
     "snackbar_allArchivedNotificationsDeleted": "Все архивные уведомления удалены.",
-    "toast_notificationSnoozed": "Уведомление отложено на {durationString}",
+    "toast_notificationSnoozed": "Уведомление отложено: {durationString}",
     "@toast_notificationSnoozed": {
         "description": "Toast message when a notification is snoozed.",
         "placeholders": {
@@ -79,26 +79,26 @@
     "page_settings_header_about": "О приложении",
     "page_settings_header_debug": "Параметры отладки",
     "page_settings_header_debug_disclaimer": "Эти параметры не поддерживаются и могут вызвать проблемы. Используйте на свой страх и риск.",
-    "page_settings_notifications_snoozeDuration": "Интервал повтора",
-    "page_settings_notifications_dismissible_title": "Watch notifications",
-    "page_settings_notifications_dismissible_subtitle": "Show the Send to watch option on reminders. When off, no reminder is sent to the watch and every notification is ongoing.",
-    "page_settings_notifications_dismissibleByDefault_title": "Send to watch by default",
-    "page_settings_notifications_dismissibleByDefault_subtitle": "Turn on Send to watch for new reminders.",
-    "page_settings_header_backup": "Backup",
-    "page_settings_header_google_backup": "Google backup",
-    "page_settings_google_backup_reminders_title": "Back up reminders",
-    "page_settings_google_backup_reminders_subtitle": "Bring the reminders back when the app is reinstalled with the same Google account. When turned off, the next backup leaves them out, so they are gone from Google too.",
-    "page_settings_google_backup_settings_title": "Back up settings",
-    "page_settings_google_backup_settings_subtitle": "Bring the snooze, watch, swipe and backup settings back the same way. When turned off, the next backup leaves them out.",
-    "page_settings_google_backup_open_title": "Open Google backup settings",
-    "page_settings_google_backup_open_subtitle": "Nothing is backed up unless Google backup is on there. Its App data list shows Noterly Dev with the size of its backup, and Back up now backs up the whole phone. Deleting Noterly Dev there stops its backup on this phone until Google backup is turned off and on again.",
-    "page_settings_backup_export_title": "Export reminders",
-    "page_settings_backup_export_subtitle": "Save all reminders, including archived ones, to a file.",
-    "page_settings_backup_import_title": "Import reminders",
-    "page_settings_backup_import_subtitle": "Load reminders from an exported file.",
-    "page_settings_backup_auto_title": "Automatic backup",
-    "page_settings_backup_auto_subtitle_off": "Keep a copy of all reminders in a folder you choose, such as Documents, updated after every change. After reinstalling the app, bring it back with Import reminders.",
-    "page_settings_backup_auto_subtitle_on": "Saved as {file} in {folder} after every change. Tap to choose another folder.",
+    "page_settings_notifications_snoozeDuration": "Продолжительность отсрочки",
+    "page_settings_notifications_dismissible_title": "Уведомления на часах",
+    "page_settings_notifications_dismissible_subtitle": "Показывать в напоминаниях параметр «Отправлять на часы». Если выключено, напоминания не отправляются на часы, а уведомления нельзя смахнуть.",
+    "page_settings_notifications_dismissibleByDefault_title": "Отправлять на часы по умолчанию",
+    "page_settings_notifications_dismissibleByDefault_subtitle": "Включать параметр «Отправлять на часы» в новых напоминаниях.",
+    "page_settings_header_backup": "Резервное копирование",
+    "page_settings_header_google_backup": "Резервное копирование Google",
+    "page_settings_google_backup_reminders_title": "Резервное копирование напоминаний",
+    "page_settings_google_backup_reminders_subtitle": "Восстанавливать напоминания при переустановке приложения с тем же аккаунтом Google. Если выключить, они не попадут в следующую резервную копию, а значит, удалятся и из Google.",
+    "page_settings_google_backup_settings_title": "Резервное копирование настроек",
+    "page_settings_google_backup_settings_subtitle": "Таким же образом восстанавливать настройки отсрочки, часов, смахивания и резервного копирования. Если выключить, они не попадут в следующую резервную копию.",
+    "page_settings_google_backup_open_title": "Открыть настройки резервного копирования Google",
+    "page_settings_google_backup_open_subtitle": "Если там не включено резервное копирование Google, ничего не сохраняется. В списке «Данные приложений» показан Noterly Dev и размер его резервной копии, а кнопка «Начать копирование» создаёт резервную копию всего телефона. Если удалить там Noterly Dev, его резервное копирование на этом телефоне прекратится, пока вы не выключите и снова не включите резервное копирование Google.",
+    "page_settings_backup_export_title": "Экспорт напоминаний",
+    "page_settings_backup_export_subtitle": "Сохранить все напоминания, включая архивные, в файл.",
+    "page_settings_backup_import_title": "Импорт напоминаний",
+    "page_settings_backup_import_subtitle": "Загрузить напоминания из экспортированного файла.",
+    "page_settings_backup_auto_title": "Автоматическое резервное копирование",
+    "page_settings_backup_auto_subtitle_off": "Хранить копию всех напоминаний в выбранной папке (например, Documents) и обновлять её после каждого изменения. После переустановки приложения напоминания можно восстановить через пункт «Импорт напоминаний».",
+    "page_settings_backup_auto_subtitle_on": "После каждого изменения копия сохраняется в файл {file} в папке {folder}. Нажмите, чтобы выбрать другую папку.",
     "@page_settings_backup_auto_subtitle_on": {
         "description": "Subtitle of the automatic backup switch while it is on.",
         "placeholders": {
@@ -112,7 +112,7 @@
             }
         }
     },
-    "page_settings_backup_auto_subtitle_error": "Can't save to {folder}, for example after the app was reinstalled. Tap to choose the folder again.",
+    "page_settings_backup_auto_subtitle_error": "Не удаётся сохранить копию в папку {folder}. Так бывает, например, после переустановки приложения. Нажмите, чтобы выбрать папку заново.",
     "@page_settings_backup_auto_subtitle_error": {
         "description": "Subtitle of the automatic backup switch when the app can no longer write to the folder.",
         "placeholders": {
@@ -122,16 +122,16 @@
             }
         }
     },
-    "page_settings_header_swipe": "Swipe actions",
-    "page_settings_swipe_enabled_title": "Swipe reminders",
-    "page_settings_swipe_enabled_subtitle": "Archive or delete a reminder by swiping it in a list.",
-    "page_settings_swipe_right": "Swipe right",
-    "page_settings_swipe_left": "Swipe left",
-    "swipeAction_archive": "Archive",
-    "swipeAction_delete": "Delete",
-    "swipeAction_none": "Do nothing",
-    "dialog_import_title": "Import reminders",
-    "dialog_import_text": "The file has {count} reminder(s). Merge adds new reminders and updates the ones that were changed more recently in the file. Replace removes your current reminders and keeps only the ones in the file.",
+    "page_settings_header_swipe": "Действия при смахивании",
+    "page_settings_swipe_enabled_title": "Смахивание напоминаний",
+    "page_settings_swipe_enabled_subtitle": "Архивировать или удалять напоминания, смахивая их в списке.",
+    "page_settings_swipe_right": "Смахивание вправо",
+    "page_settings_swipe_left": "Смахивание влево",
+    "swipeAction_archive": "Архивировать",
+    "swipeAction_delete": "Удалить",
+    "swipeAction_none": "Ничего не делать",
+    "dialog_import_title": "Импорт напоминаний",
+    "dialog_import_text": "{count, plural, one{В файле {count} напоминание.} few{В файле {count} напоминания.} many{В файле {count} напоминаний.} other{В файле {count} напоминания.}} «Объединить» добавит новые напоминания и обновит существующие, если в файле они изменены позже. «Заменить» удалит текущие напоминания и оставит только напоминания из файла.",
     "@dialog_import_text": {
         "description": "Asks whether to merge or replace when importing reminders.",
         "placeholders": {
@@ -141,9 +141,9 @@
             }
         }
     },
-    "dialog_import_action_merge": "Merge",
-    "dialog_import_action_replace": "Replace",
-    "snackbar_export_done": "Exported {count} reminder(s).",
+    "dialog_import_action_merge": "Объединить",
+    "dialog_import_action_replace": "Заменить",
+    "snackbar_export_done": "{count, plural, one{Экспортировано {count} напоминание.} few{Экспортировано {count} напоминания.} many{Экспортировано {count} напоминаний.} other{Экспортировано {count} напоминания.}}",
     "@snackbar_export_done": {
         "description": "Shown after reminders were exported to a file.",
         "placeholders": {
@@ -153,8 +153,8 @@
             }
         }
     },
-    "snackbar_export_failed": "Couldn't export reminders.",
-    "snackbar_import_done": "Import complete: {added} added, {updated} updated, {removed} removed.",
+    "snackbar_export_failed": "Не удалось экспортировать напоминания.",
+    "snackbar_import_done": "Импорт завершён. Добавлено: {added}, обновлено: {updated}, удалено: {removed}.",
     "@snackbar_import_done": {
         "description": "Shown after reminders were imported from a file.",
         "placeholders": {
@@ -172,9 +172,9 @@
             }
         }
     },
-    "snackbar_import_empty": "The file has no reminders.",
-    "snackbar_import_failed": "This file couldn't be read as a Noterly reminders file.",
-    "snackbar_auto_backup_done": "Reminders backed up to {folder}.",
+    "snackbar_import_empty": "В файле нет напоминаний.",
+    "snackbar_import_failed": "Не удалось прочитать этот файл как файл напоминаний Noterly.",
+    "snackbar_auto_backup_done": "Резервная копия напоминаний сохранена в папке {folder}.",
     "@snackbar_auto_backup_done": {
         "description": "Shown after automatic backup was turned on, or its folder changed, and the first backup was saved.",
         "placeholders": {
@@ -184,46 +184,46 @@
             }
         }
     },
-    "snackbar_auto_backup_failed": "Couldn't save the backup in that folder.",
+    "snackbar_auto_backup_failed": "Не удалось сохранить резервную копию в эту папку.",
     "page_settings_system_notificationSettings": "Настройки уведомлений",
-    "page_settings_system_language_title": "Language",
-    "page_settings_system_language_subtitle": "Choose the app's language in the phone's settings.",
+    "page_settings_system_language_title": "Язык",
+    "page_settings_system_language_subtitle": "Выберите язык приложения в настройках телефона.",
     "page_settings_about_version_title": "Версия",
     "page_settings_about_copyright_title": "Авторские права",
     "page_settings_about_copyright_text": "2023 Tom Chapman, TDS Studios.",
     "page_settings_about_tutorial_title": "Руководство",
     "page_settings_about_licenses_title": "Лицензии",
     "page_settings_about_licenses_page_legalese": "Copyright © 2023 Tom Chapman, TDS Studios.",
-    "page_settings_about_licenses_page_openSourceSoftware": "Noterly is open-source software. The source code is available on GitHub.",
+    "page_settings_about_licenses_page_openSourceSoftware": "Noterly — приложение с открытым исходным кодом. Исходный код доступен на GitHub.",
     "page_settings_about_privacyPolicy_title": "Политика конфиденциальности",
     "page_settings_about_feedback_title": "Отправить отзыв",
     "page_settings_about_translate_title": "Помощь в переводе Noterly",
     "page_settings_about_donation_title": "Угостить меня кофе",
-    "page_settings_about_github_title": "Open-source on GitHub",
+    "page_settings_about_github_title": "Исходный код на GitHub",
     "page_createNotification_title": "Создать уведомление",
     "page_createNotification_header_details": "Детали уведомления",
-    "page_createNotification_header_timing": "Сроки",
+    "page_createNotification_header_timing": "Время",
     "page_createNotification_timing_schedule_title": "Расписание",
     "page_createNotification_timing_schedule_subtitle": "Отправить",
     "page_createNotification_timing_repeat_title": "Повтор",
     "page_createNotification_timing_repeat_subtitle": "Повторять",
-    "page_createNotification_timing_repeat_info": "Повторяющиеся уведомления будут повторяться, пока не будут помечены как выполненные.",
-    "page_createNotification_timing_dismissible_title": "Send to watch",
-    "page_createNotification_timing_dismissible_subtitle": "Notify on the watch too. The notification can also be swiped away; the reminder stays in the list.",
+    "page_createNotification_timing_repeat_info": "Повторяющееся уведомление повторится только после того, как вы нажмёте в нём «Пометить как выполненное».",
+    "page_createNotification_timing_dismissible_title": "Отправлять на часы",
+    "page_createNotification_timing_dismissible_subtitle": "Уведомлять и на часах. Кроме того, уведомление на телефоне можно будет смахнуть, а напоминание останется в списке.",
     "page_createNotification_details_field_title_label": "Название",
     "page_createNotification_details_field_title_error": "Пожалуйста, введите название",
     "page_createNotification_details_field_body_label": "Введите текст",
     "page_createNotification_details_field_colour_label": "Цвет",
     "page_editNotification_title": "Редактирование уведомления",
     "page_editNotification_header_details": "Детали уведомления",
-    "page_editNotification_header_timing": "Сроки",
+    "page_editNotification_header_timing": "Время",
     "page_editNotification_timing_schedule_title": "Расписание",
     "page_editNotification_timing_schedule_subtitle": "Отправить",
     "page_editNotification_timing_repeat_title": "Повтор",
     "page_editNotification_timing_repeat_subtitle": "Повторять",
-    "page_editNotification_timing_repeat_info": "Повторяющиеся уведомления будут повторяться, пока не будут помечены как выполненные.",
-    "page_editNotification_timing_dismissible_title": "Send to watch",
-    "page_editNotification_timing_dismissible_subtitle": "Notify on the watch too. The notification can also be swiped away; the reminder stays in the list.",
+    "page_editNotification_timing_repeat_info": "Повторяющееся уведомление повторится только после того, как вы нажмёте в нём «Пометить как выполненное».",
+    "page_editNotification_timing_dismissible_title": "Отправлять на часы",
+    "page_editNotification_timing_dismissible_subtitle": "Уведомлять и на часах. Кроме того, уведомление на телефоне можно будет смахнуть, а напоминание останется в списке.",
     "page_editNotification_details_field_title_label": "Название",
     "page_editNotification_details_field_title_error": "Пожалуйста, введите название",
     "page_editNotification_details_field_body_label": "Введите текст",
@@ -233,12 +233,12 @@
     "item_colour": "Цвет",
     "notification_action_markAsDone": "Пометить как выполненное",
     "notification_action_snooze": "Отложить",
-    "notification_channel_immediate_name": "Immediate notifications",
-    "notification_channel_immediate_description": "Notifications that are shown immediately",
-    "notification_channel_scheduled_name": "Scheduled notifications",
-    "notification_channel_scheduled_description": "Notifications that are scheduled for a future time",
-    "toast_notificationFailed": "Failed to send notification, check notification permissions",
-    "notification_action_snoozeFor": "Отложить на {durationString}",
+    "notification_channel_immediate_name": "Мгновенные уведомления",
+    "notification_channel_immediate_description": "Уведомления, которые показываются сразу",
+    "notification_channel_scheduled_name": "Запланированные уведомления",
+    "notification_channel_scheduled_description": "Уведомления, запланированные на определённое время",
+    "toast_notificationFailed": "Не удалось отправить уведомление. Проверьте разрешение на отправку уведомлений.",
+    "notification_action_snoozeFor": "Отложить: {durationString}",
     "@notification_action_snoozeFor": {
         "description": "Snooze action with duration.",
         "placeholders": {
@@ -286,7 +286,7 @@
     "dialog_about_translations_title": "Переводы",
     "dialog_about_action_showLicenses": "Лицензии",
     "tutorial_page_0_title": "Добро пожаловать в Noterly",
-    "tutorial_page_0_subtitle": "Простые напоминания об уведомлениях",
+    "tutorial_page_0_subtitle": "Простые напоминания в виде уведомлений",
     "tutorial_page_0_content": "Вот некоторая основная информация для начала.",
     "tutorial_page_1_title": "Напоминания",
     "tutorial_page_1_content": "Noterly предназначен для быстрых и простых напоминаний. Для более сложных задач вам может подойти приложение для списка дел или календаря.",
@@ -309,7 +309,7 @@
     "general_cancel": "Отмена",
     "general_undo": "Отменить",
     "general_close": "Закрыть",
-    "time_seconds": "{value, plural, =0{секунд} =1{секунд} other{секунды}}",
+    "time_seconds": "{value, plural, =0{секунд} one{секунда} few{секунды} many{секунд} other{секунды}}",
     "@time_seconds": {
         "description": "Used to pluralise second.",
         "placeholders": {
@@ -320,7 +320,7 @@
             }
         }
     },
-    "time_seconds_value": "{value} секунд",
+    "time_seconds_value": "{value, plural, =0{0 секунд} one{{value} секунда} few{{value} секунды} many{{value} секунд} other{{value} секунды}}",
     "@time_seconds_value": {
         "description": "Used to display a number of seconds.",
         "placeholders": {
@@ -331,7 +331,7 @@
             }
         }
     },
-    "time_minutes": "{value, plural, =0{минут} =1{минута} other{минуты}}",
+    "time_minutes": "{value, plural, =0{минут} one{минута} few{минуты} many{минут} other{минуты}}",
     "@time_minutes": {
         "description": "Used to pluralise minute.",
         "placeholders": {
@@ -342,7 +342,7 @@
             }
         }
     },
-    "time_minutes_value": "{value} минут",
+    "time_minutes_value": "{value, plural, =0{0 минут} one{{value} минута} few{{value} минуты} many{{value} минут} other{{value} минуты}}",
     "@time_minutes_value": {
         "description": "Used to display a number of minutes.",
         "placeholders": {
@@ -353,7 +353,7 @@
             }
         }
     },
-    "time_hours": "{value, plural, =0{часы} =1{час} other{часа}}",
+    "time_hours": "{value, plural, =0{часов} one{час} few{часа} many{часов} other{часа}}",
     "@time_hours": {
         "description": "Used to pluralise hour.",
         "placeholders": {
@@ -364,7 +364,7 @@
             }
         }
     },
-    "time_hours_value": "{value} часа",
+    "time_hours_value": "{value, plural, =0{0 часов} one{{value} час} few{{value} часа} many{{value} часов} other{{value} часа}}",
     "@time_hours_value": {
         "description": "Used to display a number of hours.",
         "placeholders": {
@@ -375,7 +375,7 @@
             }
         }
     },
-    "time_days": "{value, plural, =0{дней} =1{день} other{дня}}",
+    "time_days": "{value, plural, =0{дней} one{день} few{дня} many{дней} other{дня}}",
     "@time_days": {
         "description": "Used to pluralise day.",
         "placeholders": {
@@ -386,7 +386,7 @@
             }
         }
     },
-    "time_days_value": "{value} дня",
+    "time_days_value": "{value, plural, =0{0 дней} one{{value} день} few{{value} дня} many{{value} дней} other{{value} дня}}",
     "@time_days_value": {
         "description": "Used to display a number of days.",
         "placeholders": {
@@ -397,7 +397,7 @@
             }
         }
     },
-    "time_weeks": "{value, plural, =0{недель} =1{неделя} other{недели}}",
+    "time_weeks": "{value, plural, =0{недель} one{неделя} few{недели} many{недель} other{недели}}",
     "@time_weeks": {
         "description": "Used to pluralise week.",
         "placeholders": {
@@ -408,7 +408,7 @@
             }
         }
     },
-    "time_weeks_value": "{value} недели",
+    "time_weeks_value": "{value, plural, =0{0 недель} one{{value} неделя} few{{value} недели} many{{value} недель} other{{value} недели}}",
     "@time_weeks_value": {
         "description": "Used to display a number of weeks.",
         "placeholders": {
@@ -419,7 +419,7 @@
             }
         }
     },
-    "time_months": "{value, plural, =0{месяцев} =1{месяц} other{месяца}}",
+    "time_months": "{value, plural, =0{месяцев} one{месяц} few{месяца} many{месяцев} other{месяца}}",
     "@time_months": {
         "description": "Used to pluralise month.",
         "placeholders": {
@@ -430,7 +430,7 @@
             }
         }
     },
-    "time_months_value": "{value} месяца",
+    "time_months_value": "{value, plural, =0{0 месяцев} one{{value} месяц} few{{value} месяца} many{{value} месяцев} other{{value} месяца}}",
     "@time_months_value": {
         "description": "Used to display a number of months.",
         "placeholders": {
@@ -441,7 +441,7 @@
             }
         }
     },
-    "time_years": "{value, plural, =0{лет} =1{год} other{года}}",
+    "time_years": "{value, plural, =0{лет} one{год} few{года} many{лет} other{года}}",
     "@time_years": {
         "description": "Used to pluralise year.",
         "placeholders": {
@@ -452,7 +452,7 @@
             }
         }
     },
-    "time_years_value": "{value} года",
+    "time_years_value": "{value, plural, =0{0 лет} one{{value} год} few{{value} года} many{{value} лет} other{{value} года}}",
     "@time_years_value": {
         "description": "Used to display a number of years.",
         "placeholders": {
@@ -468,7 +468,7 @@
     "time_weekly": "каждую неделю",
     "time_monthly": "каждый месяц",
     "time_yearly": "каждый год",
-    "time_repetition_every_value": "каждые {number} {type}",
+    "time_repetition_every_value": "{number, plural, one{каждый {number} {type}} few{каждые {number} {type}} many{каждые {number} {type}} other{каждые {number} {type}}}",
     "@time_repetition_every_value": {
         "description": "Used to display a repeat duration.",
         "placeholders": {
@@ -483,7 +483,7 @@
             }
         }
     },
-    "time_snooze_until": "до {dateTimeString}",
+    "time_snooze_until": "{dateTimeString}",
     "@time_snooze_until": {
         "description": "Used to display a snooze duration.",
         "placeholders": {

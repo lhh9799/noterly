@@ -9,7 +9,7 @@
     "page_activeNotifications_header_scheduled": "Programadas",
     "page_activeNotifications_header_repeating": "Repetitivas",
     "page_activeNotifications_empty": "Ninguna notificación activa",
-    "page_activeNotifications_item_repeats": "Se repite cada {durationString}",
+    "page_activeNotifications_item_repeats": "Se repite {durationString}",
     "@page_activeNotifications_item_repeats": {
         "description": "Under a notification item specifying repeat duration.",
         "placeholders": {
@@ -31,8 +31,8 @@
     },
     "page_archivedNotifications_label": "Archivo",
     "page_archivedNotifications_empty": "Las notificaciones archivadas se mostrarán aquí.",
-    "page_archivedNotifications_button_deleteAll": "Borrar todas las notificaciones archivadas",
-    "page_archivedNotifications_item_archived": "Archivado {dateTimeString}",
+    "page_archivedNotifications_button_deleteAll": "Eliminar todas las notificaciones archivadas",
+    "page_archivedNotifications_item_archived": "Archivado: {dateTimeString}",
     "@page_archivedNotifications_item_archived": {
         "description": "Under a notification item specifying when it was archived.",
         "placeholders": {
@@ -79,26 +79,26 @@
     "page_settings_header_about": "Acerca de",
     "page_settings_header_debug": "Opciones de depuración",
     "page_settings_header_debug_disclaimer": "Estas opciones no tienen soporte y podrían causar problemas. Úsalas bajo tu propio riesgo.",
-    "page_settings_notifications_snoozeDuration": "Duración de la pausa",
-    "page_settings_notifications_dismissible_title": "Watch notifications",
-    "page_settings_notifications_dismissible_subtitle": "Show the Send to watch option on reminders. When off, no reminder is sent to the watch and every notification is ongoing.",
-    "page_settings_notifications_dismissibleByDefault_title": "Send to watch by default",
-    "page_settings_notifications_dismissibleByDefault_subtitle": "Turn on Send to watch for new reminders.",
-    "page_settings_header_backup": "Backup",
-    "page_settings_header_google_backup": "Google backup",
-    "page_settings_google_backup_reminders_title": "Back up reminders",
-    "page_settings_google_backup_reminders_subtitle": "Bring the reminders back when the app is reinstalled with the same Google account. When turned off, the next backup leaves them out, so they are gone from Google too.",
-    "page_settings_google_backup_settings_title": "Back up settings",
-    "page_settings_google_backup_settings_subtitle": "Bring the snooze, watch, swipe and backup settings back the same way. When turned off, the next backup leaves them out.",
-    "page_settings_google_backup_open_title": "Open Google backup settings",
-    "page_settings_google_backup_open_subtitle": "Nothing is backed up unless Google backup is on there. Its App data list shows Noterly Dev with the size of its backup, and Back up now backs up the whole phone. Deleting Noterly Dev there stops its backup on this phone until Google backup is turned off and on again.",
-    "page_settings_backup_export_title": "Export reminders",
-    "page_settings_backup_export_subtitle": "Save all reminders, including archived ones, to a file.",
-    "page_settings_backup_import_title": "Import reminders",
-    "page_settings_backup_import_subtitle": "Load reminders from an exported file.",
-    "page_settings_backup_auto_title": "Automatic backup",
-    "page_settings_backup_auto_subtitle_off": "Keep a copy of all reminders in a folder you choose, such as Documents, updated after every change. After reinstalling the app, bring it back with Import reminders.",
-    "page_settings_backup_auto_subtitle_on": "Saved as {file} in {folder} after every change. Tap to choose another folder.",
+    "page_settings_notifications_snoozeDuration": "Posponer durante",
+    "page_settings_notifications_dismissible_title": "Notificaciones en el reloj",
+    "page_settings_notifications_dismissible_subtitle": "Muestra la opción «Enviar al reloj» en los recordatorios. Si se desactiva, no se envía ningún recordatorio al reloj y no se puede descartar ninguna notificación.",
+    "page_settings_notifications_dismissibleByDefault_title": "Enviar al reloj de forma predeterminada",
+    "page_settings_notifications_dismissibleByDefault_subtitle": "Activa «Enviar al reloj» en los recordatorios nuevos.",
+    "page_settings_header_backup": "Copia de seguridad",
+    "page_settings_header_google_backup": "Copia de seguridad de Google",
+    "page_settings_google_backup_reminders_title": "Copia de seguridad de los recordatorios",
+    "page_settings_google_backup_reminders_subtitle": "Restaura los recordatorios al reinstalar la aplicación con la misma cuenta de Google. Si se desactiva, la próxima copia no los incluirá, así que también desaparecerán de Google.",
+    "page_settings_google_backup_settings_title": "Copia de seguridad de los ajustes",
+    "page_settings_google_backup_settings_subtitle": "Restaura del mismo modo los ajustes de posponer, del reloj, de deslizamiento y de copia de seguridad. Si se desactiva, la próxima copia no los incluirá.",
+    "page_settings_google_backup_open_title": "Abrir ajustes de copia de seguridad de Google",
+    "page_settings_google_backup_open_subtitle": "No se guarda nada si la copia de seguridad de Google no está activada ahí. En su lista «Datos de aplicaciones» aparece Noterly Dev con el tamaño de su copia, y «Crear copia de seguridad ahora» hace una copia de todo el teléfono. Si eliminas Noterly Dev ahí, deja de hacerse su copia en este teléfono hasta que desactives y vuelvas a activar la copia de seguridad de Google.",
+    "page_settings_backup_export_title": "Exportar recordatorios",
+    "page_settings_backup_export_subtitle": "Guarda todos los recordatorios, incluidos los archivados, en un archivo.",
+    "page_settings_backup_import_title": "Importar recordatorios",
+    "page_settings_backup_import_subtitle": "Carga recordatorios desde un archivo exportado.",
+    "page_settings_backup_auto_title": "Copia de seguridad automática",
+    "page_settings_backup_auto_subtitle_off": "Guarda una copia de todos los recordatorios en la carpeta que elijas (por ejemplo, Documents) y la actualiza tras cada cambio. Después de reinstalar la aplicación, recupéralos con «Importar recordatorios».",
+    "page_settings_backup_auto_subtitle_on": "Se guarda como {file} en {folder} tras cada cambio. Toca para elegir otra carpeta.",
     "@page_settings_backup_auto_subtitle_on": {
         "description": "Subtitle of the automatic backup switch while it is on.",
         "placeholders": {
@@ -112,7 +112,7 @@
             }
         }
     },
-    "page_settings_backup_auto_subtitle_error": "Can't save to {folder}, for example after the app was reinstalled. Tap to choose the folder again.",
+    "page_settings_backup_auto_subtitle_error": "No se puede guardar en {folder} (por ejemplo, tras reinstalar la aplicación). Toca para volver a elegir la carpeta.",
     "@page_settings_backup_auto_subtitle_error": {
         "description": "Subtitle of the automatic backup switch when the app can no longer write to the folder.",
         "placeholders": {
@@ -122,16 +122,16 @@
             }
         }
     },
-    "page_settings_header_swipe": "Swipe actions",
-    "page_settings_swipe_enabled_title": "Swipe reminders",
-    "page_settings_swipe_enabled_subtitle": "Archive or delete a reminder by swiping it in a list.",
-    "page_settings_swipe_right": "Swipe right",
-    "page_settings_swipe_left": "Swipe left",
-    "swipeAction_archive": "Archive",
-    "swipeAction_delete": "Delete",
-    "swipeAction_none": "Do nothing",
-    "dialog_import_title": "Import reminders",
-    "dialog_import_text": "The file has {count} reminder(s). Merge adds new reminders and updates the ones that were changed more recently in the file. Replace removes your current reminders and keeps only the ones in the file.",
+    "page_settings_header_swipe": "Acciones al deslizar",
+    "page_settings_swipe_enabled_title": "Deslizar recordatorios",
+    "page_settings_swipe_enabled_subtitle": "Archiva o elimina un recordatorio deslizándolo en una lista.",
+    "page_settings_swipe_right": "Deslizar hacia la derecha",
+    "page_settings_swipe_left": "Deslizar hacia la izquierda",
+    "swipeAction_archive": "Archivar",
+    "swipeAction_delete": "Eliminar",
+    "swipeAction_none": "No hacer nada",
+    "dialog_import_title": "Importar recordatorios",
+    "dialog_import_text": "Recordatorios en el archivo: {count}. «Combinar» añade los recordatorios nuevos y actualiza los que tienen cambios más recientes en el archivo. «Reemplazar» elimina tus recordatorios actuales y conserva solo los del archivo.",
     "@dialog_import_text": {
         "description": "Asks whether to merge or replace when importing reminders.",
         "placeholders": {
@@ -141,9 +141,9 @@
             }
         }
     },
-    "dialog_import_action_merge": "Merge",
-    "dialog_import_action_replace": "Replace",
-    "snackbar_export_done": "Exported {count} reminder(s).",
+    "dialog_import_action_merge": "Combinar",
+    "dialog_import_action_replace": "Reemplazar",
+    "snackbar_export_done": "Recordatorios exportados: {count}.",
     "@snackbar_export_done": {
         "description": "Shown after reminders were exported to a file.",
         "placeholders": {
@@ -153,8 +153,8 @@
             }
         }
     },
-    "snackbar_export_failed": "Couldn't export reminders.",
-    "snackbar_import_done": "Import complete: {added} added, {updated} updated, {removed} removed.",
+    "snackbar_export_failed": "No se pudieron exportar los recordatorios.",
+    "snackbar_import_done": "Importación completada. Añadidos: {added}, actualizados: {updated}, eliminados: {removed}.",
     "@snackbar_import_done": {
         "description": "Shown after reminders were imported from a file.",
         "placeholders": {
@@ -172,9 +172,9 @@
             }
         }
     },
-    "snackbar_import_empty": "The file has no reminders.",
-    "snackbar_import_failed": "This file couldn't be read as a Noterly reminders file.",
-    "snackbar_auto_backup_done": "Reminders backed up to {folder}.",
+    "snackbar_import_empty": "El archivo no tiene recordatorios.",
+    "snackbar_import_failed": "No se pudo leer este archivo como un archivo de recordatorios de Noterly.",
+    "snackbar_auto_backup_done": "Se guardó una copia de los recordatorios en {folder}.",
     "@snackbar_auto_backup_done": {
         "description": "Shown after automatic backup was turned on, or its folder changed, and the first backup was saved.",
         "placeholders": {
@@ -184,46 +184,46 @@
             }
         }
     },
-    "snackbar_auto_backup_failed": "Couldn't save the backup in that folder.",
+    "snackbar_auto_backup_failed": "No se pudo guardar la copia de seguridad en esa carpeta.",
     "page_settings_system_notificationSettings": "Ajustes de notificaciones",
-    "page_settings_system_language_title": "Language",
-    "page_settings_system_language_subtitle": "Choose the app's language in the phone's settings.",
+    "page_settings_system_language_title": "Idioma",
+    "page_settings_system_language_subtitle": "Elige el idioma de la aplicación en los ajustes del teléfono.",
     "page_settings_about_version_title": "Versión",
-    "page_settings_about_copyright_title": "Derechos de autor & créditos",
+    "page_settings_about_copyright_title": "Derechos de autor y créditos",
     "page_settings_about_copyright_text": "2023 Tom Chapman, TDS Studios.",
     "page_settings_about_tutorial_title": "Tutorial",
     "page_settings_about_licenses_title": "Licencias",
     "page_settings_about_licenses_page_legalese": "Derechos de autor © 2023 Tom Chapman, TDS Studios.",
-    "page_settings_about_licenses_page_openSourceSoftware": "Noterly is open-source software. The source code is available on GitHub.",
+    "page_settings_about_licenses_page_openSourceSoftware": "Noterly es software de código abierto. El código fuente está disponible en GitHub.",
     "page_settings_about_privacyPolicy_title": "Política de privacidad",
     "page_settings_about_feedback_title": "Enviar comentarios",
     "page_settings_about_translate_title": "Ayuda a traducir Noterly",
     "page_settings_about_donation_title": "Cómprame un café",
-    "page_settings_about_github_title": "Open-source on GitHub",
-    "page_createNotification_title": "Crear Notificación",
+    "page_settings_about_github_title": "Código abierto en GitHub",
+    "page_createNotification_title": "Crear notificación",
     "page_createNotification_header_details": "Detalles de la notificación",
     "page_createNotification_header_timing": "Horario",
     "page_createNotification_timing_schedule_title": "Programar",
     "page_createNotification_timing_schedule_subtitle": "Enviar",
     "page_createNotification_timing_repeat_title": "Repetitiva",
     "page_createNotification_timing_repeat_subtitle": "Repetir",
-    "page_createNotification_timing_repeat_info": "Las notificaciones repetidas solo se repetirán una vez que se hayan marcado como hechas desde la notificación.",
-    "page_createNotification_timing_dismissible_title": "Send to watch",
-    "page_createNotification_timing_dismissible_subtitle": "Notify on the watch too. The notification can also be swiped away; the reminder stays in the list.",
+    "page_createNotification_timing_repeat_info": "Las notificaciones repetitivas solo se repiten después de tocar «Marcar como hecho» en la notificación.",
+    "page_createNotification_timing_dismissible_title": "Enviar al reloj",
+    "page_createNotification_timing_dismissible_subtitle": "Avisa también en el reloj. Además, la notificación se puede descartar deslizándola; el recordatorio sigue en la lista.",
     "page_createNotification_details_field_title_label": "Título",
     "page_createNotification_details_field_title_error": "Por favor, escribe un título",
     "page_createNotification_details_field_body_label": "Cuerpo",
     "page_createNotification_details_field_colour_label": "Color",
-    "page_editNotification_title": "Editar Notificación",
+    "page_editNotification_title": "Editar notificación",
     "page_editNotification_header_details": "Detalles de la notificación",
     "page_editNotification_header_timing": "Horario",
     "page_editNotification_timing_schedule_title": "Programar",
     "page_editNotification_timing_schedule_subtitle": "Enviar",
     "page_editNotification_timing_repeat_title": "Repetitiva",
     "page_editNotification_timing_repeat_subtitle": "Repetir",
-    "page_editNotification_timing_repeat_info": "Las notificaciones repetidas solo se repetirán una vez que se hayan marcado como hechas desde la notificación.",
-    "page_editNotification_timing_dismissible_title": "Send to watch",
-    "page_editNotification_timing_dismissible_subtitle": "Notify on the watch too. The notification can also be swiped away; the reminder stays in the list.",
+    "page_editNotification_timing_repeat_info": "Las notificaciones repetitivas solo se repiten después de tocar «Marcar como hecho» en la notificación.",
+    "page_editNotification_timing_dismissible_title": "Enviar al reloj",
+    "page_editNotification_timing_dismissible_subtitle": "Avisa también en el reloj. Además, la notificación se puede descartar deslizándola; el recordatorio sigue en la lista.",
     "page_editNotification_details_field_title_label": "Título",
     "page_editNotification_details_field_title_error": "Por favor, escribe un título",
     "page_editNotification_details_field_body_label": "Cuerpo",
@@ -231,13 +231,13 @@
     "item_title": "Título",
     "item_body": "Cuerpo",
     "item_colour": "Color",
-    "notification_action_markAsDone": "Marcar hecho",
-    "notification_action_snooze": "Siesta",
-    "notification_channel_immediate_name": "Immediate notifications",
-    "notification_channel_immediate_description": "Notifications that are shown immediately",
-    "notification_channel_scheduled_name": "Scheduled notifications",
-    "notification_channel_scheduled_description": "Notifications that are scheduled for a future time",
-    "toast_notificationFailed": "Failed to send notification, check notification permissions",
+    "notification_action_markAsDone": "Marcar como hecho",
+    "notification_action_snooze": "Posponer",
+    "notification_channel_immediate_name": "Notificaciones inmediatas",
+    "notification_channel_immediate_description": "Notificaciones que se muestran de inmediato",
+    "notification_channel_scheduled_name": "Notificaciones programadas",
+    "notification_channel_scheduled_description": "Notificaciones programadas para más adelante",
+    "toast_notificationFailed": "No se pudo enviar la notificación. Revisa los permisos de notificaciones.",
     "notification_action_snoozeFor": "Posponer durante {durationString}",
     "@notification_action_snoozeFor": {
         "description": "Snooze action with duration.",
@@ -289,23 +289,23 @@
     "tutorial_page_0_subtitle": "Recordatorios de notificación simples",
     "tutorial_page_0_content": "Aquí hay información básica para comenzar.",
     "tutorial_page_1_title": "Recordatorios",
-    "tutorial_page_1_content": "Noterly está diseñado para recordatorios rápidos y sencillos. Puede encontrar una lista de tareas pendientes o una aplicación de calendario más adecuada para tareas más complejas.",
+    "tutorial_page_1_content": "Noterly está diseñado para recordatorios rápidos y sencillos. Para tareas más complejas, puede que te resulte más adecuada una lista de tareas pendientes o una aplicación de calendario.",
     "tutorial_page_2_title": "Crear una notificación",
-    "tutorial_page_2_content": "Toque el botón flotante para crear una nueva notificación.",
-    "tutorial_page_2_confirmations": "¡Está bien!|¡Bien hecho!|¡Lo tienes!|¡Buen trabajo!",
+    "tutorial_page_2_content": "Toca el botón flotante para crear una nueva notificación.",
+    "tutorial_page_2_confirmations": "¡Eso es!|¡Bien hecho!|¡Lo lograste!|¡Buen trabajo!|¡Todo un éxito!",
     "tutorial_page_3_title": "Administrar notificaciones",
-    "tutorial_page_3_content": "¿Terminaste tu tarea? Deslice la notificación de distancia. Para eliminar una notificación, vaya a la página de archivo y deslícela.",
+    "tutorial_page_3_content": "¿Terminaste tu tarea? Desliza la notificación para quitarla. Para eliminar una notificación, ve a la página de archivo y deslízala.",
     "tutorial_page_3_example": "Deslizar para archivar o eliminar",
-    "tutorial_page_4_title": "Recordatorios de repetición",
-    "tutorial_page_4_content": "Puede posponer un recordatorio tocando el botón en la notificación. Personaliza la duración de la repetición en la configuración.",
+    "tutorial_page_4_title": "Posponer recordatorios",
+    "tutorial_page_4_content": "Puedes posponer un recordatorio tocando el botón de la notificación. Elige en Ajustes durante cuánto tiempo se pospone.",
     "tutorial_page_5_title": "¡Eso es todo!",
-    "tutorial_page_5_content": "Estás listo para comenzar a usar Noterly. Siempre puede volver a este tutorial en la configuración.",
+    "tutorial_page_5_content": "Estás listo para comenzar a usar Noterly. Siempre puedes volver a ver este tutorial desde Ajustes.",
     "tutorial_updatedExperienceText": "Estás viendo esto porque esta experiencia de tutorial se ha actualizado.",
     "tutorial_action_back": "Atrás",
-    "tutorial_action_next": "Próximo",
+    "tutorial_action_next": "Siguiente",
     "tutorial_action_done": "Hecho",
     "tutorial_action_skip": "Saltar",
-    "general_ok": "OK",
+    "general_ok": "Aceptar",
     "general_cancel": "Cancelar",
     "general_undo": "Deshacer",
     "general_close": "Cerrar",
@@ -320,7 +320,7 @@
             }
         }
     },
-    "time_seconds_value": "{value} segundos",
+    "time_seconds_value": "{value, plural, =0{0 segundos} =1{1 segundo} other{{value} segundos}}",
     "@time_seconds_value": {
         "description": "Used to display a number of seconds.",
         "placeholders": {
@@ -342,7 +342,7 @@
             }
         }
     },
-    "time_minutes_value": "{value} minutos",
+    "time_minutes_value": "{value, plural, =0{0 minutos} =1{1 minuto} other{{value} minutos}}",
     "@time_minutes_value": {
         "description": "Used to display a number of minutes.",
         "placeholders": {
@@ -353,7 +353,7 @@
             }
         }
     },
-    "time_hours": "{value, plural, =0{hora} =1{horas} other{horas}}",
+    "time_hours": "{value, plural, =0{horas} =1{hora} other{horas}}",
     "@time_hours": {
         "description": "Used to pluralise hour.",
         "placeholders": {
@@ -364,7 +364,7 @@
             }
         }
     },
-    "time_hours_value": "{value} horas",
+    "time_hours_value": "{value, plural, =0{0 horas} =1{1 hora} other{{value} horas}}",
     "@time_hours_value": {
         "description": "Used to display a number of hours.",
         "placeholders": {
@@ -386,7 +386,7 @@
             }
         }
     },
-    "time_days_value": "{value} días",
+    "time_days_value": "{value, plural, =0{0 días} =1{1 día} other{{value} días}}",
     "@time_days_value": {
         "description": "Used to display a number of days.",
         "placeholders": {
@@ -408,7 +408,7 @@
             }
         }
     },
-    "time_weeks_value": "{value} semanas",
+    "time_weeks_value": "{value, plural, =0{0 semanas} =1{1 semana} other{{value} semanas}}",
     "@time_weeks_value": {
         "description": "Used to display a number of weeks.",
         "placeholders": {
@@ -430,7 +430,7 @@
             }
         }
     },
-    "time_months_value": "{value} meses",
+    "time_months_value": "{value, plural, =0{0 meses} =1{1 mes} other{{value} meses}}",
     "@time_months_value": {
         "description": "Used to display a number of months.",
         "placeholders": {
@@ -452,7 +452,7 @@
             }
         }
     },
-    "time_years_value": "{value} años",
+    "time_years_value": "{value, plural, =0{0 años} =1{1 año} other{{value} años}}",
     "@time_years_value": {
         "description": "Used to display a number of years.",
         "placeholders": {
@@ -464,10 +464,10 @@
         }
     },
     "time_hourly": "cada hora",
-    "time_daily": "diariamente",
-    "time_weekly": "semanalmente",
-    "time_monthly": "mensualmente",
-    "time_yearly": "anualmente",
+    "time_daily": "cada día",
+    "time_weekly": "cada semana",
+    "time_monthly": "cada mes",
+    "time_yearly": "cada año",
     "time_repetition_every_value": "cada {number} {type}",
     "@time_repetition_every_value": {
         "description": "Used to display a repeat duration.",
@@ -483,7 +483,7 @@
             }
         }
     },
-    "time_snooze_until": "hasta el {dateTimeString}",
+    "time_snooze_until": "hasta: {dateTimeString}",
     "@time_snooze_until": {
         "description": "Used to display a snooze duration.",
         "placeholders": {

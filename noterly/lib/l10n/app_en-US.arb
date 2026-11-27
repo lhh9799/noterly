@@ -320,7 +320,7 @@
             }
         }
     },
-    "time_seconds_value": "{value} seconds",
+    "time_seconds_value": "{value, plural, =0{0 seconds} =1{1 second} other{{value} seconds}}",
     "@time_seconds_value": {
         "description": "Used to display a number of seconds.",
         "placeholders": {
@@ -342,7 +342,7 @@
             }
         }
     },
-    "time_minutes_value": "{value} minutes",
+    "time_minutes_value": "{value, plural, =0{0 minutes} =1{1 minute} other{{value} minutes}}",
     "@time_minutes_value": {
         "description": "Used to display a number of minutes.",
         "placeholders": {
@@ -364,7 +364,7 @@
             }
         }
     },
-    "time_hours_value": "{value} hours",
+    "time_hours_value": "{value, plural, =0{0 hours} =1{1 hour} other{{value} hours}}",
     "@time_hours_value": {
         "description": "Used to display a number of hours.",
         "placeholders": {
@@ -386,7 +386,7 @@
             }
         }
     },
-    "time_days_value": "{value} days",
+    "time_days_value": "{value, plural, =0{0 days} =1{1 day} other{{value} days}}",
     "@time_days_value": {
         "description": "Used to display a number of days.",
         "placeholders": {
@@ -408,7 +408,7 @@
             }
         }
     },
-    "time_weeks_value": "{value} weeks",
+    "time_weeks_value": "{value, plural, =0{0 weeks} =1{1 week} other{{value} weeks}}",
     "@time_weeks_value": {
         "description": "Used to display a number of weeks.",
         "placeholders": {
@@ -430,7 +430,7 @@
             }
         }
     },
-    "time_months_value": "{value} months",
+    "time_months_value": "{value, plural, =0{0 months} =1{1 month} other{{value} months}}",
     "@time_months_value": {
         "description": "Used to display a number of months.",
         "placeholders": {
