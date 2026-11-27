@@ -77,11 +77,16 @@ class WearSync {
 
   // #region Snapshot
 
-  /// Sends the current list to the watch. Called at the end of every save, in whichever isolate saved.
+  /// Sends the current list to the watch. Called at the end of every save, in whichever isolate saved, and when the
+  /// app's language changes.
   static Future<void> sendSnapshot(AppData data) async {
     try {
-      final labeller = await _repeatLabeller();
-      final snapshot = buildSnapshot(data, now: DateTime.now(), repeatLabel: labeller);
+      final locale = _appLocale();
+      final labeller = await _repeatLabeller(locale);
+      // A language picked for this app in Android's settings becomes the watch app's too. Without one the watch app
+      // follows the watch's language, which a Galaxy Watch takes from the phone.
+      final language = (await NoterlyWear.appLanguage()).isEmpty ? null : locale.toLanguageTag();
+      final snapshot = buildSnapshot(data, now: DateTime.now(), repeatLabel: labeller, language: language);
       await NoterlyWear.sendSnapshot(jsonEncode(snapshot));
     } catch (e, s) {
       // No watch, no Play services, or a test: the phone app carries on as before
@@ -89,7 +94,8 @@ class WearSync {
     }
   }
 
-  static Map<String, dynamic> buildSnapshot(AppData data, {required DateTime now, String Function(RepetitionData)? repeatLabel}) => {
+  /// [language] is the BCP 47 tag of the language picked for this app, or null when it follows the phone's language.
+  static Map<String, dynamic> buildSnapshot(AppData data, {required DateTime now, String Function(RepetitionData)? repeatLabel, String? language}) => {
         'schema': 1,
         'rev': data.rev,
         'generatedAt': now.toIso8601String(),
@@ -97,6 +103,7 @@ class WearSync {
           'snoozeSeconds': data.snoozeDuration.inSeconds,
           'dismissibleEnabled': data.dismissibleNotificationsEnabled,
           'dismissibleByDefault': data.dismissibleByDefault,
+          if (language != null) 'language': language,
         },
         'items': [
           for (final item in data.notificationItems)
@@ -128,9 +135,12 @@ class WearSync {
     return result;
   }
 
-  /// Repeat descriptions in the phone's language, without a [BuildContext], so it also works in background isolates.
-  static Future<String Function(RepetitionData)> _repeatLabeller() async {
-    final locale = basicLocaleListResolution(PlatformDispatcher.instance.locales, AppLocalisations.supportedLocales);
+  /// The language the app shows (the phone's, or the one picked for the app), without a [BuildContext], so it also
+  /// works in background isolates.
+  static Locale _appLocale() => basicLocaleListResolution(PlatformDispatcher.instance.locales, AppLocalisations.supportedLocales);
+
+  /// Repeat descriptions in the app's [locale].
+  static Future<String Function(RepetitionData)> _repeatLabeller(Locale locale) async {
     final localeName = locale.toString();
     await initializeDateFormatting(localeName);
 

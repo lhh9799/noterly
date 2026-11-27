@@ -52,6 +52,15 @@ void main() {
       expect(NotificationItem.fromJson(Map<String, dynamic>.from(items[1])).repetitionData!.weekdays, [1, 3, 5]);
     });
 
+    test('carries the language picked for the app, which the watch app then shows', () {
+      final picked = jsonDecode(jsonEncode(WearSync.buildSnapshot(data([]), now: now, language: 'en-GB')));
+      expect(picked['settings']['language'], 'en-GB');
+
+      // Following the phone's language: the watch app keeps the watch's
+      final following = jsonDecode(jsonEncode(WearSync.buildSnapshot(data([]), now: now)));
+      expect((following['settings'] as Map).containsKey('language'), isFalse);
+    });
+
     test('old save files without rev, updatedAt or applied commands still load', () {
       final old = AppData.fromJson({
         'notificationItems': [single().toJson()..remove('updatedAt')],
