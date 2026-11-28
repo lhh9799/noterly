@@ -57,11 +57,11 @@ lets you add, finish and snooze them from the watch, and raises alarms on the wa
 **Send to watch** on. The two apps only connect when they are signed with the same key. A language picked for this app
 under Settings > System > Language is used on the watch too.
 
-Latest releases: phone app **v1.17.0**, watch app **v1.1.0** (as of 2026-11-27).
+Latest releases: phone app **v1.17.1**, watch app **v1.2.0** (as of 2026-11-28).
 
 | Phone app | Compatible watch app |
 |---|---|
-| v1.8.1, v1.8.2, v1.9.0, v1.10.0, v1.11.0, v1.12.0, v1.12.1, v1.13.0, v1.14.0, v1.15.0, v1.15.1, v1.15.2, v1.16.0, v1.16.1, v1.17.0 | v1.0.1, v1.1.0 |
+| v1.8.1, v1.8.2, v1.9.0, v1.10.0, v1.11.0, v1.12.0, v1.12.1, v1.13.0, v1.14.0, v1.15.0, v1.15.1, v1.15.2, v1.16.0, v1.16.1, v1.17.0, v1.17.1 | v1.0.1, v1.1.0, v1.2.0 |
 | v1.7.0, v1.8.0 | v1.0.0 |
 | v1.5.0, v1.6.0 | none (no watch sync yet) |
 
